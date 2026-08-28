@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🚀 ไทม์แมชชีน: ย้อนรอยประวัติศาสตร์</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <script>
+        // ปิดการแจ้งเตือนทั่วไปของคอนโซลเพื่อให้สะอาดตา
+        const _warn = console.warn;
+        console.warn = function(...args) {
+            if (args[0] && typeof args[0] === 'string' && (args[0].includes('tailwindcss') || args[0].includes('AudioContext'))) return;
+            _warn.apply(console, args);
+        };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- เพิ่มฟอนต์ Chonburi (สำหรับหัวข้อ) และ Charm (สำหรับลายเซ็น) -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&family=Chonburi&family=Charm:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- โหลด Tone.js สำหรับระบบเสียงเอฟเฟกต์ -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <!-- โหลด html2canvas สำหรับทำปุ่มดาวน์โหลดรูปภาพ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
@@ -154,93 +161,108 @@
     </div>
 
     <!-- หน้าแรก: ธีมประวัติศาสตร์ (จบในหน้าเดียว) -->
-    <main id="screen-welcome" class="screen active flex-col items-center justify-center p-4 md:p-6 min-h-screen bg-gradient-to-br from-stone-950 via-slate-900 to-amber-950 relative overflow-hidden">
+    <main id="screen-welcome" class="screen active flex-col items-center justify-center p-4 md:p-8 lg:p-10 min-h-screen bg-gradient-to-br from-stone-950 via-slate-900 to-amber-950 relative overflow-hidden">
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/old-map.png')] opacity-20 pointer-events-none"></div>
 
-        <div class="max-w-5xl w-full flex flex-col md:flex-row gap-6 z-10 relative items-stretch justify-center my-auto">
+        <div class="max-w-6xl xl:max-w-7xl w-full flex flex-col md:flex-row gap-6 lg:gap-8 z-10 relative items-stretch justify-center my-auto">
             
-            <!-- ฝั่งซ้าย: ภาพรวมการเดินทาง -->
-            <div class="flex-1 bg-gradient-to-b from-amber-950/95 to-stone-900/95 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] shadow-[0_0_40px_rgba(217,119,6,0.3)] border-2 border-amber-600/50 flex flex-col justify-between relative overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 pointer-events-none">🗺️</div>
+            <!-- ฝั่งซ้าย: ภาพรวมการเดินทาง (ขยายกว้างและสง่างาม) -->
+            <div class="flex-1 bg-gradient-to-b from-amber-950/95 via-stone-900/95 to-slate-950/95 backdrop-blur-xl p-6 md:p-8 lg:p-10 rounded-[2.5rem] shadow-[0_0_50px_rgba(217,119,6,0.25)] border-2 border-amber-600/50 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 text-9xl md:text-[11rem] opacity-10 pointer-events-none">🗺️</div>
                 
                 <div>
-                    <div class="flex items-center gap-3 mb-2">
-                        <span class="bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full text-xs font-bold border border-amber-500/40 uppercase tracking-widest">สื่อการสอนเชิงปฏิสัมพันธ์</span>
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-amber-500/20 text-amber-300 px-3.5 py-1 rounded-full text-xs font-extrabold border border-amber-500/40 uppercase tracking-wider flex items-center gap-1.5 shadow-inner">
+                            <i class="fa-solid fa-sparkles text-amber-400"></i> สื่อการสอนเชิงปฏิสัมพันธ์
+                        </span>
                     </div>
-                    <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-orange-400 mb-1 drop-shadow-lg leading-tight">ไทม์แมชชีน</h1>
-                    <p class="text-amber-200/90 font-bold mb-4 text-sm tracking-wide border-b border-amber-700/50 pb-3">ย้อนรอยประวัติศาสตร์ไทย (Pre-historic & Historical Eras)</p>
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-orange-400 mb-2 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] leading-tight">ไทม์แมชชีน</h1>
+                    <p class="text-amber-200/90 font-bold mb-5 text-sm md:text-base tracking-wide border-b border-amber-700/50 pb-3.5 flex items-center gap-2">
+                        <i class="fa-solid fa-hourglass-start text-amber-400"></i> ย้อนรอยประวัติศาสตร์ไทย (Pre-historic & Historical Eras)
+                    </p>
                     
-                    <div class="bg-black/40 p-3.5 rounded-2xl border border-amber-500/30 shadow-inner">
-                        <h2 class="text-sm font-bold text-amber-400 mb-2.5 flex items-center gap-2">
-                            <i class="fa-solid fa-scroll text-base"></i> ภาพรวมการเดินทาง
+                    <div class="bg-black/40 p-4 md:p-5 rounded-2xl border border-amber-500/30 shadow-inner">
+                        <h2 class="text-sm md:text-base font-extrabold text-amber-300 mb-3.5 flex items-center gap-2">
+                            <i class="fa-solid fa-scroll text-amber-400 text-lg"></i> ภาพรวมการเดินทางข้ามมิติเวลา
                         </h2>
-                        <ul class="text-slate-200 space-y-2 text-xs md:text-sm font-medium">
-                            <li class="flex items-start gap-2">
-                                <span class="bg-amber-900 text-amber-300 w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-[10px] font-bold">1</span> 
+                        <ul class="text-slate-200 space-y-3 text-xs md:text-sm lg:text-base font-medium">
+                            <li class="flex items-start gap-3">
+                                <span class="bg-amber-900 text-amber-300 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-xs font-bold shadow">1</span> 
                                 <div><b class="text-amber-300">สำรวจ 6 ยุค:</b> ตั้งแต่ยุคหิน, ยุคโลหะ จนถึงสุโขทัย, อยุธยา, ธนบุรี และรัตนโกสินทร์</div>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="bg-amber-900 text-amber-300 w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-[10px] font-bold">2</span> 
+                            <li class="flex items-start gap-3">
+                                <span class="bg-amber-900 text-amber-300 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-xs font-bold shadow">2</span> 
                                 <div><b class="text-amber-300">ศึกษาข้อมูล:</b> เรียนรู้เนื้อหาละเอียด (บังคับเวลา 20 วินาทีต่อหน้า) เพื่อปลดล็อกมิติถัดไป</div>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="bg-amber-900 text-amber-300 w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-[10px] font-bold">3</span> 
+                            <li class="flex items-start gap-3">
+                                <span class="bg-amber-900 text-amber-300 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-xs font-bold shadow">3</span> 
                                 <div><b class="text-amber-300">ตะลุย 4 มินิเกม:</b> วิ่งตะลุย, เปิดการ์ดจับคู่ 3D, เรียงไทม์ไลน์ และแบบทดสอบความรู้</div>
                             </li>
-                            <li class="flex items-start gap-2">
-                                <span class="bg-amber-900 text-amber-300 w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-[10px] font-bold">4</span> 
+                            <li class="flex items-start gap-3">
+                                <span class="bg-amber-900 text-amber-300 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-xs font-bold shadow">4</span> 
                                 <div><b class="text-amber-300">เกียรติบัตร:</b> สะสมแต้มรับยศปรมาจารย์ข้ามเวลาพร้อมพิมพ์เอกสารรับรอง</div>
                             </li>
                         </ul>
                     </div>
                 </div>
                 
-                <div class="mt-3 text-center text-[11px] text-amber-400/80 font-medium">
-                    <i class="fa-solid fa-graduation-cap mr-1"></i> ออกแบบเพื่อการเรียนรู้ที่มีประสิทธิภาพภายใน 10-15 นาที
+                <div class="mt-4 text-center text-xs md:text-sm text-amber-400/90 font-medium">
+                    <i class="fa-solid fa-graduation-cap mr-1.5 text-amber-300"></i> ออกแบบเพื่อการเรียนรู้ที่มีประสิทธิภาพภายใน 10-15 นาที
                 </div>
             </div>
 
-            <!-- ฝั่งขวา: ลงทะเบียนเข้าใช้งาน (5 ตัวเลือกอวาตาร์ + ปุ่มดูกระดานผู้นำ) -->
-            <div class="w-full md:w-[350px] bg-slate-900/95 backdrop-blur-xl p-6 rounded-[2rem] shadow-[0_0_40px_rgba(0,0,0,0.8)] border-2 border-slate-700 flex flex-col justify-between relative z-10">
+            <!-- ฝั่งขวา: ลงทะเบียนเข้าใช้งาน (กว้างขึ้นและชัดเจน) -->
+            <div class="w-full md:w-[360px] lg:w-[420px] bg-slate-900/95 backdrop-blur-xl p-6 md:p-8 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,0,0,0.8)] border-2 border-slate-700 flex flex-col justify-between relative z-10">
                 <div>
-                    <div class="flex justify-center mb-2">
-                        <div class="bg-gradient-to-b from-amber-800 to-amber-950 rounded-full p-2.5 border-2 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.5)] inline-block">
-                           <div class="text-2xl floating">⏳</div>
+                    <div class="flex justify-center mb-3">
+                        <div class="bg-gradient-to-b from-amber-800 to-amber-950 rounded-full p-3 border-2 border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.5)] inline-block">
+                           <div class="text-3xl floating">⏳</div>
                         </div>
                     </div>
                     
-                    <h3 class="text-lg font-bold text-white text-center mb-4 border-b border-slate-800 pb-2">ลงทะเบียนนักสำรวจ</h3>
+                    <h3 class="text-lg md:text-xl font-black text-white text-center mb-5 border-b border-slate-800 pb-3">ลงทะเบียนนักสำรวจ</h3>
                     
-                    <div class="space-y-3">
+                    <div class="space-y-4">
                         <div>
-                            <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase"><i class="fa-solid fa-feather-pointed mr-1"></i>จารึกนามของคุณ</label>
-                            <input type="text" id="input-name" placeholder="ระบุชื่อรหัสของคุณ..." class="w-full bg-slate-950 text-amber-100 rounded-xl px-3.5 py-2.5 border-2 border-slate-700 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all text-sm font-bold placeholder-slate-600 shadow-inner">
+                            <label class="block text-amber-400 mb-1.5 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-feather-pointed text-amber-400"></i> จารึกนามของคุณ
+                            </label>
+                            <input type="text" id="input-name" placeholder="ระบุชื่อรหัสของคุณ..." class="w-full bg-slate-950 text-amber-100 rounded-xl px-4 py-3 border-2 border-slate-700 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all text-sm md:text-base font-bold placeholder-slate-600 shadow-inner">
                         </div>
                         <div>
-                            <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase"><i class="fa-solid fa-masks-theater mr-1"></i>เลือกอวาตาร์ (5 ตัวเลือก)</label>
-                            <div class="grid grid-cols-5 gap-2">
-                                <button class="avatar-btn bg-amber-900/40 border-2 border-amber-400 rounded-xl p-2 text-2xl transition-all transform scale-105 shadow-[0_0_10px_rgba(245,158,11,0.4)] glow-effect flex items-center justify-center" data-avatar="👦">👦</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="👧">👧</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🤖">🤖</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🐘">🐘</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🦉">🦉</button>
+                            <label class="block text-amber-400 mb-1.5 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-masks-theater text-amber-400"></i> เลือกอวาตาร์ (5 ตัวเลือก)
+                            </label>
+                            <div class="grid grid-cols-5 gap-2 md:gap-2.5">
+                                <button class="avatar-btn bg-amber-900/40 border-2 border-amber-400 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all transform scale-105 shadow-[0_0_12px_rgba(245,158,11,0.4)] glow-effect flex items-center justify-center" data-avatar="👦">👦</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="👧">👧</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🤖">🤖</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🐘">🐘</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🦉">🦉</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="space-y-2 mt-4">
-                    <button onclick="startGame()" class="w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-black py-3 rounded-xl btn-game text-sm shadow-[0_0_20px_rgba(245,158,11,0.4)] border border-amber-300 uppercase tracking-widest flex items-center justify-center gap-2 group overflow-hidden relative">
+                <div class="space-y-2.5 mt-5">
+                    <button onclick="startGame()" class="w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-black py-3.5 rounded-xl btn-game text-sm md:text-base shadow-[0_0_20px_rgba(245,158,11,0.4)] border border-amber-300 uppercase tracking-widest flex items-center justify-center gap-2 group overflow-hidden relative">
                         <span class="relative z-10">หมุนเข็มนาฬิกา! <i class="fa-solid fa-clock-rotate-left ml-1 group-hover:rotate-180 transition-transform duration-500"></i></span>
                         <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
                     </button>
                     
-                    <button onclick="openHallOfFame()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2 px-4 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-2 transition btn-game">
+                    <button onclick="openHallOfFame()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2.5 px-4 rounded-xl border border-slate-700 text-xs md:text-sm flex items-center justify-center gap-2 transition btn-game shadow-inner">
                         <i class="fa-solid fa-trophy text-amber-400"></i> ดูผลคะแนน / กระดานผู้นำ
                     </button>
                 </div>
             </div>
             
+        </div>
+
+        <!-- แถบข้อความลิขสิทธิ์และคณะผู้พัฒนา -->
+        <div class="mt-4 md:mt-6 z-10 text-center text-xs md:text-sm text-amber-300/80 font-medium tracking-wide flex flex-wrap items-center justify-center gap-2 px-4 py-2 bg-slate-950/60 rounded-full border border-amber-500/20 backdrop-blur-sm shadow">
+            <span>© 2026 พัฒนาโดย <b>กลุ่ม นอ หนู</b> (นรากรณ์ นิธินันท์ นันทญา นันทิกานต์)</span>
+            <span class="hidden sm:inline text-amber-500">•</span>
+            <span class="text-amber-200">นิสิต ป.โท 69</span>
         </div>
     </main>
 
@@ -594,6 +616,7 @@
                         <p class="text-xs text-gray-500 font-bold uppercase">ผู้อำนวยการศูนย์วิจัยเวลา</p>
                     </div>
                 </div>
+                <p class="text-[10px] text-gray-400 mt-2 font-medium" style="font-family: 'Kanit', sans-serif;">© 2026 พัฒนาโดย กลุ่ม นอ หนู (นรากรณ์ นิธินันท์ นันทญา นันทิกานต์) • นิสิต ป.โท 69</p>
             </div>
         </div>
         <div class="mt-8 flex gap-4 no-print flex-wrap justify-center relative z-10">
@@ -689,30 +712,91 @@
         }
 
         const SoundEngine = {
-            initialized: false,
-            synth: null,
-            fxSynth: null,
-            async init() {
-                if (this.initialized) return;
-                try {
-                    await Tone.start();
-                    this.synth = new Tone.PolySynth(Tone.Synth).toDestination();
-                    this.synth.volume.value = -8;
-                    this.fxSynth = new Tone.MembraneSynth().toDestination();
-                    this.fxSynth.volume.value = -10;
-                    this.initialized = true;
-                } catch(e) { console.warn("Audio context not started yet."); }
-            },
-            playClick() { if (this.initialized) this.synth.triggerAttackRelease("C6", "32n"); },
-            playSuccess() { 
-                if (this.initialized) {
-                    const now = Tone.now();
-                    this.synth.triggerAttackRelease(["C5", "E5", "G5"], "8n", now);
-                    this.synth.triggerAttackRelease(["C6", "E6", "G6"], "4n", now + 0.2);
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    try {
+                        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                        if (AudioContextClass) this.ctx = new AudioContextClass();
+                    } catch(e) {}
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume().catch(() => {});
                 }
             },
-            playError() { if (this.initialized) this.synth.triggerAttackRelease("C3", "8n"); },
-            playWarp() { if (this.initialized) this.fxSynth.triggerAttackRelease("C2", "8n"); }
+            playClick() {
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1320, this.ctx.currentTime + 0.04);
+                    gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.04);
+                } catch(e) {}
+            },
+            playSuccess() {
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                    notes.forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+                        gain.gain.setValueAtTime(0.18, now + idx * 0.07);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.22);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(now + idx * 0.07);
+                        osc.stop(now + idx * 0.07 + 0.22);
+                    });
+                } catch(e) {}
+            },
+            playError() {
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(160, now);
+                    osc.frequency.linearRampToValueAtTime(90, now + 0.18);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.18);
+                } catch(e) {}
+            },
+            playWarp() {
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.exponentialRampToValueAtTime(950, now + 0.35);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } catch(e) {}
+            }
         };
 
         const AppState = {
