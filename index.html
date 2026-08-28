@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🚀 ไทม์แมชชีน: ย้อนรอยประวัติศาสตร์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- เพิ่มฟอนต์ Chonburi (สำหรับหัวข้อ) และ Charm (สำหรับลายเซ็น) -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&family=Chonburi&family=Charm:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- โหลด Tone.js สำหรับระบบเสียงเอฟเฟกต์ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- โหลด html2canvas สำหรับทำปุ่มดาวน์โหลดรูปภาพ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #0f172a; color: #f8fafc; overflow-x: hidden; touch-action: manipulation; }
+        
+        .screen { display: none; min-height: 100vh; width: 100%; }
+        .screen.active { display: flex; animation: fadeInScale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+        .floating { animation: float 4s ease-in-out infinite; }
+        
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); } 50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.7); } 100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); } }
+        .glow-effect { animation: pulseGlow 2s infinite alternate; }
+
+        .btn-game { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; cursor: pointer; }
+        .btn-game:hover:not(:disabled) { transform: scale(1.03) translateY(-2px); filter: brightness(1.15); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+        .btn-game:active:not(:disabled) { transform: scale(0.97); box-shadow: none; }
+
+        .progress-bar-fill { transition: width 1s linear; box-shadow: 0 0 10px rgba(255,255,255,0.3) inset; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .card-container { perspective: 1000px; cursor: pointer; }
+        .memory-card {
+            width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; min-height: 120px;
+        }
+        .memory-card.flipped { transform: rotateY(180deg); }
+        .memory-card.matched { transform: rotateY(180deg) scale(0.9); opacity: 0.7; pointer-events: none; filter: grayscale(50%) brightness(0.8); }
+        .memory-card.wrong { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        
+        .card-front, .card-back {
+            width: 100%; height: 100%; position: absolute; backface-visibility: hidden; top: 0; left: 0;
+            display: flex; align-items: center; justify-content: center; border-radius: 16px; padding: 12px; text-align: center;
+        }
+        .card-front { background: linear-gradient(135deg, #d97706, #b45309); border: 3px solid #fbbf24; box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.4); }
+        .card-front::before { content: '📜'; font-size: 3rem; opacity: 0.5; position: absolute; }
+        .card-back { background: radial-gradient(circle at top left, #1e293b, #0f172a); border: 3px solid #f59e0b; transform: rotateY(180deg); flex-direction: column; box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3); }
+
+        @keyframes shake { 10%, 90% { transform: translateX(-2px) rotateY(180deg); } 20%, 80% { transform: translateX(4px) rotateY(180deg); } 30%, 50%, 70% { transform: translateX(-6px) rotateY(180deg); } 40%, 60% { transform: translateX(6px) rotateY(180deg); } }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #screen-certificate, #screen-certificate * { visibility: visible; }
+            #screen-certificate { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+        }
+
+        #gameCanvas { background: linear-gradient(to bottom, #0f172a 0%, #1e1b4b 100%); border-radius: 16px; box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 10px 20px rgba(0,0,0,0.5); width: 100%; max-width: 800px; height: 300px; display: block; margin: 0 auto; border: 2px solid #4338ca; }
+        
+        .stars-bg {
+            position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; pointer-events: none;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #f59e0b, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #fbbf24, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 250px 250px;
+            animation: twinkle 6s infinite linear;
+        }
+        @keyframes twinkle { 0% { opacity: 0.2; transform: translateY(0); } 50% { opacity: 0.7; } 100% { opacity: 0.2; transform: translateY(-60px); } }
+    </style>
+</head>
+<body class="bg-slate-900 selection:bg-amber-500 selection:text-white relative">
+    <div class="stars-bg"></div>
+
+    <div id="custom-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex-col items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-gradient-to-b from-amber-950 to-slate-900 border-2 border-amber-500/50 rounded-3xl p-8 max-w-sm w-full text-center shadow-[0_0_40px_rgba(245,158,11,0.3)] transform transition-all relative overflow-hidden">
+            <div id="modal-icon" class="text-6xl mb-4 floating drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] z-10 relative">🔔</div>
+            <h3 id="modal-title" class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-400 mb-3 z-10 relative">แจ้งเตือน</h3>
+            <p id="modal-desc" class="text-slate-300 mb-8 text-lg whitespace-pre-line leading-relaxed z-10 relative"></p>
+            <button id="modal-btn" class="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold py-4 px-6 rounded-xl btn-game text-xl shadow-lg border border-amber-400/50 z-10 relative">
+                รับทราบ!
+            </button>
+        </div>
+    </div>
+
+    <div id="top-bar" class="fixed top-0 left-0 w-full bg-slate-900/90 backdrop-blur-md border-b border-amber-500/20 p-3 z-40 hidden justify-between items-center shadow-lg">
+        <div class="flex items-center gap-3">
+            <div id="player-avatar-mini" class="text-3xl bg-slate-800 p-2 rounded-full border border-amber-500/40 shadow-inner">👦</div>
+            <div>
+                <div id="player-name-display" class="font-bold text-white text-lg leading-tight">ชื่อผู้เล่น</div>
+                <div class="text-xs text-amber-400 font-medium">สำรวจแล้ว: <span id="progress-text" class="text-white font-bold">0/6 ยุค</span></div>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="btn-nav-mission" onclick="navTo('screen-mission-hub')" class="hidden bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white px-4 py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.5)] border border-fuchsia-400 animate-pulse text-sm">
+                🎯 ศูนย์ภารกิจ
+            </button>
+            <div class="bg-amber-500/20 text-amber-400 px-4 py-2 rounded-xl border border-amber-500/30 font-bold shadow-inner flex items-center gap-2">
+                <i class="fa-solid fa-coins"></i> <span id="global-score">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าแรก: ธีมประวัติศาสตร์ (จบในหน้าเดียว) -->
+    <main id="screen-welcome" class="screen active flex-col items-center justify-center p-4 md:p-6 min-h-screen bg-gradient-to-br from-stone-950 via-slate-900 to-amber-950 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/old-map.png')] opacity-20 pointer-events-none"></div>
+
+        <div class="max-w-5xl w-full flex flex-col md:flex-row gap-6 z-10 relative items-stretch justify-center my-auto">
+            
+            <!-- ฝั่งซ้าย: ภาพรวมการเดินทาง -->
+            <div class="flex-1 bg-gradient-to-b from-amber-950/95 to-stone-900/95 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] shadow-[0_0_40px_rgba(217,119,6,0.3)] border-2 border-amber-600/50 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 pointer-events-none">🗺️</div>
+                
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full text-xs font-bold border border-amber-500/40 uppercase tracking-widest">สื่อการสอนเชิงปฏิสัมพันธ์</span>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-orange-400 mb-1 drop-shadow-lg leading-tight">ไทม์แมชชีน</h1>
+                    <p class="text-amber-200/90 font-bold mb-4 text-sm tracking-wide border-b border-amber-700/50 pb-3">ย้อนรอยประวัติศาสตร์ไทย (Pre-historic & Historical Eras)</p>
+                    
+                    <div class="bg-black/40 p-3.5 rounded-2xl border border-amber-500/30 shadow-inner">
+                        <h2 class="text-sm font-bold text-amber-400 mb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-scroll text-base"></i> ภาพรวมการเดินทาง
+                        </h2>
+                        <ul class="text-slate-200 space-y-2 text-xs md:text-sm font-medium">
+                            <li class="flex items-start gap-2">
+                                <span class="bg-amber-900 text-amber-300 w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-[10px] font-bold">1</span> 
+                                <div><b class="text-amber-300">สำรวจ 6 ยุค:</b> ตั้งแต่ยุคหิน, ยุคโลหะ จนถึงสุโขทัย, อยุธยา, ธนบุรี และรัตนโกสินทร์</div>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="bg-amber-900 text-amber-300 w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-[10px] font-bold">2</span> 
+                                <div><b class="text-amber-300">ศึกษาข้อมูล:</b> เรียนรู้เนื้อหาละเอียด (บังคับเวลา 35 วินาทีต่อหน้า) เพื่อปลดล็อกมิติถัดไป</div>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="bg-amber-900 text-amber-300 w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-[10px] font-bold">3</span> 
+                                <div><b class="text-amber-300">ตะลุย 4 มินิเกม:</b> วิ่งตะลุย, เปิดการ์ดจับคู่ 3D, เรียงไทม์ไลน์ และแบบทดสอบความรู้</div>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="bg-amber-900 text-amber-300 w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-[10px] font-bold">4</span> 
+                                <div><b class="text-amber-300">เกียรติบัตร:</b> สะสมแต้มรับยศปรมาจารย์ข้ามเวลาพร้อมพิมพ์เอกสารรับรอง</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-3 text-center text-[11px] text-amber-400/80 font-medium">
+                    <i class="fa-solid fa-graduation-cap mr-1"></i> ออกแบบเพื่อการเรียนรู้ที่มีประสิทธิภาพภายใน 10-15 นาที
+                </div>
+            </div>
+
+            <!-- ฝั่งขวา: ลงทะเบียนเข้าใช้งาน (5 ตัวเลือกอวาตาร์ + ปุ่มดูกระดานผู้นำ) -->
+            <div class="w-full md:w-[350px] bg-slate-900/95 backdrop-blur-xl p-6 rounded-[2rem] shadow-[0_0_40px_rgba(0,0,0,0.8)] border-2 border-slate-700 flex flex-col justify-between relative z-10">
+                <div>
+                    <div class="flex justify-center mb-2">
+                        <div class="bg-gradient-to-b from-amber-800 to-amber-950 rounded-full p-2.5 border-2 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.5)] inline-block">
+                           <div class="text-2xl floating">⏳</div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg font-bold text-white text-center mb-4 border-b border-slate-800 pb-2">ลงทะเบียนนักสำรวจ</h3>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase"><i class="fa-solid fa-feather-pointed mr-1"></i>จารึกนามของคุณ</label>
+                            <input type="text" id="input-name" placeholder="ระบุชื่อรหัสของคุณ..." class="w-full bg-slate-950 text-amber-100 rounded-xl px-3.5 py-2.5 border-2 border-slate-700 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all text-sm font-bold placeholder-slate-600 shadow-inner">
+                        </div>
+                        <div>
+                            <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase"><i class="fa-solid fa-masks-theater mr-1"></i>เลือกอวาตาร์ (5 ตัวเลือก)</label>
+                            <div class="grid grid-cols-5 gap-2">
+                                <button class="avatar-btn bg-amber-900/40 border-2 border-amber-400 rounded-xl p-2 text-2xl transition-all transform scale-105 shadow-[0_0_10px_rgba(245,158,11,0.4)] glow-effect flex items-center justify-center" data-avatar="👦">👦</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="👧">👧</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🤖">🤖</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🐘">🐘</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🦉">🦉</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2 mt-4">
+                    <button onclick="startGame()" class="w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-black py-3 rounded-xl btn-game text-sm shadow-[0_0_20px_rgba(245,158,11,0.4)] border border-amber-300 uppercase tracking-widest flex items-center justify-center gap-2 group overflow-hidden relative">
+                        <span class="relative z-10">หมุนเข็มนาฬิกา! <i class="fa-solid fa-clock-rotate-left ml-1 group-hover:rotate-180 transition-transform duration-500"></i></span>
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                    </button>
+                    
+                    <button onclick="openHallOfFame()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2 px-4 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-2 transition btn-game">
+                        <i class="fa-solid fa-trophy text-amber-400"></i> ดูผลคะแนน / กระดานผู้นำ
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- หน้าหลัก: 2 หมวดใหญ่ -->
+    <main id="screen-main-categories" class="screen flex-col items-center justify-start p-4 pt-24 overflow-y-auto">
+        <h2 class="text-4xl md:text-5xl font-black mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-500 drop-shadow-lg z-10">
+            <i class="fa-solid fa-map-location-dot text-amber-400 mr-2"></i> แผนที่ข้ามเวลา
+        </h2>
+        <p class="text-slate-300 text-center mb-10 max-w-xl text-base z-10">เลือกหมวดหมู่มิติเวลาที่คุณต้องการสำรวจเพื่อเรียนรู้ประวัติศาสตร์ไทย</p>
+        
+        <div class="flex flex-col md:flex-row gap-8 max-w-4xl w-full mb-12 z-10">
+            <div onclick="openSubCategory('prehistoric')" class="flex-1 bg-gradient-to-br from-emerald-950 to-green-950 p-8 rounded-3xl cursor-pointer btn-game border-2 border-emerald-500/50 relative overflow-hidden group shadow-2xl">
+                <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 group-hover:scale-125 transition-transform duration-700">🦕</div>
+                <div class="text-6xl mb-6 bg-emerald-900/80 inline-block p-5 rounded-2xl border border-emerald-400/50">🪨</div>
+                <h3 class="text-3xl font-extrabold text-emerald-300 mb-4">1. สมัยก่อนประวัติศาสตร์</h3>
+                <p class="text-emerald-100/80 text-lg mb-8 font-medium">ยุคที่มนุษย์ยังไม่มีตัวหนังสือ ศึกษาผ่านเครื่องมือเครื่องใช้ (ยุคหิน และ ยุคโลหะ)</p>
+                <div class="flex justify-between items-center mt-auto bg-black/50 p-4 rounded-xl border border-emerald-500/30">
+                    <span class="text-sm font-bold text-emerald-300">สำรวจแล้ว: <span id="progress-prehistoric" class="text-white text-xl bg-emerald-900 px-2 py-1 rounded-md">0/2</span> ยุค</span>
+                    <button class="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-5 py-2.5 rounded-lg font-bold shadow-lg">วาร์ป ➔</button>
+                </div>
+            </div>
+
+            <div id="card-historic" onclick="openSubCategory('historic')" class="flex-1 bg-gradient-to-br from-amber-950 to-orange-950 p-8 rounded-3xl cursor-pointer btn-game border-2 border-amber-500/50 relative overflow-hidden group shadow-2xl transition-all duration-500 opacity-60 grayscale">
+                <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 group-hover:scale-125 transition-transform duration-700">🏰</div>
+                <div class="text-6xl mb-6 bg-amber-900/80 inline-block p-5 rounded-2xl border border-amber-400/50">📜</div>
+                <h3 class="text-3xl font-extrabold text-amber-300 mb-4">2. สมัยประวัติศาสตร์ไทย</h3>
+                <p class="text-amber-100/80 text-lg mb-8 font-medium">ยุคที่มีการจดบันทึกตัวอักษร และก่อตั้งอาณาจักร (สุโขทัย, อยุธยา, ธนบุรี, รัตนโกสินทร์)</p>
+                <div class="flex justify-between items-center mt-auto bg-black/50 p-4 rounded-xl border border-amber-500/30">
+                    <span class="text-sm font-bold text-amber-300">สำรวจแล้ว: <span id="progress-historic" class="text-white text-xl bg-amber-900 px-2 py-1 rounded-md">0/4</span> ยุค</span>
+                    <button class="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-5 py-2.5 rounded-lg font-bold shadow-lg">วาร์ป ➔</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- หน้าย่อย: รายละเอียดแต่ละยุค -->
+    <main id="screen-sub-categories" class="screen flex-col items-center justify-start p-4 pt-24 overflow-y-auto">
+        <div class="w-full max-w-5xl mb-8 flex justify-between items-center bg-slate-800/80 p-4 rounded-2xl backdrop-blur-md border border-slate-600 shadow-lg relative z-10">
+            <button onclick="navTo('screen-main-categories')" class="text-white bg-slate-700 hover:bg-slate-600 px-5 py-2.5 rounded-xl font-bold shadow-md btn-game">
+                <i class="fa-solid fa-arrow-left mr-2"></i> กลับแผนที่หลัก
+            </button>
+            <h2 id="sub-category-title" class="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-400 text-center">หมวดย่อย</h2>
+            <div class="w-24"></div> 
+        </div>
+        <div id="sub-category-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl w-full pb-10 relative z-10"></div>
+    </main>
+
+    <!-- หน้าบทเรียน -->
+    <main id="screen-lesson" class="screen flex-col items-center justify-start p-4 pt-20 overflow-y-auto">
+        <div class="w-full max-w-4xl mb-4 flex justify-between items-center relative z-10">
+            <button onclick="checkExitLesson()" class="text-slate-300 hover:text-white transition flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg border border-slate-600">
+                <i class="fa-solid fa-arrow-left"></i> ออกจากบทเรียน
+            </button>
+            <h2 id="lesson-title" class="text-2xl font-bold text-white text-center bg-slate-800/80 px-6 py-2 rounded-full border border-slate-600">ชื่อยุค</h2>
+        </div>
+
+        <div class="max-w-4xl w-full bg-slate-900 rounded-3xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.8)] border border-slate-600 flex flex-col mb-10 relative z-10">
+            <div id="lesson-tabs" class="flex overflow-x-auto bg-slate-950 p-2 gap-2 border-b border-slate-700 hide-scrollbar shadow-inner"></div>
+            
+            <div id="lesson-graphic" class="h-40 md:h-56 w-full relative flex items-center justify-center overflow-hidden transition-all duration-500">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+                <div id="lesson-icon-large" class="absolute right-10 top-1/2 transform -translate-y-1/2 text-8xl md:text-9xl opacity-30 floating pointer-events-none">🗿</div>
+                <div class="absolute bottom-6 left-8 flex items-center gap-4 z-10">
+                    <div id="lesson-icon-small" class="text-5xl bg-black/40 p-4 rounded-2xl border border-white/20 shadow-lg">🗿</div>
+                    <h3 id="lesson-tab-title" class="text-3xl md:text-4xl font-extrabold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">หัวข้อ</h3>
+                </div>
+            </div>
+            
+            <div id="lesson-content" class="p-6 md:p-8 text-lg leading-relaxed text-slate-200 bg-slate-800 min-h-[300px]"></div>
+            
+            <div class="p-6 bg-slate-900 border-t border-slate-700 flex flex-col items-center gap-4">
+                <div class="w-full max-w-md">
+                    <div class="flex justify-between text-sm text-slate-300 mb-1 font-bold">
+                        <span>เวลาศึกษา <span id="tab-name-display" class="text-amber-400">หัวข้อนี้</span></span>
+                        <span id="study-timer-text">เหลือ 35 วินาที</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-4 overflow-hidden border border-slate-600 shadow-inner">
+                        <div id="study-progress" class="bg-gradient-to-r from-amber-500 to-orange-500 h-full progress-bar-fill w-0"></div>
+                    </div>
+                </div>
+                
+                <button id="btn-complete-lesson" onclick="markLessonComplete()" disabled class="w-full max-w-md bg-slate-700 text-slate-400 font-bold py-4 px-8 rounded-xl text-lg opacity-80 cursor-not-allowed transition shadow-lg">
+                    ต้องอ่านให้ครบทุกหัวข้อย่อยก่อน (รอเวลา) <i class="fa-solid fa-lock ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ศูนย์ภารกิจ -->
+    <main id="screen-mission-hub" class="screen flex-col items-center justify-start p-4 pt-24 overflow-y-auto">
+        <div class="text-center mb-10 relative z-10">
+            <div class="text-7xl mb-4 floating">🎯</div>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-amber-400 mb-4 drop-shadow-lg">ศูนย์บัญชาการภารกิจ</h2>
+            <p class="text-slate-200 text-lg font-medium bg-slate-800/80 inline-block px-6 py-2 rounded-full border border-slate-600">ทดสอบความรู้ด้วย 4 มินิเกม เพื่อสะสมแต้มรับเกียรติบัตรระดับตำนาน!</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full relative z-10">
+            <div class="bg-slate-800/90 p-6 rounded-3xl border-2 border-blue-500/50 flex flex-col items-center text-center shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-transform">
+                <div class="text-7xl mb-4">🏃‍♂️</div>
+                <h3 class="text-2xl font-bold text-blue-400 mb-2">วิ่งตะลุยยุคสมัย</h3>
+                <p class="text-slate-300 mb-4 text-sm font-medium">กระโดดหลบหิน เก็บกล่องตอบคำถาม มีจุดสิ้นสุดเส้นชัย</p>
+                <div id="status-runner" class="mb-4 text-sm font-bold text-slate-400 bg-slate-900 px-4 py-2 rounded-xl border border-slate-700">ยังไม่ได้เล่น</div>
+                <button onclick="initRunnerGame()" class="mt-auto w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 rounded-xl font-bold btn-game shadow-lg">เข้าเล่นด่านนี้ ➔</button>
+            </div>
+
+            <div class="bg-slate-800/90 p-6 rounded-3xl border-2 border-green-500/50 flex flex-col items-center text-center shadow-[0_10px_30px_rgba(16,185,129,0.3)] hover:-translate-y-2 transition-transform">
+                <div class="text-7xl mb-4">🎴</div>
+                <h3 class="text-2xl font-bold text-green-400 mb-2">เปิดการ์ดจับคู่ความรู้</h3>
+                <p class="text-slate-300 mb-4 text-sm font-medium">พลิกการ์ด 3D จับคู่ข้อมูลให้ตรงกับยุคสมัย พลาดได้ 5 ครั้ง</p>
+                <div id="status-match" class="mb-4 text-sm font-bold text-slate-400 bg-slate-900 px-4 py-2 rounded-xl border border-slate-700">ยังไม่ได้เล่น</div>
+                <button onclick="initMemoryGame()" class="mt-auto w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white py-3 rounded-xl font-bold btn-game shadow-lg">เข้าเล่นด่านนี้ ➔</button>
+            </div>
+
+            <div class="bg-slate-800/90 p-6 rounded-3xl border-2 border-amber-500/50 flex flex-col items-center text-center shadow-[0_10px_30px_rgba(245,158,11,0.3)] hover:-translate-y-2 transition-transform">
+                <div class="text-7xl mb-4">⏳</div>
+                <h3 class="text-2xl font-bold text-amber-400 mb-2">เรียงลำดับไทม์ไลน์</h3>
+                <p class="text-slate-300 mb-4 text-sm font-medium">เรียงเหตุการณ์ที่เกิดก่อนสุด ไล่ไปจนถึงเหตุการณ์ล่าสุด</p>
+                <div id="status-timeline" class="mb-4 text-sm font-bold text-slate-400 bg-slate-900 px-4 py-2 rounded-xl border border-slate-700">ยังไม่ได้เล่น</div>
+                <button onclick="initTimelineGame()" class="mt-auto w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white py-3 rounded-xl font-bold btn-game shadow-lg">เข้าเล่นด่านนี้ ➔</button>
+            </div>
+
+            <div class="bg-slate-800/90 p-6 rounded-3xl border-2 border-purple-500/50 flex flex-col items-center text-center shadow-[0_10px_30px_rgba(168,85,247,0.3)] hover:-translate-y-2 transition-transform relative overflow-hidden">
+                <div class="absolute inset-0 bg-purple-500/10 animate-pulse pointer-events-none"></div>
+                <div class="text-7xl mb-4 relative z-10">📝</div>
+                <h3 class="text-2xl font-bold text-purple-400 mb-2 relative z-10">แบบทดสอบสุดท้าย</h3>
+                <p class="text-slate-300 mb-4 text-sm font-medium relative z-10">ทดสอบ 10 ข้อ วัดผลรวบยอดเพื่อประเมินระดับของคุณ</p>
+                <div id="status-quiz" class="mb-4 text-sm font-bold text-slate-400 bg-slate-900 px-4 py-2 rounded-xl border border-slate-700 relative z-10">ยังไม่ได้เล่น</div>
+                <button onclick="startQuiz()" class="mt-auto w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white py-3 rounded-xl font-bold btn-game shadow-lg relative z-10">ทำแบบทดสอบ ➔</button>
+            </div>
+        </div>
+        
+        <button onclick="navTo('screen-leaderboard')" class="mt-12 bg-slate-700 hover:bg-slate-600 text-white px-10 py-4 rounded-full font-bold shadow-2xl flex items-center gap-3 border border-slate-500 relative z-10 text-lg btn-game">
+            <i class="fa-solid fa-trophy text-amber-400 text-2xl"></i> ดูผลคะแนนและรับเกียรติบัตร
+        </button>
+    </main>
+
+    <!-- มินิเกม 1: Runner -->
+    <main id="screen-game" class="screen flex-col items-center justify-center p-4 pt-20 bg-slate-950 z-50">
+        <div class="max-w-4xl w-full">
+            <div class="flex justify-between items-center mb-4 bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-lg">
+                <button onclick="endGameEarly()" class="text-slate-400 hover:text-white mr-4 bg-slate-700 p-2 rounded-lg"><i class="fa-solid fa-times text-xl"></i></button>
+                <div class="flex-grow">
+                    <h2 class="text-xl md:text-2xl font-bold text-blue-400">วิ่งตะลุยยุคสมัย!</h2>
+                    <p class="text-slate-300 text-xs md:text-sm font-medium">แตะหน้าจอ/กด Spacebar เพื่อกระโดดหลบหิน เก็บกล่อง 🎁 เพื่อตอบคำถาม</p>
+                </div>
+                <div class="text-right bg-slate-900 p-2 rounded-xl border border-slate-700">
+                    <div class="text-amber-400 font-bold text-lg md:text-xl">แต้มเกม: <span id="runner-score">0</span></div>
+                    <div class="text-red-400 font-bold text-lg md:text-xl">❤️ <span id="runner-lives">3</span></div>
+                </div>
+            </div>
+            
+            <div class="relative w-full">
+                <canvas id="gameCanvas" width="800" height="300"></canvas>
+                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-3/4 max-w-sm h-3 bg-black/60 rounded-full overflow-hidden border border-white/30">
+                    <div id="runner-progress" class="bg-gradient-to-r from-blue-400 to-indigo-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+                
+                <div id="game-overlay" class="absolute inset-0 bg-slate-900/95 rounded-2xl hidden flex-col items-center justify-center text-center p-6 border-2 border-slate-600 z-20 backdrop-blur-sm">
+                    <div id="overlay-icon" class="text-7xl mb-4 floating">🏁</div>
+                    <h3 id="overlay-title" class="text-4xl font-extrabold text-white mb-3">เกมโอเวอร์!</h3>
+                    <p id="overlay-desc" class="text-slate-300 mb-8 text-xl font-medium whitespace-pre-line"></p>
+                    <div class="flex gap-4">
+                        <button onclick="initRunnerGame()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-xl btn-game shadow-lg">เล่นอีกครั้ง</button>
+                        <button onclick="navTo('screen-mission-hub')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl btn-game border border-slate-500">กลับศูนย์ภารกิจ</button>
+                    </div>
+                </div>
+
+                <div id="game-quiz-overlay" class="absolute inset-0 bg-slate-900/95 rounded-2xl hidden flex-col items-center justify-center text-center p-6 border-4 border-amber-500 z-30 backdrop-blur-md">
+                    <div class="text-6xl mb-4 animate-bounce">🎁</div>
+                    <h3 class="text-2xl font-bold text-amber-400 mb-4 bg-amber-500/20 px-6 py-2 rounded-full">คำถามโบนัส!</h3>
+                    <p id="game-quiz-text" class="text-white text-xl md:text-2xl mb-10 font-bold max-w-2xl leading-relaxed">คำถาม...</p>
+                    <div class="flex flex-col md:flex-row gap-4 w-full max-w-2xl">
+                        <button onclick="answerGameQuiz(0)" id="gq-btn-0" class="flex-1 bg-slate-800 hover:bg-blue-600 text-white py-5 px-4 rounded-xl font-bold transition border border-slate-600 text-lg shadow-lg">ตอบ A</button>
+                        <button onclick="answerGameQuiz(1)" id="gq-btn-1" class="flex-1 bg-slate-800 hover:bg-blue-600 text-white py-5 px-4 rounded-xl font-bold transition border border-slate-600 text-lg shadow-lg">ตอบ B</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- มินิเกม 2: Match Cards -->
+    <main id="screen-match-game" class="screen flex-col items-center justify-start p-4 pt-24 overflow-y-auto z-50 bg-slate-950">
+        <div class="max-w-4xl w-full">
+            <div class="flex justify-between items-center mb-6 bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-lg">
+                <button onclick="endMemoryGame()" class="text-slate-400 hover:text-white mr-4 bg-slate-700 p-2 rounded-lg"><i class="fa-solid fa-times text-xl"></i></button>
+                <div class="flex-grow">
+                    <h2 class="text-xl md:text-2xl font-bold text-green-400">เปิดการ์ดจับคู่ความรู้</h2>
+                    <p class="text-slate-300 text-xs md:text-sm font-medium">พลิกการ์ดเพื่อจับคู่ "ข้อมูล" กับ "ยุคสมัย" ให้ถูกต้อง</p>
+                </div>
+                <div class="text-right bg-slate-900 p-2 rounded-xl border border-slate-700">
+                    <div class="text-red-400 font-bold text-lg md:text-xl">❤️ พลาดได้: <span id="mem-lives">5</span></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-3 md:grid-cols-4 gap-4 w-full max-w-3xl mx-auto" id="memory-board"></div>
+        </div>
+    </main>
+
+    <!-- มินิเกม 3: Timeline -->
+    <main id="screen-timeline-game" class="screen flex-col items-center justify-start p-4 pt-24 overflow-y-auto z-50 bg-slate-950">
+         <div class="max-w-3xl w-full">
+            <div class="flex justify-between items-center mb-6 bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-lg">
+                <button onclick="endTimelineGame()" class="text-slate-400 hover:text-white mr-4 bg-slate-700 p-2 rounded-lg"><i class="fa-solid fa-times text-xl"></i></button>
+                <div class="flex-grow">
+                    <h2 class="text-xl md:text-2xl font-bold text-amber-400">เรียงลำดับไทม์ไลน์</h2>
+                    <p class="text-slate-300 text-xs md:text-sm font-medium">คลิกเลือกเหตุการณ์ที่เกิดขึ้นก่อนสุด เรียงลำดับไปจนถึงเหตุการณ์ล่าสุด</p>
+                </div>
+                 <div class="text-right bg-slate-900 p-2 rounded-xl border border-slate-700">
+                    <div class="text-red-400 font-bold text-lg md:text-xl">❤️ <span id="time-lives">3</span></div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-3 mb-8 bg-slate-900/80 p-5 rounded-2xl border border-slate-700 shadow-inner min-h-[300px]" id="timeline-slots"></div>
+            <h3 class="text-center text-white mb-3 font-bold text-lg bg-slate-800 py-2 rounded-lg">👇 ตัวเลือก (คลิกเลือกอันที่เก่าแก่ที่สุดก่อน) 👇</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="timeline-options"></div>
+        </div>
+    </main>
+
+    <!-- มินิเกม 4: Quiz -->
+    <main id="screen-quiz" class="screen flex-col items-center justify-center p-4 pt-20 bg-slate-950 z-50">
+        <div class="max-w-2xl w-full bg-slate-800/95 p-6 md:p-8 rounded-[2rem] shadow-[0_0_40px_rgba(168,85,247,0.4)] border-2 border-purple-500/50 relative overflow-hidden backdrop-blur-xl">
+            <div class="absolute -top-10 -right-10 text-9xl opacity-10 pointer-events-none">📝</div>
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-600 relative z-10">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">บททดสอบประเมินผล</h2>
+                <div class="flex gap-4 items-center">
+                    <span class="bg-purple-900/50 px-4 py-2 rounded-full text-sm font-bold border border-purple-500/30 text-purple-200">ข้อ <span id="quiz-current" class="text-white text-lg">1</span>/10</span>
+                    <span class="text-amber-400 font-bold text-xl flex items-center gap-2 bg-slate-900 px-4 py-2 rounded-full border border-slate-700"><i class="fa-regular fa-clock animate-pulse"></i> <span id="quiz-timer">30</span>s</span>
+                </div>
+            </div>
+            <div class="mb-8 min-h-[120px] flex items-center justify-center text-center relative z-10">
+                <h3 id="quiz-question" class="text-xl md:text-2xl font-bold text-white leading-relaxed">โหลดคำถาม...</h3>
+            </div>
+            <div id="quiz-options" class="grid grid-cols-1 gap-4 relative z-10"></div>
+        </div>
+    </main>
+
+    <!-- หน้ากระดานผู้นำ (Hall of Fame) -->
+    <main id="screen-hall-of-fame" class="screen flex-col items-center justify-start p-4 pt-20 overflow-y-auto">
+        <div class="max-w-3xl w-full bg-slate-800/95 p-6 md:p-8 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-600 text-center relative backdrop-blur-xl mt-6 mb-8 z-10">
+            <div class="text-6xl mb-2 floating">🏆</div>
+            <h2 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-600 mb-1">ทำเนียบคะแนน & กระดานผู้นำ</h2>
+            <p class="text-slate-300 text-sm mb-6">รายชื่อนักสำรวจและคะแนนสะสมสูงสุดในระบบ (อัปเดตเรียลไทม์)</p>
+            
+            <!-- แท่นรับรางวัล 1-3 -->
+            <div id="podium-container" class="flex justify-center items-end gap-2 md:gap-6 mb-8 mt-8 min-h-[180px]">
+                <!-- อันดับ 2 -->
+                <div id="podium-2" class="hidden flex-col items-center justify-end w-1/3 max-w-[120px]"></div>
+                <!-- อันดับ 1 -->
+                <div id="podium-1" class="hidden flex-col items-center justify-end w-1/3 max-w-[140px]"></div>
+                <!-- อันดับ 3 -->
+                <div id="podium-3" class="hidden flex-col items-center justify-end w-1/3 max-w-[120px]"></div>
+            </div>
+
+            <!-- ข้อความเมื่อไม่มีข้อมูล -->
+            <div id="leaderboard-empty" class="text-center text-slate-400 hidden mb-6 p-6 bg-slate-900/50 rounded-2xl border border-dashed border-slate-600">
+                <div class="text-4xl mb-2 opacity-50">👻</div>
+                <div class="font-bold">ยังไม่มีนักสำรวจส่งคะแนนเลย...</div>
+                <div class="text-sm">เคลียร์ภารกิจแล้วมาร่วมเป็นคนแรกบนแท่นรางวัลกันเถอะ!</div>
+            </div>
+
+            <!-- ลิสต์อันดับ 4 เป็นต้นไป -->
+            <div class="bg-slate-900 rounded-2xl p-3 md:p-4 mb-6 border border-slate-700 max-h-[350px] overflow-y-auto hide-scrollbar hidden" id="leaderboard-list">
+                <!-- รายชื่อจะถูกเติมด้วย JavaScript -->
+            </div>
+
+            <button onclick="navTo('screen-welcome')" class="bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold py-3 px-8 rounded-xl btn-game shadow-lg">
+                <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้าลงทะเบียน
+            </button>
+        </div>
+    </main>
+
+    <!-- หน้าสรุปผลส่วนตัว -->
+    <main id="screen-leaderboard" class="screen flex-col items-center justify-center p-4 pt-20 relative overflow-y-auto">
+        <div class="max-w-lg w-full bg-slate-800/90 p-8 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-600 text-center relative overflow-hidden backdrop-blur-xl mt-8 mb-8 z-10">
+            <div class="text-7xl mb-4 floating">🏆</div>
+            <h2 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-600 mb-2 drop-shadow-md">สรุปผลภารกิจ!</h2>
+            
+            <div class="bg-slate-900 rounded-2xl p-6 mb-8 mt-6 text-left border-2 border-slate-700 shadow-inner relative">
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                        <span class="text-slate-300 font-medium flex items-center gap-2"><div class="w-8 h-8 bg-blue-900 rounded flex items-center justify-center text-blue-400">🏃‍♂️</div> วิ่งตะลุยด่าน</span>
+                        <span id="score-runner" class="font-extrabold text-blue-400 text-xl">0</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                        <span class="text-slate-300 font-medium flex items-center gap-2"><div class="w-8 h-8 bg-green-900 rounded flex items-center justify-center text-green-400">🎴</div> เปิดการ์ดจับคู่</span>
+                        <span id="score-match" class="font-extrabold text-green-400 text-xl">0</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                        <span class="text-slate-300 font-medium flex items-center gap-2"><div class="w-8 h-8 bg-amber-900 rounded flex items-center justify-center text-amber-400">⏳</div> เรียงไทม์ไลน์</span>
+                        <span id="score-timeline" class="font-extrabold text-amber-400 text-xl">0</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                        <span class="text-slate-300 font-medium flex items-center gap-2"><div class="w-8 h-8 bg-purple-900 rounded flex items-center justify-center text-purple-400">📝</div> แบบทดสอบ</span>
+                        <span id="score-quiz" class="font-extrabold text-purple-400 text-xl">0</span>
+                    </div>
+                </div>
+                
+                <div class="mt-6 bg-gradient-to-r from-amber-900/40 to-yellow-900/40 border border-amber-500/50 p-4 rounded-xl flex justify-between items-center">
+                    <span class="text-xl text-amber-300 font-bold">🌟 คะแนนรวม:</span> 
+                    <span id="score-total" class="text-3xl font-black text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]">0</span>
+                </div>
+                
+                <div class="mt-6 bg-indigo-900/30 border-2 border-indigo-500/50 p-4 rounded-xl text-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 pointer-events-none"></div>
+                    <span class="text-indigo-200 text-sm font-bold block mb-1 relative z-10 uppercase tracking-widest">ระดับของคุณ (Rank)</span>
+                    <span id="player-rank" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 relative z-10 drop-shadow-md">กำลังประเมิน...</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <button onclick="generateCertificate()" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-white font-black py-4 px-6 rounded-xl btn-game shadow-[0_0_20px_rgba(245,158,11,0.5)] text-lg border border-yellow-300 uppercase tracking-wide">
+                    <i class="fa-solid fa-scroll mr-2"></i> รับเกียรติบัตรแห่งความสำเร็จ
+                </button>
+                <button onclick="openHallOfFame()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-3 px-6 rounded-xl transition border border-slate-600 btn-game text-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-400"></i> ดูทำเนียบคะแนนทั้งหมด
+                </button>
+                <button onclick="navTo('screen-mission-hub')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl transition border border-slate-500 btn-game">
+                    <i class="fa-solid fa-rotate-left mr-2"></i> กลับศูนย์ภารกิจ (เล่นซ้ำทำคะแนน)
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- หน้าเกียรติบัตร -->
+    <main id="screen-certificate" class="screen flex-col items-center justify-center p-4 bg-slate-900">
+        <div id="cert-container" class="bg-white w-full max-w-4xl p-2 relative shadow-2xl overflow-hidden aspect-[1.414/1] flex items-center justify-center">
+            <div class="absolute inset-4 border-[12px] border-double border-amber-600 rounded-xl opacity-90"></div>
+            <div class="absolute inset-8 border-[2px] border-solid border-amber-800 rounded-lg opacity-30"></div>
+            <div class="relative z-10 text-center text-gray-800 px-12 py-8 flex flex-col items-center justify-center h-full w-full bg-[url('https://www.transparenttextures.com/patterns/rice-paper.png')]">
+                <div class="mb-4"><i class="fa-solid fa-award text-7xl text-amber-500 drop-shadow-md"></i></div>
+                <!-- เปลี่ยนฟอนต์หัวข้อให้สวยงาม -->
+                <h1 class="text-4xl md:text-5xl font-extrabold text-amber-900 mb-2 tracking-widest" style="font-family: 'Chonburi', serif;">เกียรติบัตรนักสำรวจเวลา</h1>
+                <p class="text-lg text-gray-700 mb-6 font-medium" style="font-family: 'Kanit', sans-serif;">ขอมอบเกียรติบัตรฉบับนี้เพื่อแสดงว่า</p>
+                <!-- เปลี่ยนฟอนต์ชื่อผู้เล่น -->
+                <h2 id="cert-name" class="text-4xl md:text-5xl font-black text-indigo-900 mb-4 border-b-2 border-indigo-300 pb-2 px-10 inline-block drop-shadow-sm" style="font-family: 'Chonburi', serif;">ชื่อผู้เล่น</h2>
+                <p class="text-lg md:text-xl text-gray-700 mb-4 font-medium leading-relaxed" style="font-family: 'Kanit', sans-serif;">
+                    ได้ผ่านการศึกษาและพิชิตภารกิจอย่างสมบูรณ์แบบในโครงการ<br><span class="font-bold text-indigo-800 text-2xl">"ไทม์แมชชีน ย้อนรอยประวัติศาสตร์"</span>
+                </p>
+                <div class="mb-8 bg-amber-50 px-8 py-3 rounded-xl border border-amber-200">
+                    <span class="text-gray-600 text-sm font-bold uppercase tracking-wider block" style="font-family: 'Kanit', sans-serif;">ประเมินระดับความสามารถ:</span>
+                    <div id="cert-rank-display" class="text-3xl font-black text-indigo-700 mt-1" style="font-family: 'Chonburi', serif;">ปรมาจารย์ข้ามเวลา</div>
+                    <div id="cert-stars" class="text-3xl text-amber-500 mt-2 flex gap-2 justify-center drop-shadow-sm">★ ★ ★</div>
+                </div>
+                <div class="flex justify-between w-full mt-auto pt-6 px-10 border-t border-gray-300" style="font-family: 'Kanit', sans-serif;">
+                    <div class="text-center">
+                        <p id="cert-date" class="text-base text-gray-800 font-bold mb-1 border-b border-gray-400 pb-1 w-40 mx-auto">วันที่</p>
+                        <p class="text-xs text-gray-500 font-bold uppercase">วันที่ออกเอกสาร</p>
+                    </div>
+                    <div class="text-center">
+                        <!-- เปลี่ยนฟอนต์ลายเซ็นให้ดูเหมือนเขียนมือ -->
+                        <div class="text-4xl font-bold text-gray-800 mb-1 border-b border-gray-400 pb-1 w-40 mx-auto" style="font-family: 'Charm', cursive;">Time Machine</div>
+                        <p class="text-xs text-gray-500 font-bold uppercase">ผู้อำนวยการศูนย์วิจัยเวลา</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 flex gap-4 no-print flex-wrap justify-center relative z-10">
+            <!-- เพิ่มปุ่มดาวน์โหลดเป็นรูปภาพ -->
+            <button onclick="downloadCertificateImage()" id="btn-dl-img" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl btn-game text-lg shadow-lg flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> ดาวน์โหลดไฟล์รูปภาพ
+            </button>
+            <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl btn-game text-lg shadow-lg flex items-center gap-2">
+                <i class="fa-solid fa-print"></i> พิมพ์ / Save PDF
+            </button>
+            <button onclick="navTo('screen-leaderboard')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-xl border border-slate-500 text-lg btn-game">
+                กลับหน้ารางวัล
+            </button>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        
+        let app, db, auth;
+        let realLeaderboard = [];
+
+        // เริ่มต้นการเชื่อมต่อฐานข้อมูล
+        try {
+            if (Object.keys(firebaseConfig).length > 0) {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                initAuth();
+            }
+        } catch (e) {
+            console.error("Firebase init error", e);
+        }
+
+        async function initAuth() {
+            if (!auth) return;
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                setupLeaderboardListener(); // ยืนยันตัวตนเสร็จแล้วดึงข้อมูลเลย
+            } catch (e) {
+                console.error("Auth error", e);
+            }
+        }
+
+        // ดึงข้อมูลกระดานผู้นำแบบเรียลไทม์
+        function setupLeaderboardListener() {
+            const user = auth?.currentUser;
+            if (!user || !db) return;
+            const lbRef = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
+            onSnapshot(lbRef, (snapshot) => {
+                const data = [];
+                snapshot.forEach(doc => {
+                    data.push({ id: doc.id, ...doc.data() });
+                });
+                data.sort((a, b) => b.score - a.score);
+                realLeaderboard = data;
+                
+                // หากกำลังเปิดหน้ากระดานผู้นำอยู่ ให้อัปเดตข้อมูลทันที
+                if (document.getElementById('screen-hall-of-fame').classList.contains('active')) {
+                    renderLeaderboard();
+                }
+            }, (error) => {
+                console.error("Leaderboard listener error:", error);
+            });
+        }
+
+        // บันทึกคะแนนของผู้เล่นขึ้นระบบออนไลน์
+        async function saveScoreToFirebase() {
+            const user = auth?.currentUser;
+            if (!user || !db) return;
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'leaderboard', user.uid);
+                await setDoc(docRef, {
+                    name: AppState.playerName || "นักสำรวจ",
+                    avatar: AppState.avatar,
+                    score: AppState.scores.total,
+                    rank: AppState.playerRank || "นักสำรวจ",
+                    timestamp: Date.now()
+                });
+                console.log("Score saved to Firebase!");
+            } catch (error) {
+                console.error("Error saving score:", error);
+            }
+        }
+
+        const SoundEngine = {
+            initialized: false,
+            synth: null,
+            fxSynth: null,
+            async init() {
+                if (this.initialized) return;
+                try {
+                    await Tone.start();
+                    this.synth = new Tone.PolySynth(Tone.Synth).toDestination();
+                    this.synth.volume.value = -8;
+                    this.fxSynth = new Tone.MembraneSynth().toDestination();
+                    this.fxSynth.volume.value = -10;
+                    this.initialized = true;
+                } catch(e) { console.warn("Audio context not started yet."); }
+            },
+            playClick() { if (this.initialized) this.synth.triggerAttackRelease("C6", "32n"); },
+            playSuccess() { 
+                if (this.initialized) {
+                    const now = Tone.now();
+                    this.synth.triggerAttackRelease(["C5", "E5", "G5"], "8n", now);
+                    this.synth.triggerAttackRelease(["C6", "E6", "G6"], "4n", now + 0.2);
+                }
+            },
+            playError() { if (this.initialized) this.synth.triggerAttackRelease("C3", "8n"); },
+            playWarp() { if (this.initialized) this.fxSynth.triggerAttackRelease("C2", "8n"); }
+        };
+
+        const AppState = {
+            playerName: '', avatar: '👦',
+            progress: { stone: false, metal: false, sukhothai: false, ayutthaya: false, thonburi: false, rattanakosin: false },
+            tabProgress: {}, 
+            playedGames: { runner: false, match: false, timeline: false, quiz: false },
+            scores: { runner: 0, match: 0, timeline: 0, quiz: 0, total: 0 },
+            currentLessonId: null,
+            studyTimeRequired: 35,
+            unlockedMission: false,
+            playerRank: ''
+        };
+
+        function renderLeaderboard() {
+            const listEl = document.getElementById('leaderboard-list');
+            const emptyEl = document.getElementById('leaderboard-empty');
+            const p1 = document.getElementById('podium-1');
+            const p2 = document.getElementById('podium-2');
+            const p3 = document.getElementById('podium-3');
+
+            listEl.innerHTML = '';
+            
+            // รีเซ็ตและซ่อนแท่นรางวัล
+            [p1, p2, p3].forEach(el => { el.innerHTML = ''; el.classList.add('hidden'); el.classList.remove('flex'); });
+
+            let currentList = [...realLeaderboard];
+            const user = auth?.currentUser;
+            
+            // หากผู้เล่นเพิ่งเล่นจบและมีคะแนน แต่ยังโหลดขึ้นระบบไม่เสร็จ ให้เอาข้อมูลมาโชว์ก่อนทันที
+            if(user && AppState.playerName && (AppState.scores.total > 0 || AppState.playedGames.quiz) && !currentList.find(c => c.id === user.uid)) {
+                currentList.push({ 
+                    id: user.uid, 
+                    name: AppState.playerName, 
+                    avatar: AppState.avatar, 
+                    score: AppState.scores.total, 
+                    rank: AppState.playerRank || "นักสำรวจ" 
+                });
+            }
+
+            // จัดเรียงคะแนนจากมากไปน้อย
+            currentList.sort((a, b) => b.score - a.score);
+
+            // ตรวจสอบว่ามีข้อมูลหรือไม่
+            if (currentList.length === 0) {
+                emptyEl.classList.remove('hidden');
+                listEl.classList.add('hidden');
+                return;
+            } else {
+                emptyEl.classList.add('hidden');
+            }
+
+            // ฟังก์ชันสร้าง UI แท่นรางวัลแบบ 3D พรีเมียม
+            const renderPodium = (item, rank) => {
+                const user = auth?.currentUser;
+                const isMe = user && item.id === user.uid;
+                
+                let colorTheme, hClass, crown, meBadge;
+                if (rank === 1) {
+                    colorTheme = { border: 'border-yellow-400', bg: 'bg-gradient-to-b from-yellow-500/30 to-yellow-600/10', text: 'text-yellow-400', shadow: 'shadow-[0_0_30px_rgba(250,204,21,0.5)]' };
+                    hClass = 'h-32 md:h-40';
+                    crown = '<div class="text-3xl absolute -top-10 animate-bounce drop-shadow-[0_0_10px_rgba(250,204,21,0.8)] z-20">👑</div>';
+                } else if (rank === 2) {
+                    colorTheme = { border: 'border-slate-300', bg: 'bg-gradient-to-b from-slate-300/30 to-slate-400/10', text: 'text-slate-300', shadow: 'shadow-[0_0_20px_rgba(203,213,225,0.3)]' };
+                    hClass = 'h-24 md:h-28';
+                    crown = '';
+                } else {
+                    colorTheme = { border: 'border-orange-600', bg: 'bg-gradient-to-b from-orange-700/30 to-orange-800/10', text: 'text-orange-500', shadow: 'shadow-[0_0_20px_rgba(234,88,12,0.3)]' };
+                    hClass = 'h-16 md:h-20';
+                    crown = '';
+                }
+
+                meBadge = isMe ? '<div class="bg-amber-600 text-white text-[10px] md:text-xs px-2 py-0.5 rounded-full absolute -top-5 md:-top-6 whitespace-nowrap z-30 shadow-md border border-amber-400 animate-pulse">คุณเอง</div>' : '';
+
+                return `
+                    <div class="flex flex-col items-center justify-end relative group w-full cursor-default">
+                        ${crown}
+                        ${meBadge}
+                        <div class="text-5xl md:text-6xl mb-2 drop-shadow-xl group-hover:scale-110 group-hover:-translate-y-2 transition-all relative z-10">${item.avatar}</div>
+                        <div class="text-[11px] md:text-sm font-bold text-white mb-0.5 truncate w-full text-center px-1" title="${item.name}">${item.name}</div>
+                        <div class="text-xs md:text-sm font-black text-amber-300 mb-2 drop-shadow-md">${item.score}</div>
+                        <div class="w-full ${colorTheme.bg} rounded-t-xl border-t-4 md:border-t-8 ${colorTheme.border} ${hClass} flex items-start justify-center pt-2 md:pt-4 text-3xl md:text-5xl font-black ${colorTheme.text} ${colorTheme.shadow}">
+                            ${rank}
+                        </div>
+                    </div>
+                `;
+            };
+
+            // อัปเดตข้อมูลแท่นรางวัล 1-3
+            if (currentList[0]) { p1.innerHTML = renderPodium(currentList[0], 1); p1.classList.remove('hidden'); p1.classList.add('flex'); }
+            if (currentList[1]) { p2.innerHTML = renderPodium(currentList[1], 2); p2.classList.remove('hidden'); p2.classList.add('flex'); }
+            if (currentList[2]) { p3.innerHTML = renderPodium(currentList[2], 3); p3.classList.remove('hidden'); p3.classList.add('flex'); }
+
+            // รายการลำดับที่ 4 เป็นต้นไป
+            const listItems = currentList.slice(3);
+            if (listItems.length > 0) {
+                listEl.classList.remove('hidden');
+                listItems.forEach((item, index) => {
+                    const actualRank = index + 4;
+                    const user = auth?.currentUser;
+                    const isMe = user && item.id === user.uid;
+                    const highlightClass = isMe ? 'border-amber-500 bg-amber-900/40 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'border-slate-700 bg-slate-800/80';
+                    
+                    const row = document.createElement('div');
+                    row.className = `flex items-center justify-between p-3 md:p-4 mb-2 rounded-xl border shadow-inner ${highlightClass} transition-all hover:scale-[1.02]`;
+                    row.innerHTML = `
+                        <div class="flex items-center gap-3 md:gap-4 w-full">
+                            <div class="w-8 md:w-10 flex justify-center">
+                                <span class="w-7 h-7 md:w-9 md:h-9 rounded-full bg-slate-700/80 text-slate-300 flex items-center justify-center font-bold text-sm md:text-base border border-slate-600 shadow-inner">${actualRank}</span>
+                            </div>
+                            <div class="text-3xl md:text-4xl drop-shadow-md">${item.avatar}</div>
+                            <div class="text-left flex-1 min-w-0">
+                                <div class="font-bold text-white text-sm md:text-base truncate w-full flex items-center gap-2">
+                                    ${item.name} ${isMe ? '<span class="bg-amber-600 text-[10px] px-1.5 py-0.5 rounded text-white">คุณ</span>' : ''}
+                                </div>
+                                <div class="text-xs md:text-sm text-amber-400 font-medium truncate">${item.rank}</div>
+                            </div>
+                            <div class="font-black text-amber-300 text-base md:text-xl whitespace-nowrap ml-2">⭐ ${item.score}</div>
+                        </div>
+                    `;
+                    listEl.appendChild(row);
+                });
+            }
+        }
+
+        function openHallOfFame() {
+            SoundEngine.playClick();
+            renderLeaderboard();
+            navTo('screen-hall-of-fame');
+        }
+
+        const stageSequence = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+        const Categories = {
+            'prehistoric': { title: 'สมัยก่อนประวัติศาสตร์', stages: ['stone', 'metal'] },
+            'historic': { title: 'สมัยประวัติศาสตร์ไทย', stages: ['sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'] }
+        };
+
+        const LessonData = {
+            'stone': {
+                title: '1. ยุคหิน', desc: 'การเอาตัวรอดในธรรมชาติและการเพาะปลูก', icon: '🪨', themeClass: 'from-emerald-700 to-green-900',
+                tabs: [
+                    { name: 'หินเก่า', icon: '⛺', theme: 'from-emerald-600 to-green-800', 
+                      desc: `<h4 class="text-xl font-bold text-emerald-300 mb-2">ยุคหินเก่า (Paleolithic)</h4>
+                             <p class="mb-3">เป็นยุคที่ยาวนานที่สุด มนุษย์ยังไม่มีที่อยู่เป็นหลักแหล่ง <b>ใช้ชีวิตแบบเร่ร่อน</b> อพยพตามฝูงสัตว์และแหล่งอาหาร อาศัยอยู่ตามถ้ำหรือเพิงผาเพื่อป้องกันสัตว์ร้ายและภัยธรรมชาติ</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>เครื่องมือเครื่องใช้:</b> ทำจากหินกะเทาะแบบหยาบๆ เรียกว่า Chopper (เครื่องมือสับตัด) เน้นใช้กะเทาะให้พอมีคมสำหรับสับ ตัด ทุบ ขุด</li>
+                                <li><b>การดำรงชีวิต:</b> ล่าสัตว์ หาของป่า และการเปลี่ยนแปลงครั้งใหญ่คือ <b>เริ่มรู้จักการใช้ไฟ</b> เพื่อให้ความอบอุ่น ย่างเนื้อสัตว์ และไล่สัตว์ร้าย</li>
+                                <li><b>สังคม:</b> อยู่ร่วมกันเป็นกลุ่มเล็กๆ แบบครอบครัว ยังไม่มีกฎเกณฑ์ซับซ้อน</li>
+                             </ul>` },
+                    { name: 'หินกลาง', icon: '🏹', theme: 'from-green-600 to-teal-800', 
+                      desc: `<h4 class="text-xl font-bold text-teal-300 mb-2">ยุคหินกลาง (Mesolithic)</h4>
+                             <p class="mb-3">โลกเริ่มมีอุณหภูมิอุ่นขึ้น น้ำแข็งละลาย มนุษย์เริ่มปรับตัวเข้ากับสิ่งแวดล้อมได้ดีขึ้น และเริ่มรู้จักการสร้างที่พักอาศัยแบบง่ายๆ นอกถ้ำ</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>เครื่องมือเครื่องใช้:</b> หินกะเทาะมีความประณีต เล็กลง และแหลมคมมากขึ้น (Microlith) นำไปต่อด้ามไม้ทำเป็น <b>หอก และ ลูกศร</b> สำหรับล่าสัตว์ที่มีความเร็ว</li>
+                                <li><b>การดำรงชีวิต:</b> นอกจากการล่าสัตว์บนบก ยังเริ่มรู้จักการทำฉมวกเพื่อ<b>จับปลาและสัตว์น้ำ</b>เป็นอาหารหลัก</li>
+                                <li><b>ศิลปะและความเชื่อ:</b> เริ่มมีการวาด <b>ภาพเขียนสีตามผนังถ้ำ</b> เพื่อบอกเล่าเรื่องราวหรือประกอบพิธีกรรม (เช่น ภาพเขียนสีผาแต้ม จ.อุบลราชธานี)</li>
+                             </ul>` },
+                    { name: 'หินใหม่', icon: '🌾', theme: 'from-teal-600 to-cyan-800', 
+                      desc: `<h4 class="text-xl font-bold text-cyan-300 mb-2">ยุคหินใหม่ (Neolithic)</h4>
+                             <p class="mb-3">เกิดความเปลี่ยนแปลงครั้งใหญ่ที่เรียกว่า <span class="text-amber-300 font-bold">"การปฏิวัติเกษตรกรรม"</span> มนุษย์เลิกร่อนเร่ หันมาตั้งถิ่นฐานสร้างหมู่บ้านถาวรริมแหล่งน้ำ</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>เครื่องมือเครื่องใช้:</b> พัฒนาเป็น <b>เครื่องมือหินขัด</b> (นำหินมาฝนจนเรียบและคมกริบ) คนไทยโบราณมักเรียกว่า <b>"ขวานฟ้า"</b> และเริ่มรู้จักทำ <b>เครื่องปั้นดินเผา</b> เพื่อใส่อาหารและน้ำ</li>
+                                <li><b>การดำรงชีวิต:</b> รู้จักการเพาะปลูกพืช (เช่น ปลูกข้าว) และการเลี้ยงสัตว์ (เช่น สุนัข หมู วัว) ไว้ใช้งานและเป็นอาหารสำรอง</li>
+                                <li><b>สังคม:</b> ชุมชนขยายใหญ่ขึ้น เริ่มมีการจัดระเบียบสังคม มีการแบ่งหน้าที่ทำงานกันชัดเจน เช่น ผู้ชายล่าสัตว์/ทำไร่ ผู้หญิงทอผ้า/ปั้นหม้อ</li>
+                             </ul>` }
+                ]
+            },
+            'metal': {
+                title: '2. ยุคโลหะ', desc: 'เทคโนโลยีการหลอมแร่และจุดเริ่มต้นของเมือง', icon: '⛏️', themeClass: 'from-cyan-700 to-blue-900',
+                tabs: [
+                    { name: 'ยุคสำริด', icon: '🏺', theme: 'from-cyan-600 to-blue-800', 
+                      desc: `<h4 class="text-xl font-bold text-cyan-300 mb-2">ยุคสำริด (Bronze Age)</h4>
+                             <p class="mb-3">มนุษย์ก้าวหน้าทางเทคโนโลยีโดยรู้จักการใช้ไฟความร้อนสูงในการหลอมแร่ นำ <b>ทองแดงมาผสมกับดีบุก</b> กลายเป็นโลหะชนิดใหม่คือ "สำริด" ซึ่งมีความแข็งกว่าทองแดงบริสุทธิ์</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>สิ่งประดิษฐ์:</b> ใช้ทำอาวุธ เครื่องประดับ และเครื่องดนตรีประกอบพิธีกรรมที่สำคัญคือ <b>"กลองมโหระทึก"</b> (เชื่อว่าใช้ตีในพิธีขอฝนหรือพิธีศพผู้ยิ่งใหญ่)</li>
+                                <li><b>สังคม:</b> ชุมชนเกษตรกรรมขยายตัวเป็นชุมชนขนาดใหญ่ มีการแบ่งชนชั้นชัดเจนขึ้น มีหัวหน้าเผ่า และเริ่มมีการค้าขายแลกเปลี่ยนแร่ธาตุข้ามดินแดน (เช่น แหล่งโบราณคดีบ้านเชียง จ.อุดรธานี)</li>
+                             </ul>` },
+                    { name: 'ยุคเหล็ก', icon: '⚔️', theme: 'from-blue-600 to-indigo-800', 
+                      desc: `<h4 class="text-xl font-bold text-blue-300 mb-2">ยุคเหล็ก (Iron Age)</h4>
+                             <p class="mb-3">การค้นพบวิธีการถลุง "เหล็ก" ทำให้เกิดจุดเปลี่ยนสำคัญ เพราะเหล็กมีความแข็งแกร่ง ทนทาน และตัดสิ่งต่างๆ ได้ดีกว่าสำริดมาก</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>เครื่องมือเครื่องใช้:</b> เครื่องมือเกษตรที่ทำจากเหล็ก (เช่น จอบ เสียม คันไถ) สามารถขุดดินได้ลึก ทำให้ผลผลิตทางการเกษตรเพิ่มขึ้นมหาศาล และอาวุธเหล็กก็ทำให้กองทัพมีความแข็งแกร่งขึ้น</li>
+                                <li><b>สังคมและการเมือง:</b> อาหารที่เหลือเฟือทำให้ประชากรเพิ่มขึ้นอย่างรวดเร็ว ชุมชนขยายตัวกลายเป็น <b>"เมือง"</b> มีการทำสงครามแย่งชิงทรัพยากร และก่อตัวเป็นแว่นแคว้นหรืออาณาจักรในเวลาต่อมา</li>
+                             </ul>` }
+                ]
+            },
+            'sukhothai': {
+                title: '3. สมัยสุโขทัย', desc: 'รุ่งอรุณแห่งความสุข พ่อปกครองลูก', icon: '🔔', themeClass: 'from-amber-700 to-orange-900',
+                tabs: [
+                    { name: 'การปกครอง', icon: '👨‍👧‍👦', theme: 'from-amber-600 to-orange-800', 
+                      desc: `<h4 class="text-xl font-bold text-amber-300 mb-2">การปกครองแบบ พ่อปกครองลูก (ปิตุลาธิปไตย)</h4>
+                             <p class="mb-3">ในสมัยสุโขทัยตอนต้น (ยุคพ่อขุนรามคำแหงมหาราช) ใช้ระบบการปกครองที่เน้นความใกล้ชิดระหว่างผู้นำกับประชาชน</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li>พระมหากษัตริย์มีความใกล้ชิดกับประชาชน เปรียบเสมือนหัวหน้าครอบครัวใหญ่ เรียกแทนพระองค์ว่า <b>"พ่อขุน"</b> ส่วนประชาชนเรียกว่า "ลูกบ้าน" หรือ "ลูกขุน"</li>
+                                <li>มีการแขวน <b>"กระดิ่งร้องทุกข์"</b> ไว้หน้าประตูวัง หากราษฎรเดือดร้อนหรือมีคดีความ สามารถไปตี/สั่นกระดิ่ง เพื่อให้พ่อขุนออกมารับฟังและตัดสินคดีด้วยพระองค์เองอย่างยุติธรรม</li>
+                             </ul>` },
+                    { name: 'เศรษฐกิจ', icon: '💰', theme: 'from-orange-600 to-red-800', 
+                      desc: `<h4 class="text-xl font-bold text-orange-300 mb-2">การค้าเสรี (ใครใคร่ค้า...ค้า)</h4>
+                             <p class="mb-3">สุโขทัยมีนโยบายส่งเสริมเศรษฐกิจแบบเปิดกว้าง ปรากฏในศิลาจารึกว่า <i>"เพื่อนจูงวัวไปค้า ขี่ม้าไปขาย ใครจักใคร่ค้าช้างค้า ใครจักใคร่ค้าม้าค้า ใครจักใคร่ค้าเงือนค้าทองค้า"</i></p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li>รัฐ <b>งดเว้นการเก็บภาษีผ่านด่าน (จกอบ)</b> ทำให้พ่อค้าทั้งชาวไทยและชาวต่างชาติเข้ามาค้าขายอย่างคึกคัก เกิดตลาดที่เรียกว่า "ตลาดปสาน"</li>
+                                <li>สินค้าส่งออกที่ทำรายได้มหาศาลคือ เครื่องปั้นดินเผาเคลือบเนื้อดีที่เรียกว่า <b>"เครื่องสังคโลก"</b> ซึ่งผลิตในเตาทุเรียง และส่งไปขายไกลถึงต่างประเทศ เช่น จีน ญี่ปุ่น และหมู่เกาะอินโดนีเซีย</li>
+                             </ul>` },
+                    { name: 'วัฒนธรรม', icon: '📜', theme: 'from-red-600 to-rose-800', 
+                      desc: `<h4 class="text-xl font-bold text-red-300 mb-2">กำเนิดลายสือไทยและพุทธศาสนา</h4>
+                             <p class="mb-3">ความสำเร็จทางวัฒนธรรมที่สำคัญที่สุดคือการประดิษฐ์ตัวอักษรของชาติตนเอง และการวางรากฐานทางศาสนา</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li>พ.ศ. 1826 <b>พ่อขุนรามคำแหงมหาราช</b> ทรงประดิษฐ์อักษรไทยขึ้น เรียกว่า <b>"ลายสือไทย"</b> โดยดัดแปลงมาจากอักษรขอมและมอญ</li>
+                                <li>ตัวอักษรถูกจารึกลงบนแท่งหิน เรียกว่า "ศิลาจารึกหลักที่ 1" ซึ่งเป็นหลักฐานสำคัญในการศึกษาประวัติศาสตร์</li>
+                                <li>รับพระพุทธศาสนาลัทธิเถรวาทแบบลังกาวงศ์มาจากนครศรีธรรมราช ทำให้พระพุทธศาสนาฝังรากลึกในสังคมไทย และมีสถาปัตยกรรมที่งดงาม เช่น พระพุทธรูปปางลีลา</li>
+                             </ul>` }
+                ]
+            },
+            'ayutthaya': {
+                title: '4. สมัยอยุธยา', desc: 'ราชธานี 417 ปี ศูนย์กลางการค้านานาชาติ', icon: '⛵', themeClass: 'from-rose-700 to-pink-900',
+                tabs: [
+                    { name: 'การปกครอง', icon: '👑', theme: 'from-rose-600 to-pink-800', 
+                      desc: `<h4 class="text-xl font-bold text-rose-300 mb-2">สมบูรณาญาสิทธิราชย์ (เทวราชา)</h4>
+                             <p class="mb-3">อยุธยารับอิทธิพลจากขอมและพราหมณ์-ฮินดู เปลี่ยนสถานะพระมหากษัตริย์จาก "พ่อปกครองลูก" กลายเป็น <b>"สมมติเทพ" (เทวราชา)</b></p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li>พระมหากษัตริย์มีอำนาจเด็ดขาดสูงสุด ประชาชนต้องใช้คำราชาศัพท์ มีกฎมณเฑียรบาลเข้มงวด และห้ามมองพระพักตร์เวลาเสด็จประพาส</li>
+                                <li>มีการจัดรูปแบบการบริหารราชการส่วนกลางแบบ <b>"จตุสดมภ์"</b> ประกอบด้วย: <br>
+                                - <b>กรมเวียง:</b> ดูแลความสงบเรียบร้อยในเมือง<br>
+                                - <b>กรมวัง:</b> ดูแลราชสำนักและศาลยุติธรรม<br>
+                                - <b>กรมคลัง:</b> ดูแลการค้า เงินตรา และการต่างประเทศ<br>
+                                - <b>กรมนา:</b> ดูแลการเกษตรและเสบียงอาหาร</li>
+                             </ul>` },
+                    { name: 'การค้า', icon: '🌏', theme: 'from-pink-600 to-fuchsia-800', 
+                      desc: `<h4 class="text-xl font-bold text-pink-300 mb-2">ศูนย์กลางการค้านานาชาติ</h4>
+                             <p class="mb-3">ด้วยภูมิประเทศที่เป็นเกาะมีแม่น้ำ 3 สายล้อมรอบ (เจ้าพระยา, ป่าสัก, ลพบุรี) ทำให้อยุธยาเป็นเมืองท่าที่เรือสำเภาขนาดใหญ่เข้ามาจอดได้ง่าย</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li>เป็นตลาดแลกเปลี่ยนสินค้าระดับโลก ชาติตะวันตก (โปรตุเกส, สเปน, ฮอลันดา, ฝรั่งเศส, อังกฤษ) และชาติตะวันออก (จีน, ญี่ปุ่น, เปอร์เซีย) เข้ามาค้าขายจำนวนมาก</li>
+                                <li>รัฐทำการผูกขาดการค้าผ่านหน่วยงาน <b>"พระคลังสินค้า"</b> สินค้าหายากและมีราคาแพง เช่น ปืน งาช้าง ไม้หอม หนังสัตว์ จะต้องขายให้พระคลังสินค้าเท่านั้น ห้ามราษฎรขายโดยตรง ทำให้อยุธยามั่งคั่งมาก</li>
+                             </ul>` },
+                    { name: 'สังคม', icon: '👥', theme: 'from-fuchsia-600 to-purple-800', 
+                      desc: `<h4 class="text-xl font-bold text-fuchsia-300 mb-2">ระบบไพร่และทาส</h4>
+                             <p class="mb-3">เพื่อควบคุมกำลังคนในการทำสงคราม การเกษตร และเกณฑ์แรงงาน อยุธยาจึงจัดระเบียบสังคมอย่างเข้มงวด</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>ไพร่:</b> ชายไทยสามัญชนทุกคนต้องขึ้นทะเบียน (สักข้อมือ) สังกัดเจ้านาย (มูลนาย) ต้องมาเข้าเวรทำงานให้หลวง (เข้าเวร 6 เดือน พัก 6 เดือน) หรือต้องออกรบเมื่อมีสงคราม</li>
+                                <li><b>ทาส:</b> ชนชั้นต่ำสุดที่ไม่มีอิสระ มักเกิดจากการขายตัวเพราะยากจน หรือเป็นเชลยศึกจากสงคราม</li>
+                                <li>อยุธยาทำสงครามบ่อยครั้ง ทั้งการขยายอาณาเขตและป้องกันการรุกราน จนกระทั่งเสียกรุงศรีอยุธยาครั้งที่ 2 ใน พ.ศ. 2310 สิ้นสุดความเป็นราชธานี</li>
+                             </ul>` }
+                ]
+            },
+            'thonburi': {
+                title: '5. สมัยธนบุรี', desc: 'ยุคกู้ชาติ 15 ปีแห่งความกล้าหาญ', icon: '🏇', themeClass: 'from-red-700 to-orange-900',
+                tabs: [
+                    { name: 'กู้เอกราช', icon: '⚔️', theme: 'from-red-600 to-orange-800', 
+                      desc: `<h4 class="text-xl font-bold text-red-300 mb-2">การกอบกู้แผ่นดินหลังเสียกรุง</h4>
+                             <p class="mb-3">หลังจากเสียกรุงศรีอยุธยาครั้งที่ 2 อาณาจักรล่มสลายและแตกแยกเป็นชุมนุมต่างๆ</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>สมเด็จพระเจ้าตากสินมหาราช (พระยาวชิรปราการ)</b> ทรงรวบรวมกำลังพลตีฝ่าวงล้อมพม่า ไปตั้งหลักที่จันทบุรี สะสมเสบียงและต่อเรือรบ</li>
+                                <li>ยกทัพเรือกลับมายึดค่ายพม่าที่โพธิ์สามต้น และกอบกู้เอกราชได้สำเร็จภายในเวลาเพียง 7 เดือนหลังเสียกรุง</li>
+                                <li>ตลอดระยะเวลา 15 ปีของสมัยธนบุรี พระองค์ต้องทำสงครามแทบตลอดเวลาเพื่อรวบรวมแผ่นดินให้เป็นปึกแผ่นและป้องกันข้าศึกมารุกรานซ้ำ</li>
+                             </ul>` },
+                    { name: 'ราชธานี', icon: '🌊', theme: 'from-orange-600 to-amber-800', 
+                      desc: `<h4 class="text-xl font-bold text-orange-300 mb-2">การสถาปนากรุงธนบุรีศรีมหาสมุทร</h4>
+                             <p class="mb-3">พระเจ้าตากสินทรงพิจารณาว่าอยุธยาเสียหายหนักเกินกว่าจะซ่อมแซม จึงย้ายเมืองหลวงมาตั้งที่ "กรุงธนบุรี" (ฝั่งขวาของแม่น้ำเจ้าพระยา)</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>เหตุผลทางยุทธศาสตร์:</b> เมืองธนบุรีมีขนาดกะทัดรัดป้องกันง่าย และ <b>อยู่ใกล้ทะเล</b> หากสู้ข้าศึกไม่ไหวสามารถถอยร่นออกทะเลได้ทันที และยังสะดวกต่อการค้าเรือสำเภา</li>
+                                <li><b>การฟื้นฟูเศรษฐกิจ:</b> ช่วงแรกบ้านเมืองขาดแคลนอย่างหนัก ข้าวสารราคาแพงมาก พระเจ้าตากต้องสละทรัพย์ส่วนพระองค์ซื้อข้าวจากต่างชาติ (ชาวจีน) มาแจกจ่ายราษฎรเพื่อแก้ปัญหาความอดอยาก</li>
+                             </ul>` }
+                ]
+            },
+            'rattanakosin': {
+                title: '6. รัตนโกสินทร์', desc: 'การสร้างเมืองใหม่และการปรับตัวสู่ยุคปัจจุบัน', icon: '🏙️', themeClass: 'from-indigo-700 to-purple-900',
+                tabs: [
+                    { name: 'สร้างเมือง', icon: '🏛️', theme: 'from-indigo-600 to-purple-800', 
+                      desc: `<h4 class="text-xl font-bold text-indigo-300 mb-2">รัตนโกสินทร์ตอนต้น (ร.1 - ร.3)</h4>
+                             <p class="mb-3">พระบาทสมเด็จพระพุทธยอดฟ้าจุฬาโลกมหาราช (ร.1) ทรงย้ายราชธานีข้ามแม่น้ำเจ้าพระยามาฝั่งตะวันออก (กรุงเทพมหานคร) เพราะมีชัยภูมิที่ดีกว่า (แม่น้ำเป็นคูเมืองธรรมชาติ)</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li>ทรงสร้างพระบรมมหาราชวังและ <b>วัดพระศรีรัตนศาสดาราม (วัดพระแก้ว)</b> โดยจำลองแบบมาจากอยุธยาเพื่อฟื้นฟูขวัญกำลังใจราษฎร</li>
+                                <li>มีการชำระกฎหมายใหม่เรียกว่า <b>"กฎหมายตราสามดวง"</b> และมีการส่งเสริมวรรณคดีให้กลับมาเจริญรุ่งเรือง</li>
+                             </ul>` },
+                    { name: 'ยุคปฏิรูป', icon: '🚂', theme: 'from-purple-600 to-fuchsia-800', 
+                      desc: `<h4 class="text-xl font-bold text-purple-300 mb-2">การปฏิรูปประเทศ (ร.4 - ร.5)</h4>
+                             <p class="mb-3">เมื่อเผชิญภัยคุกคามจากลัทธิจักรวรรดินิยมตะวันตก สยามต้องปรับตัวขนานใหญ่เพื่อรักษาเอกราช</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li><b>ร.4:</b> ทรงจ้างครูฝรั่งมาสอนภาษาและวิทยาการสมัยใหม่ เริ่มมีการทำสนธิสัญญาเบาว์ริง (การค้าเสรี)</li>
+                                <li><b>ร.5:</b> ทรงทำการปฏิรูปครั้งยิ่งใหญ่ <b>"เลิกทาสและไพร่"</b> ให้คนไทยเป็นอิสระ สร้างทางรถไฟ โทรเลข โรงเรียน และตั้งกระทรวงทบวงกรมแบบชาติตะวันตก</li>
+                             </ul>` },
+                    { name: 'ประชาธิปไตย', icon: '🗳️', theme: 'from-fuchsia-600 to-pink-800',
+                      desc: `<h4 class="text-xl font-bold text-fuchsia-300 mb-2">สู่ระบอบประชาธิปไตย (ร.7 - ปัจจุบัน)</h4>
+                             <p class="mb-3">การเปลี่ยนแปลงทางการเมืองที่สำคัญที่สุดของไทย</p>
+                             <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                                <li>วันที่ <b>24 มิถุนายน พ.ศ. 2475</b> คณะราษฎรได้ทำการปฏิวัติเปลี่ยนแปลงการปกครอง จากสมบูรณาญาสิทธิราชย์มาเป็นระบอบประชาธิปไตยอันมีพระมหากษัตริย์ทรงเป็นประมุข</li>
+                                <li>พระราชทาน <b>"รัฐธรรมนูญ"</b> ฉบับแรก และจัดตั้งรัฐสภาเพื่อบริหารประเทศมาจนถึงปัจจุบัน</li>
+                             </ul>` }
+                ]
+            }
+        };
+
+        let modalConfirmCallback = null;
+
+        function showModal(title, desc, callback = null) {
+            const modal = document.getElementById('custom-modal');
+            const titleEl = document.getElementById('modal-title');
+            const descEl = document.getElementById('modal-desc');
+            
+            if(titleEl) titleEl.innerText = title;
+            if(descEl) descEl.innerText = desc;
+            
+            modalConfirmCallback = callback;
+            
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        document.getElementById('modal-btn')?.addEventListener('click', () => {
+            SoundEngine.playClick();
+            const modal = document.getElementById('custom-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+            if(modalConfirmCallback) modalConfirmCallback();
+        });
+
+        function navTo(screenId) {
+            SoundEngine.playClick();
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) targetScreen.classList.add('active');
+            
+            const topBar = document.getElementById('top-bar');
+            if (topBar) {
+                if(screenId === 'screen-welcome' || screenId === 'screen-certificate' || screenId === 'screen-leaderboard' || screenId === 'screen-hall-of-fame') {
+                    topBar.classList.add('hidden');
+                    topBar.classList.remove('flex');
+                } else {
+                    topBar.classList.remove('hidden');
+                    topBar.classList.add('flex');
+                    updateTopBar();
+                }
+            }
+
+            if (screenId === 'screen-main-categories') updateHubProgress();
+            if (screenId === 'screen-mission-hub') updateMissionHubStatus();
+            window.scrollTo(0, 0);
+        }
+
+        function updateTopBar() {
+            const avatarMini = document.getElementById('player-avatar-mini');
+            if(avatarMini) avatarMini.innerText = AppState.avatar;
+            
+            const nameDisplay = document.getElementById('player-name-display');
+            if(nameDisplay) nameDisplay.innerText = AppState.playerName || 'นักสำรวจ';
+            
+            const globalScore = document.getElementById('global-score');
+            if(globalScore) globalScore.innerText = AppState.scores.total;
+            
+            let completedCount = stageSequence.filter(stage => AppState.progress[stage]).length;
+            const progressText = document.getElementById('progress-text');
+            if(progressText) progressText.innerText = `${completedCount}/6 ยุค`;
+
+            if(completedCount === 6 && !AppState.unlockedMission) {
+                AppState.unlockedMission = true;
+                showModal("🎯 ภารกิจลับปลดล็อกแล้ว!", "ยอดเยี่ยมมาก!\nคุณได้สำรวจครบทั้ง 6 ยุคประวัติศาสตร์\n\n'ศูนย์บัญชาการภารกิจ' เปิดให้คุณเข้าทดสอบความสามารถแล้วผ่านปุ่มด้านบนครับ!");
+            }
+            if(AppState.unlockedMission) {
+                const btnMission = document.getElementById('btn-nav-mission');
+                if (btnMission) {
+                    btnMission.classList.remove('hidden');
+                    btnMission.classList.add('block');
+                }
+            }
+        }
+
+        function updateHubProgress() {
+            let preCount = Categories.prehistoric.stages.filter(s => AppState.progress[s]).length;
+            const progPre = document.getElementById('progress-prehistoric');
+            if (progPre) progPre.innerText = `${preCount}/2`;
+            
+            let histCount = Categories.historic.stages.filter(s => AppState.progress[s]).length;
+            const progHist = document.getElementById('progress-historic');
+            if (progHist) progHist.innerText = `${histCount}/4`;
+
+            const historicCard = document.getElementById('card-historic');
+            if (historicCard) {
+                if (AppState.progress['metal']) {
+                    historicCard.classList.remove('opacity-60', 'grayscale');
+                } else {
+                    historicCard.classList.add('opacity-60', 'grayscale');
+                }
+            }
+        }
+
+        document.querySelectorAll('.avatar-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                await SoundEngine.init();
+                SoundEngine.playClick();
+                document.querySelectorAll('.avatar-btn').forEach(b => {
+                    if (b) {
+                        b.classList.remove('border-amber-400', 'bg-amber-900/40', 'scale-105', 'glow-effect');
+                        b.classList.add('border-slate-700', 'bg-slate-800/80');
+                    }
+                });
+                const targetBtn = e.currentTarget;
+                if (targetBtn) {
+                    targetBtn.classList.remove('border-slate-700', 'bg-slate-800/80');
+                    targetBtn.classList.add('border-amber-400', 'bg-amber-900/40', 'scale-105', 'glow-effect');
+                    AppState.avatar = targetBtn.dataset.avatar;
+                }
+            });
+        });
+
+        async function startGame() {
+            await SoundEngine.init();
+            const name = document.getElementById('input-name').value.trim();
+            if(!name) { 
+                SoundEngine.playError();
+                showModal('เดี๋ยวก่อน!', 'กรุณาระบุชื่อรหัสของคุณก่อนเริ่มเดินทางนะ 🚀'); 
+                return; 
+            }
+            SoundEngine.playWarp();
+            AppState.playerName = name;
+            
+            stageSequence.forEach(stage => {
+                AppState.tabProgress[stage] = Array(LessonData[stage].tabs.length).fill(false);
+            });
+
+            showModal('ยินดีต้อนรับนักเดินทาง!', `พร้อมนะ ${AppState.avatar} ${name}\nเราจะเริ่มข้ามเวลาไปสู่ "ยุคหิน" กันก่อน!\n\n(คุณต้องอ่านให้ครบเวลาที่กำหนด จึงจะปลดล็อกด่านต่อไปได้)`, () => navTo('screen-main-categories'));
+        }
+
+        function openSubCategory(catId) {
+            if(catId === 'historic' && !AppState.progress['metal']) {
+                SoundEngine.playError();
+                showModal('มิติเวลานี้ถูกล็อคอยู่! 🔒', 'คุณต้องเรียนรู้หมวด "ก่อนประวัติศาสตร์" ให้จบถึง "ยุคโลหะ" ก่อน จึงจะข้ามมาที่ประวัติศาสตร์ไทยได้ครับ');
+                return;
+            }
+            
+            const catData = Categories[catId];
+            document.getElementById('sub-category-title').innerText = catData.title;
+            const grid = document.getElementById('sub-category-grid');
+            grid.innerHTML = ''; 
+
+            catData.stages.forEach((stage) => {
+                const data = LessonData[stage];
+                const stageIndexOverall = stageSequence.indexOf(stage);
+                const isUnlocked = stageIndexOverall === 0 || AppState.progress[stageSequence[stageIndexOverall - 1]];
+                const isCompleted = AppState.progress[stage];
+
+                let opacityClass = isUnlocked ? 'opacity-100' : 'opacity-50 grayscale';
+                let statusHtml = '';
+                
+                if (isCompleted) {
+                    statusHtml = `<span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-lg text-sm font-bold border border-green-500/30">✔️ ผ่านแล้ว</span>
+                                  <button class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-bold btn-game">ทบทวน ➔</button>`;
+                } else if (isUnlocked) {
+                    statusHtml = `<span class="bg-amber-500/20 text-amber-400 px-3 py-1 rounded-lg text-sm font-bold border border-amber-500/30 animate-pulse">⭐ พร้อมเรียน</span>
+                                  <button class="bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-[0_0_15px_rgba(245,158,11,0.5)] btn-game">เข้าเรียน ➔</button>`;
+                } else {
+                    statusHtml = `<span class="bg-slate-800 text-slate-500 px-3 py-1 rounded-lg text-sm font-bold border border-slate-700 w-full text-center"><i class="fa-solid fa-lock mr-2"></i> ต้องผ่านยุคก่อนหน้า</span>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = `bg-gradient-to-br ${data.themeClass} p-6 rounded-3xl border-2 border-white/10 relative overflow-hidden group flex flex-col h-full ${opacityClass} transition-all duration-300 shadow-xl`;
+                
+                if(isUnlocked) {
+                    card.classList.add('cursor-pointer', 'hover:border-white/40', 'hover:-translate-y-2');
+                    card.onclick = () => openLesson(stage);
+                }
+
+                card.innerHTML = `
+                    <div class="absolute -right-6 -bottom-6 text-9xl opacity-10 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 pointer-events-none">${data.icon}</div>
+                    <div class="text-5xl mb-4 bg-black/20 inline-block p-4 rounded-2xl border border-white/10 shadow-inner">${data.icon}</div>
+                    <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-md">${data.title}</h3>
+                    <p class="text-slate-200 mb-6 text-sm flex-grow leading-relaxed">${data.desc}</p>
+                    <div class="flex justify-between items-center mt-auto bg-black/40 p-4 rounded-xl backdrop-blur-sm border border-white/5">${statusHtml}</div>
+                `;
+                grid.appendChild(card);
+            });
+            navTo('screen-sub-categories');
+        }
+
+        let studyInterval;
+        let currentTabTime = 0;
+        let activeTabIndex = 0;
+
+        function openLesson(lessonKey) {
+            AppState.currentLessonId = lessonKey;
+            const data = LessonData[lessonKey];
+            document.getElementById('lesson-title').innerText = data.title;
+            document.getElementById('lesson-icon-large').innerText = data.icon;
+            
+            const tabsContainer = document.getElementById('lesson-tabs');
+            tabsContainer.innerHTML = '';
+            
+            data.tabs.forEach((tab, index) => {
+                const btn = document.createElement('button');
+                btn.id = `tab-btn-${index}`;
+                btn.className = `px-4 py-3 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative`;
+                
+                const isUnlocked = index === 0 || AppState.tabProgress[lessonKey][index - 1] || AppState.tabProgress[lessonKey][index];
+                
+                btn.innerHTML = `<span>${tab.icon} ${tab.name}</span> 
+                                 <span id="tab-mark-${index}" class="absolute top-1 right-2 text-green-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
+                                 <span id="tab-lock-${index}" class="absolute top-1 right-2 text-slate-500 ${isUnlocked ? 'hidden' : ''}"><i class="fa-solid fa-lock text-xs"></i></span>`;
+                
+                btn.onclick = () => {
+                    const currentUnlocked = index === 0 || AppState.tabProgress[lessonKey][index - 1] || AppState.tabProgress[lessonKey][index];
+                    if (currentUnlocked) {
+                        SoundEngine.playClick();
+                        renderLessonTab(lessonKey, index);
+                    } else {
+                        SoundEngine.playError();
+                        showModal("ล็อคอยู่ 🔒", "ต้องศึกษาหัวข้อก่อนหน้าให้ครบเวลาก่อน ถึงจะปลดล็อคหัวข้อนี้ได้ครับ");
+                    }
+                };
+                tabsContainer.appendChild(btn);
+            });
+            
+            renderLessonTab(lessonKey, 0);
+            navTo('screen-lesson');
+        }
+
+        function renderLessonTab(lessonKey, tabIndex) {
+            activeTabIndex = tabIndex;
+            const data = LessonData[lessonKey];
+            const tabData = data.tabs[tabIndex];
+            
+            data.tabs.forEach((_, idx) => {
+                const btn = document.getElementById(`tab-btn-${idx}`);
+                if (btn) {
+                    const isUnlocked = idx === 0 || AppState.tabProgress[lessonKey][idx - 1] || AppState.tabProgress[lessonKey][idx];
+
+                    if(idx === tabIndex) {
+                        btn.className = 'px-4 py-4 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative bg-slate-700 text-white shadow-inner';
+                    } else if (isUnlocked) {
+                        btn.className = 'px-4 py-4 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white cursor-pointer';
+                    } else {
+                        btn.className = 'px-4 py-4 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative bg-slate-900 text-slate-600 cursor-not-allowed opacity-50';
+                    }
+                    
+                    if(AppState.tabProgress[lessonKey][idx]) {
+                        const mark = document.getElementById(`tab-mark-${idx}`);
+                        if(mark) mark.classList.remove('hidden');
+                    }
+                }
+            });
+
+            const graphicContainer = document.getElementById('lesson-graphic');
+            graphicContainer.className = `h-48 md:h-56 w-full relative flex items-center justify-center overflow-hidden transition-all duration-500 bg-gradient-to-br ${tabData.theme}`;
+            document.getElementById('lesson-icon-small').innerText = tabData.icon;
+            document.getElementById('lesson-tab-title').innerText = tabData.name;
+            document.getElementById('lesson-content').innerHTML = tabData.desc;
+            document.getElementById('tab-name-display').innerText = tabData.name;
+
+            startTabTimer(lessonKey, tabIndex);
+        }
+
+        function startTabTimer(lessonKey, tabIndex) {
+            clearInterval(studyInterval);
+            const total = AppState.studyTimeRequired;
+            const bar = document.getElementById('study-progress');
+            const text = document.getElementById('study-timer-text');
+            
+            checkAllTabsCompleted(lessonKey); 
+            
+            if(AppState.tabProgress[lessonKey][tabIndex]) {
+                bar.style.width = '100%';
+                text.innerHTML = "<span class='text-green-400'>ศึกษาหัวข้อนี้ครบถ้วนแล้ว ✔️</span>";
+                return;
+            }
+
+            currentTabTime = 0;
+            bar.style.width = '0%';
+            text.innerText = `เหลือ ${total} วินาที`;
+
+            studyInterval = setInterval(() => {
+                currentTabTime++;
+                let pct = (currentTabTime / total) * 100;
+                bar.style.width = `${pct}%`;
+                text.innerText = `เหลือ ${total - currentTabTime} วินาที`;
+
+                if(currentTabTime >= total) {
+                    clearInterval(studyInterval);
+                    SoundEngine.playSuccess();
+                    AppState.tabProgress[lessonKey][tabIndex] = true;
+                    const mark = document.getElementById(`tab-mark-${tabIndex}`);
+                    if (mark) mark.classList.remove('hidden');
+                    
+                    text.innerHTML = "<span class='text-green-400'>ศึกษาหัวข้อนี้ครบถ้วนแล้ว ✔️</span>";
+                    
+                    const nextIdx = tabIndex + 1;
+                    if(nextIdx < LessonData[lessonKey].tabs.length) {
+                        const nextBtn = document.getElementById(`tab-btn-${nextIdx}`);
+                        if (nextBtn) nextBtn.className = 'px-4 py-4 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative bg-slate-900 text-amber-400 hover:bg-slate-800 hover:text-white cursor-pointer animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.3)_inset]';
+                        const nextLock = document.getElementById(`tab-lock-${nextIdx}`);
+                        if(nextLock) nextLock.classList.add('hidden');
+                    }
+
+                    checkAllTabsCompleted(lessonKey);
+                }
+            }, 1000);
+        }
+
+        function checkAllTabsCompleted(lessonKey) {
+            const allDone = AppState.tabProgress[lessonKey].every(status => status === true);
+            const btn = document.getElementById('btn-complete-lesson');
+            
+            if(!btn) return;
+            
+            if(allDone) {
+                btn.disabled = false;
+                btn.className = "w-full max-w-md bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-black py-4 px-8 rounded-xl text-xl shadow-[0_0_20px_rgba(245,158,11,0.5)] transition btn-game uppercase tracking-widest";
+                btn.innerHTML = `ผ่านด่านยุคนี้! <i class="fa-solid fa-forward-step ml-2"></i>`;
+            } else {
+                btn.disabled = true;
+                btn.className = "w-full max-w-md bg-slate-800 text-slate-500 font-bold py-4 px-8 rounded-xl text-lg border border-slate-700 opacity-80 cursor-not-allowed transition";
+                btn.innerHTML = `กำลังดูดซับความรู้ (รอเวลาหลอดเต็ม) <i class="fa-solid fa-hourglass-half ml-2 animate-spin"></i>`;
+            }
+        }
+
+        function checkExitLesson() {
+            SoundEngine.playClick();
+            clearInterval(studyInterval);
+            let catId = ['sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'].includes(AppState.currentLessonId) ? 'historic' : 'prehistoric';
+            openSubCategory(catId);
+        }
+
+        function markLessonComplete() {
+            SoundEngine.playWarp();
+            clearInterval(studyInterval);
+            const current = AppState.currentLessonId;
+            AppState.progress[current] = true;
+            updateTopBar();
+            
+            if (current === 'metal') {
+                showModal('ภารกิจสำเร็จ! 🎉', 'เยี่ยมมาก!\nคุณเคลียร์หมวด "ก่อนประวัติศาสตร์" จบแล้ว\n\nระบบจะปลดล็อกและพาคุณเข้าสู่ยุค "ประวัติศาสตร์ไทย" ทันที!', () => {
+                    openSubCategory('historic');
+                });
+            } else if (current === 'rattanakosin' && AppState.unlockedMission) {
+                navTo('screen-main-categories');
+            } else {
+                let catId = ['sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'].includes(current) ? 'historic' : 'prehistoric';
+                openSubCategory(catId);
+            }
+        }
+
+        function updateMissionHubStatus() {
+            if(AppState.playedGames.runner) {
+                let el = document.getElementById('status-runner');
+                el.className = "mb-4 text-sm font-bold text-white bg-blue-600 px-4 py-2 rounded-xl";
+                el.innerText = `✅ เล่นแล้ว (คะแนนสูงสุด: ${AppState.scores.runner})`;
+            }
+            if(AppState.playedGames.match) {
+                let el = document.getElementById('status-match');
+                el.className = "mb-4 text-sm font-bold text-white bg-green-600 px-4 py-2 rounded-xl";
+                el.innerText = `✅ เล่นแล้ว (คะแนนสูงสุด: ${AppState.scores.match})`;
+            }
+            if(AppState.playedGames.timeline) {
+                let el = document.getElementById('status-timeline');
+                el.className = "mb-4 text-sm font-bold text-white bg-amber-600 px-4 py-2 rounded-xl";
+                el.innerText = `✅ เล่นแล้ว (คะแนนสูงสุด: ${AppState.scores.timeline})`;
+            }
+            if(AppState.playedGames.quiz) {
+                let el = document.getElementById('status-quiz');
+                el.className = "mb-4 text-sm font-bold text-white bg-purple-600 px-4 py-2 rounded-xl";
+                el.innerText = `✅ ทดสอบแล้ว (คะแนนสูงสุด: ${AppState.scores.quiz})`;
+            }
+        }
+
+        // --- GAME 1: RUNNER ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let rGameId, rActive = false, rState = {};
+        let rObstacles = [], rItems = [];
+        const RUN_MAX_DIST = 5000;
+        
+        const qBankRunnerFull = [
+            { q: "ใครเป็นผู้ประดิษฐ์ 'ลายสือไทย'?", a: "พ่อขุนรามคำแหง", b: "ร.1", ans: 0 },
+            { q: "โลหะสำริด เกิดจากการผสมแร่ใดเข้าด้วยกัน?", a: "เหล็ก+เงิน", b: "ทองแดง+ดีบุก", ans: 1 },
+            { q: "สมัยสุโขทัยเก็บภาษีผ่านด่าน (จกอบ) หรือไม่?", a: "ไม่เก็บ (การค้าเสรี)", b: "เก็บหนักมาก", ans: 0 },
+            { q: "ร.5 ทรงประกาศยกเลิกสิ่งใดที่สำคัญมาก?", a: "ระบบทาส", b: "พระคลังสินค้า", ans: 0 },
+            { q: "อยุธยาปกครองแบบใด (กษัตริย์เป็นดั่งเทพ)?", a: "พ่อปกครองลูก", b: "เทวราชา", ans: 1 },
+            { q: "เครื่องปั้นดินเผาส่งออกยุคสุโขทัยเรียกว่า?", a: "เครื่องสังคโลก", b: "กลองมโหระทึก", ans: 0 },
+            { q: "ยุคใดที่มนุษย์เริ่มตั้งถิ่นฐาน เลิกเร่ร่อน?", a: "ยุคหินเก่า", b: "ยุคหินใหม่", ans: 1 },
+            { q: "สมัยธนบุรี ใครเป็นผู้กอบกู้เอกราช?", a: "พระนเรศวร", b: "พระเจ้าตากสิน", ans: 1 }
+        ];
+        let rQuestions = [], currentGQ = null;
+
+        function initRunnerGame() {
+            SoundEngine.playClick();
+            navTo('screen-game');
+            document.getElementById('game-overlay').classList.replace('flex', 'hidden');
+            document.getElementById('game-quiz-overlay').classList.replace('flex', 'hidden');
+            
+            rQuestions = [...qBankRunnerFull].sort(()=>0.5-Math.random()); 
+            rState = { y: 200, dy: 0, w: 40, h: 40, grounded: true, score: 0, lives: 3, speed: 6, dist: 0 };
+            rObstacles = []; rItems = []; rActive = true;
+            
+            updateRUI();
+            if(rGameId) cancelAnimationFrame(rGameId);
+            rLoop();
+        }
+
+        function rJump() { if (rState.grounded && rActive) { SoundEngine.playClick(); rState.dy = -13.5; rState.grounded = false; } }
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space' && rActive && document.getElementById('screen-game').classList.contains('active')) { e.preventDefault(); rJump(); } });
+        canvas.addEventListener('touchstart', (e) => { if(rActive){ e.preventDefault(); rJump(); } }, {passive: false});
+        canvas.addEventListener('mousedown', () => { if(rActive) rJump(); });
+
+        function rLoop() {
+            if(!rActive) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const gy = 240;
+            
+            ctx.fillStyle = '#1e1b4b'; ctx.fillRect(0, gy, canvas.width, canvas.height - gy);
+            ctx.fillStyle = '#3730a3'; ctx.fillRect(0, gy, canvas.width, 10);
+            
+            rState.dist += rState.speed;
+            document.getElementById('runner-progress').style.width = `${Math.min(100, (rState.dist/RUN_MAX_DIST)*100)}%`;
+
+            rState.dy += 0.7;
+            rState.y += rState.dy;
+            if (rState.y + rState.h >= gy) { rState.y = gy - rState.h; rState.dy = 0; rState.grounded = true; }
+            
+            ctx.font = "40px Arial"; ctx.fillText(AppState.avatar, 50, rState.y + 35);
+
+            if (rState.dist > RUN_MAX_DIST) {
+                let fx = canvas.width - (rState.dist - RUN_MAX_DIST);
+                ctx.fillText("🏁", fx, gy - 10);
+                if (fx < 50) { endRunner(true); return; }
+            } else {
+                if (Math.random() < 0.012) rObstacles.push({ x: canvas.width, y: gy - 30, w: 30, h: 30, passed: false });
+                else if (Math.random() < 0.005) rItems.push({ type: 'box', x: canvas.width, y: gy - 100, w: 40, h: 40 });
+                else if (Math.random() < 0.001) rItems.push({ type: 'heart', x: canvas.width, y: gy - 80, w: 30, h: 30 });
+            }
+
+            for (let i = rObstacles.length - 1; i >= 0; i--) {
+                let o = rObstacles[i]; o.x -= rState.speed;
+                ctx.fillText("🪨", o.x, o.y + 25);
+                
+                if (50 < o.x + o.w - 10 && 50 + rState.w - 10 > o.x && rState.y < o.y + o.h && rState.y + rState.h > o.y) {
+                    SoundEngine.playError();
+                    rState.lives--; 
+                    rObstacles.splice(i, 1); 
+                    updateRUI();
+                    ctx.fillStyle = 'rgba(239,68,68,0.5)'; ctx.fillRect(0,0,canvas.width, canvas.height);
+                    if (rState.lives <= 0) { endRunner(false); return; }
+                }
+                if (o.x + o.w < 50 && !o.passed) { rState.score += 10; o.passed = true; updateRUI(); }
+                if (o.x + o.w < 0) rObstacles.splice(i, 1);
+            }
+
+            for (let i = rItems.length - 1; i >= 0; i--) {
+                let it = rItems[i]; it.x -= rState.speed;
+                ctx.fillText(it.type === 'box' ? "🎁" : "💖", it.x, it.y + 35);
+                
+                if (50 < it.x + it.w && 50 + rState.w > it.x && rState.y < it.y + it.h && rState.y + rState.h > it.y) {
+                    if (it.type === 'box') {
+                        rItems.splice(i, 1);
+                        rActive = false;
+                        if(rQuestions.length === 0) rQuestions = [...qBankRunnerFull].sort(()=>0.5-Math.random());
+                        currentGQ = rQuestions.pop();
+                        
+                        document.getElementById('game-quiz-text').innerText = currentGQ.q;
+                        document.getElementById('gq-btn-0').innerText = currentGQ.a;
+                        document.getElementById('gq-btn-1').innerText = currentGQ.b;
+                        document.getElementById('game-quiz-overlay').classList.replace('hidden', 'flex');
+                        SoundEngine.playWarp();
+                        return;
+                    } else if (it.type === 'heart') {
+                        SoundEngine.playSuccess();
+                        rState.lives++; rState.score += 20; rItems.splice(i, 1); updateRUI();
+                    }
+                }
+                if (it.x + it.w < 0) rItems.splice(i, 1);
+            }
+            rGameId = requestAnimationFrame(rLoop);
+        }
+
+        function answerGameQuiz(choice) {
+            document.getElementById('game-quiz-overlay').classList.replace('flex', 'hidden');
+            if(choice === currentGQ.ans) {
+                rState.score += 100;
+                SoundEngine.playSuccess();
+                showModal("ถูกต้อง! 🎉", "ยอดเยี่ยม ได้โบนัส +100 แต้ม", resumeRunner);
+            } else {
+                rState.lives--;
+                SoundEngine.playError();
+                showModal("ผิดจ้า! ❌", "โดนหักพลังชีวิต 1 ดวงนะ", () => {
+                    if(rState.lives <= 0) endRunner(false); else resumeRunner();
+                });
+            }
+            updateRUI();
+        }
+
+        function resumeRunner() {
+            rObstacles = rObstacles.filter(o => o.x > 350); 
+            rActive = true; 
+            rLoop();
+        }
+
+        function updateRUI() {
+            document.getElementById('runner-score').innerText = rState.score;
+            document.getElementById('runner-lives').innerText = rState.lives;
+        }
+
+        function endRunner(isWin) {
+            rActive = false; cancelAnimationFrame(rGameId);
+            AppState.playedGames.runner = true;
+            let finalScore = rState.score + (isWin ? 500 : 0);
+            AppState.scores.runner = Math.max(AppState.scores.runner, finalScore);
+            
+            if(isWin) SoundEngine.playSuccess(); else SoundEngine.playError();
+
+            document.getElementById('overlay-title').innerText = isWin ? "เข้าเส้นชัยสำเร็จ! 🏆" : "เกมโอเวอร์! 💥";
+            document.getElementById('overlay-desc').innerText = `คุณทำคะแนนรอบนี้ได้: ${rState.score} แต้ม\n${isWin? 'โบนัสเข้าเส้นชัย: +500 แต้ม\n\n':''}= สรุปรอบนี้: ${finalScore} แต้ม\n(คะแนนสูงสุดด่านนี้: ${AppState.scores.runner})`;
+            document.getElementById('game-overlay').classList.replace('hidden', 'flex');
+        }
+        function endGameEarly() { rActive = false; cancelAnimationFrame(rGameId); navTo('screen-mission-hub'); }
+
+        // --- GAME 2: MEMORY MATCH ---
+        const memoryDataFull = [
+            { id: '1', text: 'เครื่องมือหินกะเทาะหยาบๆ\nใช้ชีวิตเร่ร่อน', pair: 'ยุคหินเก่า' },
+            { id: '2', text: 'เครื่องมือหินขัด (ขวานฟ้า)\nเริ่มปลูกข้าว', pair: 'ยุคหินใหม่' },
+            { id: '3', text: 'กลองมโหระทึก\nผสมทองแดง+ดีบุก', pair: 'ยุคสำริด' },
+            { id: '4', text: 'กระดิ่งร้องทุกข์\nพ่อปกครองลูก', pair: 'สมัยสุโขทัย' },
+            { id: '5', text: 'พระคลังสินค้า\nสมบูรณาญาสิทธิราชย์', pair: 'สมัยอยุธยา' },
+            { id: '6', text: 'เสียกรุงครั้งที่ 2\nกอบกู้ใน 15 ปี', pair: 'สมัยธนบุรี' },
+            { id: '7', text: 'เลิกทาส\nเปลี่ยนแปลงการปกครอง', pair: 'สมัยรัตนโกสินทร์' }
+        ];
+        let memCards = [], flippedCards = [], memLives = 5, memScore = 0, memMatched = 0;
+        let isFlipping = false, currentMatchTotal = 6;
+
+        function initMemoryGame() {
+            SoundEngine.playClick();
+            navTo('screen-match-game');
+            memLives = 5; memScore = 0; memMatched = 0; flippedCards = []; isFlipping = false;
+            document.getElementById('mem-lives').innerText = memLives;
+            
+            let selectedPairs = [...memoryDataFull].sort(()=>0.5-Math.random()).slice(0, 6);
+            currentMatchTotal = 6;
+
+            let deck = [];
+            selectedPairs.forEach(item => {
+                deck.push({ type: 'item', text: item.text, matchId: item.id, bg: 'from-amber-600 to-orange-800' });
+                deck.push({ type: 'era', text: item.pair, matchId: item.id, bg: 'from-orange-600 to-yellow-800' });
+            });
+            deck.sort(() => 0.5 - Math.random());
+
+            const board = document.getElementById('memory-board');
+            board.innerHTML = '';
+
+            deck.forEach((cardData, idx) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card-container';
+                cardEl.innerHTML = `
+                    <div class="memory-card" data-id="${cardData.matchId}" id="mcard-${idx}">
+                        <div class="card-front"></div>
+                        <div class="card-back bg-gradient-to-br ${cardData.bg} text-sm font-bold text-white leading-relaxed border-2 border-amber-400/40 shadow-lg">
+                            ${cardData.text}
+                        </div>
+                    </div>
+                `;
+                cardEl.onclick = () => handleCardFlip(cardEl.querySelector('.memory-card'));
+                board.appendChild(cardEl);
+            });
+        }
+
+        function handleCardFlip(card) {
+            if(isFlipping || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+            SoundEngine.playClick();
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if(flippedCards.length === 2) {
+                isFlipping = true;
+                const match1 = flippedCards[0].dataset.id;
+                const match2 = flippedCards[1].dataset.id;
+
+                if(match1 === match2) {
+                    SoundEngine.playSuccess();
+                    setTimeout(() => {
+                        flippedCards[0]?.classList.add('matched');
+                        flippedCards[1]?.classList.add('matched');
+                        memScore += 300; memMatched++;
+                        flippedCards = []; isFlipping = false;
+                        checkMemoryWin();
+                    }, 600);
+                } else {
+                    SoundEngine.playError();
+                    setTimeout(() => {
+                        flippedCards[0]?.classList.add('wrong');
+                        flippedCards[1]?.classList.add('wrong');
+                    }, 500);
+                    
+                    setTimeout(() => {
+                        flippedCards[0]?.classList.remove('flipped', 'wrong');
+                        flippedCards[1]?.classList.remove('flipped', 'wrong');
+                        flippedCards = []; isFlipping = false;
+                        memLives--; 
+                        document.getElementById('mem-lives').innerText = memLives;
+                        if(memLives <= 0) {
+                            showModal('เกมโอเวอร์ 💔', 'พลังชีวิตหมดแล้ว ลองใหม่นะ!', () => navTo('screen-mission-hub'));
+                        }
+                    }, 1200);
+                }
+            }
+        }
+
+        function checkMemoryWin() {
+            if(memMatched === currentMatchTotal) {
+                AppState.playedGames.match = true;
+                let finalMemScore = memScore + (memLives * 100);
+                AppState.scores.match = Math.max(AppState.scores.match, finalMemScore); 
+                showModal('ความจำยอดเยี่ยม! 🧠', `จับคู่ครบทั้งหมดแล้ว!\n\nคะแนน: ${memScore}\nโบนัสหัวใจเหลือ (${memLives}x100): +${memLives*100}\n= สรุปรอบนี้: ${finalMemScore} แต้ม!`, () => navTo('screen-mission-hub'));
+            }
+        }
+        function endMemoryGame() { navTo('screen-mission-hub'); }
+
+        // --- GAME 3: TIMELINE SORT ---
+        const timelineEventsFull = [
+            { t: 'ยุคหินใหม่ (เริ่มตั้งถิ่นฐาน ปลูกข้าว)', order: 1 }, 
+            { t: 'ยุคสำริด (หลอมกลองมโหระทึก)', order: 2 },
+            { t: 'ยุคเหล็ก (ใช้เหล็กทำจอบเสียม เกิดเมือง)', order: 3 },
+            { t: 'สมัยสุโขทัย (ประดิษฐ์ลายสือไทย)', order: 4 }, 
+            { t: 'สมัยอยุธยา (ศูนย์กลางการค้า 417 ปี)', order: 5 },
+            { t: 'สมัยธนบุรี (ย้ายเมืองหลวงติดทะเลกู้ชาติ)', order: 6 }, 
+            { t: 'สมัยรัตนโกสินทร์ (เลิกทาสและเปลี่ยนการปกครอง)', order: 7 }
+        ];
+        let tExpectedOrder = 1, tLives = 3, tScore = 0;
+        
+        function initTimelineGame() {
+            SoundEngine.playClick();
+            navTo('screen-timeline-game');
+            tExpectedOrder = 1; tLives = 3; tScore = 0;
+            document.getElementById('time-lives').innerText = tLives;
+            document.getElementById('timeline-slots').innerHTML = '';
+            
+            let options = [...timelineEventsFull].sort(()=>0.5-Math.random());
+            const optContainer = document.getElementById('timeline-options');
+            optContainer.innerHTML = '';
+            
+            options.forEach(opt => {
+                let btn = document.createElement('button');
+                btn.className = "bg-slate-800 hover:bg-slate-700 text-white font-bold p-5 rounded-xl border-2 border-slate-600 transition-all shadow-lg text-sm md:text-base hover:border-amber-500";
+                btn.innerText = opt.t;
+                btn.onclick = () => handleTimelineClick(btn, opt);
+                optContainer.appendChild(btn);
+            });
+        }
+
+        function handleTimelineClick(btn, opt) {
+            if(opt.order === tExpectedOrder) {
+                SoundEngine.playSuccess();
+                btn.remove();
+                let slot = document.createElement('div');
+                slot.className = "bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold p-4 rounded-xl shadow-lg border border-amber-300 text-sm md:text-base transform transition-all animate-fadeInScale";
+                slot.innerText = `ลำดับที่ ${tExpectedOrder} ➔ ${opt.t}`;
+                document.getElementById('timeline-slots').appendChild(slot);
+                
+                tScore += 200; tExpectedOrder++;
+                if(tExpectedOrder > timelineEventsFull.length) {
+                    AppState.playedGames.timeline = true;
+                    let finalTScore = tScore + (tLives * 200);
+                    AppState.scores.timeline = Math.max(AppState.scores.timeline, finalTScore); 
+                    showModal('นักเรียงลำดับเวลาตัวท็อป! ⏳', `ถูกต้องเป๊ะ สมบูรณ์แบบ!\n\nคะแนน: ${tScore}\nโบนัสหัวใจ: +${tLives*200}\n= สรุปรอบนี้: ${finalTScore} แต้ม!`, () => navTo('screen-mission-hub'));
+                }
+            } else {
+                SoundEngine.playError();
+                tLives--; document.getElementById('time-lives').innerText = tLives;
+                btn.classList.add('bg-red-600', 'border-red-500', 'animate-shake');
+                setTimeout(() => btn.classList.remove('bg-red-600', 'border-red-500', 'animate-shake'), 500);
+                if(tLives <= 0) showModal('เกมโอเวอร์ 💔', 'พลังชีวิตหมดแล้ว ลองใหม่นะ!', () => navTo('screen-mission-hub'));
+            }
+        }
+        function endTimelineGame() { navTo('screen-mission-hub'); }
+
+        // --- FINAL QUIZ ---
+        const quizBankFull = [
+            { q: "เหตุการณ์ในยุคหินใหม่ (Neolithic) ที่ถือว่าเป็นการปฏิวัติวิถีชีวิตคืออะไร?", options: ["การรู้จักใช้ไฟ", "การรู้จักทำเกษตรกรรมและตั้งถิ่นฐาน", "การหลอมเหล็ก", "การวาดภาพผนังถ้ำ"], a: 1, exp: "ในยุคหินใหม่มนุษย์เลิกเร่ร่อน หันมาตั้งหมู่บ้าน ปลูกข้าว และเลี้ยงสัตว์" },
+            { q: "กลองมโหระทึก เป็นหลักฐานทางโบราณคดีที่สำคัญในยุคใด?", options: ["ยุคหินเก่า", "ยุคหินใหม่", "ยุคสำริด", "ยุคเหล็ก"], a: 2, exp: "ทำจากโลหะสำริด (ทองแดง+ดีบุก) เชื่อว่าใช้ตีในพิธีกรรมขอฝน" },
+            { q: "การปกครองแบบใดที่ใช้ในสมัยสุโขทัยตอนต้น ทำให้กษัตริย์ใกล้ชิดประชาชน?", options: ["สมบูรณาญาสิทธิราชย์", "ประชาธิปไตย", "พ่อปกครองลูก (ปิตุลาธิปไตย)", "ระบบจตุสดมภ์"], a: 2, exp: "เปรียบกษัตริย์เหมือนพ่อ ราษฎรเหมือนลูก มีกระดิ่งให้สั่นร้องทุกข์" },
+            { q: "อาณาจักรอยุธยามีหน่วยงานใดทำหน้าที่ผูกขาดและควบคุมการค้ากับต่างชาติ?", options: ["พระคลังสินค้า", "กรมวัง", "กรมนา", "กระดิ่งร้องทุกข์"], a: 0, exp: "พระคลังสินค้าดูแลการซื้อขายสินค้าสำคัญกับพ่อค้าชาวต่างชาติ" },
+            { q: "เหตุผลสำคัญทางยุทธศาสตร์ ที่พระเจ้าตากสินทรงย้ายเมืองหลวงมาที่กรุงธนบุรีคือข้อใด?", options: ["มีทองคำเยอะ", "อยู่ใกล้ทะเล ป้องกันข้าศึกและค้าขายง่าย", "เพื่อหลีกเลี่ยงน้ำท่วม", "มีทางรถไฟเชื่อมต่อ"], a: 1, exp: "กรุงธนบุรีอยู่ติดแม่น้ำและใกล้ทะเล ทำให้ถอยร่นง่ายและรับเรือสินค้าสะดวก" },
+            { q: "การ 'เลิกทาส' เป็นผลงานการปฏิรูปประเทศที่สำคัญในรัชสมัยใด?", options: ["รัชกาลที่ 1", "รัชกาลที่ 3", "รัชกาลที่ 5", "รัชกาลที่ 7"], a: 2, exp: "ร.5 ทรงประกาศเลิกทาสเพื่อให้คนไทยมีอิสระและพัฒนาประเทศให้ทันสมัย" },
+            { q: "ระบบการจัดระเบียบราชการ 'จตุสดมภ์' (เวียง วัง คลัง นา) เริ่มเด่นชัดในสมัยใด?", options: ["ยุคโลหะ", "สมัยสุโขทัย", "สมัยอยุธยา", "สมัยรัตนโกสินทร์"], a: 2, exp: "อยุธยารับอิทธิพลมาเพื่อจัดระเบียบการปกครองส่วนกลางให้เข้มแข็ง" },
+            { q: "การเปลี่ยนแปลงการปกครองมาเป็นระบอบประชาธิปไตย เกิดขึ้นในพ.ศ. ใด?", options: ["พ.ศ. 2310", "พ.ศ. 2475", "พ.ศ. 2500", "พ.ศ. 2540"], a: 1, exp: "วันที่ 24 มิ.ย. 2475 คณะราษฎรได้ทำการเปลี่ยนแปลงการปกครอง" },
+            { q: "ยุคที่เครื่องมือถูกทำให้แหลมคม (Microlith) เพื่อนำไปต่อด้ามไม้ทำเป็นหอกและลูกศร คือยุคใด?", options: ["ยุคหินเก่า", "ยุคหินกลาง", "ยุคสำริด", "ยุคเหล็ก"], a: 1, exp: "ยุคหินกลางเริ่มปรับตัวทำอาวุธที่ประณีตขึ้นเพื่อล่าสัตว์และจับปลา" },
+            { q: "ศิลาจารึกหลักที่ 1 (ของพ่อขุนรามคำแหง) มีความสำคัญอย่างไร?", options: ["เป็นกฎหมายฉบับแรก", "เป็นหลักฐานการใช้ตัวอักษร 'ลายสือไทย'", "บันทึกวิธีหลอมสำริด", "บันทึกแผนที่กรุงธนบุรี"], a: 1, exp: "เป็นหลักฐานสำคัญที่แสดงถึงการประดิษฐ์อักษรไทยขึ้นใช้เอง" }
+        ];
+        let qCurrentIdx = 0, qTimer, qTimeLeft = 30, qScore = 0, qList = [];
+
+        function startQuiz() {
+            SoundEngine.playClick();
+            qList = [...quizBankFull].sort(()=>0.5-Math.random()).slice(0, 10);
+            qCurrentIdx = 0; qScore = 0;
+            navTo('screen-quiz');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (qCurrentIdx >= qList.length) { finishQuiz(); return; }
+            const qData = qList[qCurrentIdx];
+            document.getElementById('quiz-current').innerText = qCurrentIdx + 1;
+            document.getElementById('quiz-question').innerText = qData.q;
+            
+            const optCont = document.getElementById('quiz-options');
+            optCont.innerHTML = '';
+            
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'bg-slate-700 hover:bg-amber-600 text-white text-left p-5 rounded-2xl border border-slate-500 transition-all shadow-md text-base md:text-lg font-medium w-full flex items-center gap-3';
+                btn.innerHTML = `<span class="bg-slate-900 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0">${['A','B','C','D'][idx]}</span> ${opt}`;
+                btn.onclick = () => submitQuiz(idx, qData.a, qData.exp);
+                optCont.appendChild(btn);
+            });
+
+            qTimeLeft = 30; document.getElementById('quiz-timer').innerText = qTimeLeft;
+            clearInterval(qTimer);
+            qTimer = setInterval(() => {
+                qTimeLeft--; document.getElementById('quiz-timer').innerText = qTimeLeft;
+                if (qTimeLeft <= 0) submitQuiz(-1, qData.a, qData.exp);
+            }, 1000);
+        }
+
+        function submitQuiz(selIdx, correctIdx, exp) {
+            clearInterval(qTimer);
+            if (selIdx === correctIdx) {
+                let timeBonus = Math.floor(qTimeLeft * 5);
+                let roundScore = 200 + timeBonus;
+                qScore += roundScore;
+                SoundEngine.playSuccess();
+                showModal("ถูกต้อง! 🎉", `+${roundScore} แต้ม\n\nคำอธิบาย: ${exp}`, () => { qCurrentIdx++; loadQuestion(); });
+            } else {
+                SoundEngine.playError();
+                showModal(selIdx === -1 ? "หมดเวลา! ⏰" : "ผิดครับ ❌", `คำตอบที่ถูกต้องคือข้อ ${['A','B','C','D'][correctIdx]}\n\nคำอธิบาย: ${exp}`, () => { qCurrentIdx++; loadQuestion(); });
+            }
+        }
+
+        function finishQuiz() {
+            AppState.playedGames.quiz = true;
+            AppState.scores.quiz = Math.max(AppState.scores.quiz, qScore);
+            showModal('เยี่ยมมาก จบบททดสอบแล้ว! 📝', `คะแนนที่คุณทำได้รอบนี้: ${qScore} แต้ม\n\nไปดูผลลัพธ์และระดับ Rank กันเลย!`, () => {
+                updateTotal();
+                navTo('screen-leaderboard');
+            });
+        }
+
+        function updateTotal() {
+            AppState.scores.total = AppState.scores.runner + AppState.scores.match + AppState.scores.timeline + AppState.scores.quiz;
+            document.getElementById('score-runner').innerText = AppState.scores.runner;
+            document.getElementById('score-match').innerText = AppState.scores.match;
+            document.getElementById('score-timeline').innerText = AppState.scores.timeline;
+            document.getElementById('score-quiz').innerText = AppState.scores.quiz;
+            
+            let currentDisplayScore = 0;
+            const targetScore = AppState.scores.total;
+            const scoreEl = document.getElementById('score-total');
+            const inc = Math.ceil(targetScore / 30) || 1;
+            const scoreAnim = setInterval(() => {
+                currentDisplayScore += inc;
+                if(currentDisplayScore >= targetScore) {
+                    currentDisplayScore = targetScore;
+                    clearInterval(scoreAnim);
+                }
+                scoreEl.innerText = currentDisplayScore;
+            }, 30);
+
+            let rankName = "";
+            let rankColor = "";
+            if (AppState.scores.total < 3000) {
+                rankName = "🌱 นักสำรวจฝึกหัด";
+                rankColor = "from-green-400 to-emerald-400";
+            } else if (AppState.scores.total < 6000) {
+                rankName = "🔍 นักประวัติศาสตร์";
+                rankColor = "from-blue-400 to-indigo-400";
+            } else if (AppState.scores.total < 9000) {
+                rankName = "🔥 ผู้เชี่ยวชาญกาลเวลา";
+                rankColor = "from-orange-400 to-red-400";
+            } else {
+                rankName = "👑 ปรมาจารย์ข้ามเวลา";
+                rankColor = "from-amber-300 to-yellow-500";
+            }
+            
+            const rankEl = document.getElementById('player-rank');
+            if(rankEl) {
+                rankEl.innerText = rankName;
+                rankEl.className = `text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${rankColor} relative z-10 drop-shadow-md`;
+            }
+            AppState.playerRank = rankName;
+            updateTopBar();
+            
+            // ส่งข้อมูลคะแนนของนักเรียนขึ้นสู่ระบบฐานข้อมูลคลาวด์!
+            saveScoreToFirebase();
+        }
+
+        function generateCertificate() {
+            SoundEngine.playSuccess();
+            document.getElementById('cert-name').innerText = `${AppState.avatar} ${AppState.playerName}`;
+            const today = new Date();
+            const dateStr = `${today.getDate()} ${today.toLocaleString('th-TH', { month: 'short' })} ${today.getFullYear() + 543}`;
+            document.getElementById('cert-date').innerText = dateStr;
+
+            let starsStr = '★';
+            if(AppState.scores.total > 3000) starsStr = '★ ★';
+            if(AppState.scores.total > 6000) starsStr = '★ ★ ★';
+            if(AppState.scores.total >= 9000) starsStr = '★ ★ ★ ★';
+            document.getElementById('cert-stars').innerText = starsStr;
+            
+            document.getElementById('cert-rank-display').innerText = AppState.playerRank || "นักสำรวจ";
+
+            navTo('screen-certificate');
+        }
+
+        function downloadCertificateImage() {
+            SoundEngine.playClick();
+            const btn = document.getElementById('btn-dl-img');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึกภาพ...';
+            btn.disabled = true;
+
+            const targetElement = document.getElementById('cert-container');
+            
+            // รอให้ฟอนต์โหลดเสร็จก่อนค่อยจับภาพ เพื่อป้องกันปัญหาฟอนต์เพี้ยน
+            document.fonts.ready.then(function() {
+                html2canvas(targetElement, {
+                    scale: 2, // เพิ่มความละเอียดภาพ (เรติน่า)
+                    backgroundColor: '#ffffff', // พื้นหลังสีขาว
+                    useCORS: true, // อนุญาตให้ดึงภาพข้ามโดเมนได้ (เช่น ลายตาราง)
+                    logging: false
+                }).then(canvas => {
+                    // แปลงแคนวาสเป็นไฟล์รูปภาพ PNG
+                    const image = canvas.toDataURL("image/png");
+                    
+                    // สร้างลิงก์สำหรับดาวน์โหลด
+                    const link = document.createElement('a');
+                    link.download = `Certificate_${AppState.playerName || 'TimeExplorer'}.png`;
+                    link.href = image;
+                    document.body.appendChild(link);
+                    link.click(); // สั่งให้คลิกดาวน์โหลดอัตโนมัติ
+                    document.body.removeChild(link);
+                    
+                    // คืนค่าปุ่ม
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    SoundEngine.playSuccess();
+                    
+                }).catch(err => {
+                    console.error("เกิดข้อผิดพลาดในการสร้างภาพ: ", err);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    showModal("เกิดข้อผิดพลาด", "ไม่สามารถดาวน์โหลดรูปภาพได้ กรุณาลองใช้วิธี 'พิมพ์ / Save PDF' แทนครับ");
+                });
+            });
+        }
+
+        // --- เตรียมคำสั่งทั้งหมดให้ HTML เรียกใช้งานได้ (เพราะเปลี่ยนเป็น Module) ---
+        window.navTo = navTo;
+        window.startGame = startGame;
+        window.openSubCategory = openSubCategory;
+        window.openLesson = openLesson;
+        window.checkExitLesson = checkExitLesson;
+        window.markLessonComplete = markLessonComplete;
+        window.initRunnerGame = initRunnerGame;
+        window.answerGameQuiz = answerGameQuiz;
+        window.initMemoryGame = initMemoryGame;
+        window.endMemoryGame = endMemoryGame;
+        window.initTimelineGame = initTimelineGame;
+        window.endTimelineGame = endTimelineGame;
+        window.startQuiz = startQuiz;
+        window.generateCertificate = generateCertificate;
+        window.downloadCertificateImage = downloadCertificateImage;
+        window.openHallOfFame = openHallOfFame;
+        window.endGameEarly = endGameEarly;
+    </script>
+</body>
+</html>
