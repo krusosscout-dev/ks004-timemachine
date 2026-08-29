@@ -155,127 +155,129 @@
         </div>
     </div>
 
-    <!-- หน้าแรก: ธีมประวัติศาสตร์ (Widescreen Proportions) -->
-    <main id="screen-welcome" class="screen active flex-col items-center justify-center p-4 md:p-8 lg:p-10 flex-grow relative overflow-hidden bg-gradient-to-br from-stone-950 via-slate-900 to-amber-950">
+    <!-- หน้าแรก: ธีมประวัติศาสตร์ (จบใน 1 หน้าจอ ไม่ต้องเลื่อน) -->
+    <main id="screen-welcome" class="screen active flex-col items-center justify-between p-3 sm:p-4 md:p-5 lg:p-6 min-h-screen lg:h-screen lg:max-h-screen flex-grow relative overflow-hidden bg-gradient-to-br from-stone-950 via-slate-900 to-amber-950 box-border">
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/old-map.png')] opacity-20 pointer-events-none"></div>
 
-        <div class="max-w-6xl xl:max-w-7xl w-full flex flex-col md:flex-row gap-6 lg:gap-8 z-10 relative items-stretch justify-center my-auto">
-            <!-- ฝั่งซ้าย: ภาพรวมการเดินทาง -->
-            <div class="flex-1 bg-gradient-to-b from-amber-950/95 via-stone-900/95 to-slate-950/95 backdrop-blur-xl p-6 md:p-8 lg:p-10 rounded-[2.5rem] shadow-[0_0_50px_rgba(217,119,6,0.25)] border-2 border-amber-600/50 flex flex-col justify-between relative overflow-hidden">
-                <div class="absolute -right-8 -bottom-8 text-9xl md:text-[11rem] opacity-10 pointer-events-none">🗺️</div>
+        <div class="max-w-6xl xl:max-w-7xl w-full flex-1 flex flex-col md:flex-row gap-4 lg:gap-6 z-10 relative items-stretch justify-center my-auto min-h-0">
+            <!-- ฝั่งซ้าย: ภาพรวมการเดินทางข้ามเวลา -->
+            <div class="flex-1 bg-gradient-to-b from-amber-950/90 via-stone-900/90 to-slate-950/90 backdrop-blur-xl p-4 sm:p-5 md:p-6 lg:p-7 rounded-3xl shadow-[0_0_40px_rgba(217,119,6,0.2)] border-2 border-amber-600/40 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 text-8xl md:text-9xl opacity-10 pointer-events-none">🗺️</div>
                 <div>
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="bg-amber-500/20 text-amber-300 px-3.5 py-1 rounded-full text-xs font-extrabold border border-amber-500/40 uppercase tracking-wider flex items-center gap-1.5 shadow-inner">
-                            <i class="fa-solid fa-sparkles text-amber-400"></i> สื่อการสอนเชิงปฏิสัมพันธ์
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-amber-500/20 text-amber-300 px-3 py-0.5 rounded-full text-[11px] font-extrabold border border-amber-500/40 uppercase tracking-wider flex items-center gap-1.5 shadow-inner">
+                            <i class="fa-solid fa-sparkles text-amber-400"></i> สื่อการสอนประวัติศาสตร์เชิงปฏิสัมพันธ์
                         </span>
                     </div>
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-orange-400 mb-2 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] leading-tight">ไทม์แมชชีน</h1>
-                    <p class="text-amber-200/90 font-bold mb-5 text-sm md:text-base tracking-wide border-b border-amber-700/50 pb-3.5 flex items-center gap-2">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-orange-400 mb-1 drop-shadow-md leading-tight">
+                        ไทม์แมชชีนกาลเวลา
+                    </h1>
+                    <p class="text-amber-200/90 font-bold mb-3 text-xs sm:text-sm tracking-wide border-b border-amber-700/40 pb-2 flex items-center gap-2">
                         <i class="fa-solid fa-hourglass-start text-amber-400"></i> ย้อนรอยประวัติศาสตร์ไทย (Pre-historic & Historical Eras)
                     </p>
                     
-                    <div class="bg-black/40 p-4 md:p-5 rounded-2xl border border-amber-500/30 shadow-inner">
-                        <h2 class="text-sm md:text-base font-extrabold text-amber-300 mb-3.5 flex items-center gap-2">
-                            <i class="fa-solid fa-scroll text-amber-400 text-lg"></i> ภาพรวมการเดินทางข้ามมิติเวลา
+                    <div class="bg-black/40 p-3 sm:p-4 rounded-2xl border border-amber-500/30 shadow-inner">
+                        <h2 class="text-xs sm:text-sm font-extrabold text-amber-300 mb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-scroll text-amber-400"></i> แผนที่การเดินทางสู่ความเป็นเลิศ
                         </h2>
-                        <ul class="text-slate-200 space-y-3 text-xs md:text-sm lg:text-base font-medium">
-                            <li class="flex items-start gap-3">
-                                <span class="bg-amber-900 text-amber-300 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-xs font-bold shadow">1</span> 
-                                <div><b class="text-amber-300">สำรวจ 6 ยุค:</b> ตั้งแต่ยุคหิน, ยุคโลหะ จนถึงสุโขทัย, อยุธยา, ธนบุรี และรัตนโกสินทร์ (มีเนื้อหาครบทุกรัชกาล)</div>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="bg-amber-900 text-amber-300 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-xs font-bold shadow">2</span> 
-                                <div><b class="text-amber-300">ศึกษาข้อมูล:</b> เรียนรู้เนื้อหาละเอียด (บังคับเวลา 20 วินาทีต่อหน้า) เพื่อปลดล็อกมิติถัดไป</div>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="bg-amber-900 text-amber-300 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-xs font-bold shadow">3</span> 
-                                <div><b class="text-amber-300">ตะลุย 5 มินิเกม:</b> เรียงไทม์ไลน์, วิ่งตะลุยป่า, เปิดการ์ดพาณิชย์นาวี, ตรวจฎีกาประทับตรา และศึกบอส Quiz</div>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="bg-amber-900 text-amber-300 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-amber-500/50 text-xs font-bold shadow">4</span> 
-                                <div><b class="text-amber-300">เกียรติบัตร & ใบงาน:</b> สะสมแต้มรับเกียรติบัตร หรือทำใบงานทบทวนความรู้โหลดส่งครูได้ทันที</div>
-                            </li>
-                        </ul>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-slate-200 text-xs sm:text-sm font-medium">
+                            <div class="flex items-start gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
+                                <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">1</span> 
+                                <div><b class="text-amber-300">สำรวจ 6 ยุค:</b> ยุคหิน โลหะ สุโขทัย อยุธยา ธนบุรี และรัตนโกสินทร์</div>
+                            </div>
+                            <div class="flex items-start gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
+                                <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">2</span> 
+                                <div><b class="text-amber-300">ศึกษาข้อมูล:</b> เรียนรู้ 15 วินาที/หน้าเพื่อปลดล็อกมิติถัดไป</div>
+                            </div>
+                            <div class="flex items-start gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
+                                <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">3</span> 
+                                <div><b class="text-amber-300">ตะลุย 5 ด่าน:</b> ไทม์ไลน์, วิ่งตะลุยป่า, การ์ดการค้า, ตรวจฎีกา, ศึกบอส</div>
+                            </div>
+                            <div class="flex items-start gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
+                                <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">4</span> 
+                                <div><b class="text-amber-300">เกียรติบัตร & ใบงาน:</b> สะสมแต้มรับเกียรติบัตรและทำใบงานส่งครู</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-4 text-center text-xs md:text-sm text-amber-400/90 font-medium">
-                    <i class="fa-solid fa-graduation-cap mr-1.5 text-amber-300"></i> ออกแบบเพื่อการเรียนรู้ที่มีประสิทธิภาพภายใน 10-15 นาที
+                <div class="mt-3 text-center text-xs text-amber-400/90 font-medium">
+                    <i class="fa-solid fa-graduation-cap mr-1.5 text-amber-300"></i> ออกแบบการเรียนรู้มีประสิทธิภาพภายใน 10-15 นาที • สำหรับนักเรียนทุกระดับชั้น
                 </div>
             </div>
 
             <!-- ฝั่งขวา: ลงทะเบียนเข้าใช้งาน -->
-            <div class="w-full md:w-[360px] lg:w-[420px] bg-slate-900/95 backdrop-blur-xl p-6 md:p-8 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,0,0,0.8)] border-2 border-slate-700 flex flex-col justify-between relative z-10">
+            <div class="w-full md:w-[350px] lg:w-[390px] bg-slate-900/95 backdrop-blur-xl p-4 sm:p-5 md:p-6 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.8)] border-2 border-slate-700 flex flex-col justify-between relative z-10">
                 <div>
-                    <div class="flex justify-center mb-3">
-                        <div class="bg-gradient-to-b from-amber-800 to-amber-950 rounded-full p-3 border-2 border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.5)] inline-block">
-                           <div class="text-3xl floating">⏳</div>
-                        </div>
+                    <div class="flex items-center justify-center gap-2 mb-3 pb-2 border-b border-slate-800">
+                        <span class="text-2xl floating">⏳</span>
+                        <h3 class="text-base sm:text-lg font-black text-white">ลงทะเบียนนักสำรวจ</h3>
                     </div>
-                    <h3 class="text-lg md:text-xl font-black text-white text-center mb-4 border-b border-slate-800 pb-3">ลงทะเบียนนักสำรวจ</h3>
                     
                     <!-- กล่องแจ้งเตือนข้อมูลผจญภัยเดิม (แสดงเมื่อมี Save ในเครื่อง) -->
-                    <div id="resume-container" class="hidden mb-4 bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 border-2 border-emerald-500/60 p-3.5 rounded-2xl text-left shadow-[0_0_20px_rgba(16,185,129,0.25)] animate-pulse">
-                        <div class="flex items-center justify-between mb-1.5 border-b border-emerald-800/50 pb-1">
+                    <div id="resume-container" class="hidden mb-3 bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 border-2 border-emerald-500/60 p-3 rounded-2xl text-left shadow-[0_0_20px_rgba(16,185,129,0.25)] animate-pulse">
+                        <div class="flex items-center justify-between mb-1 border-b border-emerald-800/50 pb-1">
                             <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
-                                <i class="fa-solid fa-floppy-disk text-emerald-400"></i> พบข้อมูลการผจญภัยเดิม
+                                <i class="fa-solid fa-floppy-disk text-emerald-400"></i> พบข้อมูลเดิม
                             </span>
                             <button onclick="resetGameProgress()" class="text-[11px] text-red-400 hover:text-red-300 underline font-bold transition" title="ลบข้อมูลเพื่อเริ่มใหม่">
                                 <i class="fa-solid fa-trash-can"></i> ลบเริ่มใหม่
                             </button>
                         </div>
-                        <div class="text-xs text-slate-200 mb-2.5 flex items-center justify-between font-medium">
+                        <div class="text-xs text-slate-200 mb-2 flex items-center justify-between font-medium">
                             <span>ผู้เล่น: <b id="resume-name" class="text-amber-300">...</b></span>
                             <span>คะแนน: <b id="resume-score" class="text-amber-400">0</b></span>
                         </div>
-                        <button onclick="resumeSavedGame()" class="w-full bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:to-green-500 text-white font-black py-2.5 px-3 rounded-xl text-xs md:text-sm flex items-center justify-center gap-2 shadow-lg btn-game border border-emerald-300">
-                            <i class="fa-solid fa-play animate-bounce"></i> ผจญภัยต่อจากจุดเดิม ➔
+                        <button onclick="resumeSavedGame()" class="w-full bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:to-green-500 text-white font-black py-2 px-3 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg btn-game border border-emerald-300">
+                            <i class="fa-solid fa-play"></i> ผจญภัยต่อจากจุดเดิม ➔
                         </button>
                     </div>
 
-                    <div class="space-y-4">
+                    <div class="space-y-3">
                         <div>
-                            <label class="block text-amber-400 mb-1.5 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
+                            <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
                                 <i class="fa-solid fa-feather-pointed text-amber-400"></i> จารึกนามของคุณ
                             </label>
-                            <input type="text" id="input-name" placeholder="ระบุชื่อรหัสของคุณ..." class="w-full bg-slate-950 text-amber-100 rounded-xl px-4 py-3 border-2 border-slate-700 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all text-sm md:text-base font-bold placeholder-slate-600 shadow-inner">
+                            <input type="text" id="input-name" placeholder="ระบุชื่อรหัสของคุณ..." class="w-full bg-slate-950 text-amber-100 rounded-xl px-3.5 py-2.5 border-2 border-slate-700 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all text-sm font-bold placeholder-slate-600 shadow-inner">
                         </div>
                         <div>
-                            <label class="block text-amber-400 mb-1.5 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
-                                <i class="fa-solid fa-masks-theater text-amber-400"></i> เลือกอวาตาร์ (5 ตัวเลือก)
+                            <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-masks-theater text-amber-400"></i> เลือกอวาตาร์
                             </label>
-                            <div class="grid grid-cols-5 gap-2 md:gap-2.5">
-                                <button class="avatar-btn bg-amber-900/40 border-2 border-amber-400 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all transform scale-105 shadow-[0_0_12px_rgba(245,158,11,0.4)] glow-effect flex items-center justify-center" data-avatar="👦">👦</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="👧">👧</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🤖">🤖</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🐘">🐘</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-2 md:p-2.5 text-2xl md:text-3xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🦉">🦉</button>
+                            <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
+                                <button class="avatar-btn bg-amber-900/40 border-2 border-amber-400 rounded-xl p-1.5 sm:p-2 text-2xl transition-all transform scale-105 shadow-[0_0_12px_rgba(245,158,11,0.4)] glow-effect flex items-center justify-center" data-avatar="👦">👦</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="👧">👧</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🤖">🤖</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🐘">🐘</button>
+                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🦉">🦉</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="space-y-2 mt-4">
-                    <button onclick="startGame()" class="w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-black py-3.5 rounded-xl btn-game text-sm md:text-base shadow-[0_0_20px_rgba(245,158,11,0.4)] border border-amber-300 uppercase tracking-widest flex items-center justify-center gap-2 group overflow-hidden relative">
+                <div class="space-y-2 mt-3">
+                    <button onclick="startGame()" class="w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-black py-3 rounded-xl btn-game text-sm sm:text-base shadow-[0_0_20px_rgba(245,158,11,0.4)] border border-amber-300 uppercase tracking-widest flex items-center justify-center gap-2 group overflow-hidden relative">
                         <span class="relative z-10">หมุนเข็มนาฬิกา! <i class="fa-solid fa-clock-rotate-left ml-1 group-hover:rotate-180 transition-transform duration-500"></i></span>
                         <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
                     </button>
-                    <button onclick="openHallOfFame()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2.5 px-4 rounded-xl border border-slate-700 text-xs md:text-sm flex items-center justify-center gap-2 transition btn-game shadow-inner">
-                        <i class="fa-solid fa-trophy text-amber-400"></i> ดูผลคะแนน / กระดานผู้นำ
-                    </button>
-                    <button onclick="toggleBGM()" class="btn-toggle-bgm w-full bg-slate-950/80 hover:bg-slate-800 text-slate-300 font-bold py-2 px-4 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-2 transition btn-game shadow-inner" title="เปิด/ปิด เสียงดนตรีคลอ">
-                        <i class="fa-solid fa-music text-emerald-400"></i> <span class="btn-toggle-bgm-text">เสียงดนตรีคลอ: เปิด</span>
-                    </button>
-                </div>
-                <!-- ป้ายแสดงสถิติผู้เข้าชมในหน้าแรก -->
-                <div class="mt-3 text-center">
-                    <span class="inline-flex items-center gap-1.5 bg-slate-950/60 text-amber-400/90 px-3 py-1 rounded-full text-xs font-medium border border-slate-700/60 shadow-inner">
-                        <i class="fa-solid fa-users text-amber-400"></i> นักสำรวจที่เข้าร่วม: <span id="visitor-count-welcome" class="font-bold text-amber-300">...</span> คน
-                    </span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="openHallOfFame()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2 px-2 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-1.5 transition btn-game shadow-inner">
+                            <i class="fa-solid fa-trophy text-amber-400"></i> กระดานผู้นำ
+                        </button>
+                        <button onclick="toggleBGM()" class="btn-toggle-bgm bg-slate-950/80 hover:bg-slate-800 text-slate-300 font-bold py-2 px-2 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-1.5 transition btn-game shadow-inner" title="เปิด/ปิด เสียงดนตรีคลอ">
+                            <i class="fa-solid fa-music text-emerald-400"></i> <span class="btn-toggle-bgm-text">เพลง: เปิด</span>
+                        </button>
+                    </div>
+                    <!-- ป้ายแสดงสถิติผู้เข้าชมในหน้าแรก -->
+                    <div class="text-center pt-1">
+                        <span class="inline-flex items-center gap-1.5 bg-slate-950/80 text-amber-400/90 px-3 py-0.5 rounded-full text-[11px] font-medium border border-slate-700/60 shadow-inner">
+                            <i class="fa-solid fa-users text-amber-400"></i> นักสำรวจที่เข้าร่วม: <span id="visitor-count-welcome" class="font-bold text-amber-300">1</span> คน
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- แถบข้อความลิขสิทธิ์และคณะผู้พัฒนา -->
-        <div class="mt-4 md:mt-6 z-10 text-center text-xs md:text-sm text-amber-300/80 font-medium tracking-wide flex flex-wrap items-center justify-center gap-2 px-4 py-2 bg-slate-950/60 rounded-full border border-amber-500/20 backdrop-blur-sm shadow">
+        <!-- แถบข้อความลิขสิทธิ์และคณะผู้พัฒนา (กะทัดรัด จบในหน้าเดียว) -->
+        <div class="w-full text-center mt-2 z-10 text-[11px] sm:text-xs text-amber-300/80 font-medium tracking-wide flex flex-wrap items-center justify-center gap-2 py-1 bg-slate-950/70 rounded-full border border-amber-500/20 backdrop-blur-sm shadow max-w-4xl mx-auto">
             <span>© 2026 พัฒนาโดย <b>กลุ่ม นอ หนู</b> (นรากรณ์ นิธินันท์ นันทญา นันทิกานต์)</span>
             <span class="hidden sm:inline text-amber-500">•</span>
             <span class="text-amber-200">นิสิต ป.โท 69</span>
@@ -313,21 +315,21 @@
             </div>
         </div>
 
-        <!-- โซนศูนย์บัญชาการภารกิจ 5 ด่าน -->
+        <!-- โซนศูนย์บัญชาการภารกิจ 5 ด่าน (ต้องศึกษาบทเรียนครบ 6 ยุคก่อน) -->
         <div class="w-full max-w-4xl mt-2 mb-4 z-10 relative">
-            <div class="bg-gradient-to-r from-fuchsia-950/90 via-purple-950/90 to-indigo-950/90 border-2 border-fuchsia-400/60 p-6 md:p-8 rounded-[2rem] shadow-[0_0_35px_rgba(192,38,211,0.35)] backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 hover:border-fuchsia-300 transition-colors">
+            <div id="card-mission-hub" class="bg-slate-900/90 border-2 border-slate-700 p-6 md:p-8 rounded-[2rem] shadow-xl backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-500">
                 <div class="flex items-center gap-6">
-                    <div class="text-6xl bg-purple-950 p-4 rounded-2xl border border-fuchsia-500 shadow-inner floating">🎯</div>
+                    <div id="mission-hub-icon" class="text-6xl bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-inner">🔒</div>
                     <div>
-                        <div class="inline-flex items-center gap-2 bg-fuchsia-500/20 text-fuchsia-300 px-3 py-0.5 rounded-full text-xs font-bold border border-fuchsia-500/40 mb-1">
-                            <span>🎮 Mini-Games Challenge</span>
+                        <div id="mission-hub-badge" class="inline-flex items-center gap-2 bg-slate-800 text-amber-400 px-3 py-0.5 rounded-full text-xs font-bold border border-slate-700 mb-1">
+                            <span>🔒 ต้องศึกษาบทเรียนให้ครบ 6 ยุคก่อน</span>
                         </div>
-                        <h3 class="text-2xl md:text-3xl font-black text-fuchsia-300 mb-1">ศูนย์ภารกิจข้ามเวลา (5 มินิเกม)</h3>
-                        <p class="text-purple-100/90 text-sm md:text-base font-medium">เข้าเล่นมินิเกมท้าทายความรู้ 5 ด่าน สะสมคะแนนเหรียญทองเพื่อรับเกียรติบัตร</p>
+                        <h3 class="text-2xl md:text-3xl font-black text-white mb-1">ศูนย์ภารกิจข้ามเวลา (5 มินิเกม)</h3>
+                        <p id="mission-hub-desc" class="text-slate-400 text-sm md:text-base font-medium">ศึกษาเนื้อหาประวัติศาสตร์ให้ครบทั้ง 6 ยุค เพื่อปลดล็อกศูนย์ภารกิจ 5 ด่าน</p>
                     </div>
                 </div>
-                <button onclick="navTo('screen-mission-hub')" class="w-full md:w-auto bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white font-black py-4 px-8 rounded-xl shadow-[0_0_20px_rgba(192,38,211,0.5)] border border-fuchsia-300 btn-game whitespace-nowrap text-lg animate-pulse">
-                    เข้าสู่ศูนย์ภารกิจ 5 ด่าน ➔
+                <button id="btn-enter-mission-hub" onclick="attemptEnterMissionHub()" class="w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-4 px-8 rounded-xl border border-slate-700 btn-game whitespace-nowrap text-sm md:text-base hover:bg-slate-700 transition-all">
+                    🔒 ยังไม่ปลดล็อก (ศึกษา 0/6 ยุค)
                 </button>
             </div>
         </div>
@@ -489,34 +491,40 @@
         </div>
     </main>
 
-    <!-- มินิเกม 2: Runner (Application/Scenario Based) -->
-    <main id="screen-game" class="screen flex-col items-center justify-center p-4 pt-20 bg-slate-950 z-50 flex-grow">
-        <div class="max-w-4xl w-full">
-            <div class="flex justify-between items-center mb-4 bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-lg">
-                <button onclick="endGameEarly('runner')" class="text-slate-400 hover:text-white mr-4 bg-slate-700 p-2 rounded-lg"><i class="fa-solid fa-times text-xl"></i> ถอนตัว</button>
-                <div class="flex-grow">
-                    <h2 class="text-xl md:text-2xl font-bold text-green-400">ด่าน 2: วิ่งตะลุยสถานการณ์</h2>
-                    <p class="text-slate-300 text-xs md:text-sm font-medium">กระโดดหลบหนาม 🌵 ขึ้นแท่นไม้ 🪵 ชนกล่อง ❔ เพื่อเลือกวิธีเอาตัวรอด!</p>
+    <!-- มินิเกม 2: Runner (Application/Scenario Based - Dynamic Era World) -->
+    <main id="screen-game" class="screen flex-col items-center justify-center p-3 sm:p-4 pt-16 md:pt-20 bg-slate-950 z-50 flex-grow">
+        <div class="max-w-5xl w-full">
+            <div class="flex justify-between items-center mb-3 bg-slate-800/90 backdrop-blur-sm p-3.5 rounded-2xl border border-slate-700 shadow-lg">
+                <button onclick="endGameEarly('runner')" class="text-slate-400 hover:text-white mr-3 bg-slate-700/80 p-2 rounded-xl text-sm font-bold flex items-center gap-1 transition hover:bg-slate-600"><i class="fa-solid fa-times text-lg"></i> ถอนตัว</button>
+                <div class="flex-grow text-left">
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-lg md:text-2xl font-black text-green-400">ด่าน 2: วิ่งตะลุยสถานการณ์</h2>
+                        <span id="runner-era-badge" class="bg-amber-500/20 text-amber-300 text-xs px-2.5 py-0.5 rounded-full border border-amber-500/40 font-bold">ยุคหิน</span>
+                    </div>
+                    <p class="text-slate-300 text-xs md:text-sm font-medium">กระโดดขึ้นแท่นไม้ 🪵 ชนกล่องปริศนา ❔ เพื่อเลือกวิธีเอาตัวรอดข้ามมิติเวลา!</p>
                 </div>
-                <div class="text-right bg-slate-900 p-2 rounded-xl border border-slate-700">
-                    <div class="text-amber-400 font-bold text-lg md:text-xl">แต้มเกม: <span id="runner-score">0</span></div>
-                    <div class="text-red-400 font-bold text-lg md:text-xl">❤️ <span id="runner-lives">3</span></div>
+                <div class="text-right bg-slate-900/90 px-3.5 py-1.5 rounded-xl border border-slate-700 flex items-center gap-3">
+                    <div class="text-amber-400 font-black text-base md:text-lg">⭐ <span id="runner-score">0</span></div>
+                    <div class="text-red-400 font-black text-base md:text-lg">❤️ <span id="runner-lives">3</span></div>
                 </div>
             </div>
             
-            <div class="relative w-full">
-                <canvas id="gameCanvas" width="800" height="300" class="border-2 border-green-600 shadow-[0_0_20px_rgba(22,163,74,0.3)] rounded-2xl"></canvas>
-                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-3/4 max-w-sm h-3 bg-black/60 rounded-full overflow-hidden border border-white/30">
-                    <div id="runner-progress" class="bg-gradient-to-r from-green-400 to-emerald-500 h-full w-0 transition-all duration-300"></div>
+            <div class="relative w-full rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(16,185,129,0.3)] border-2 border-emerald-500/60 bg-slate-900">
+                <canvas id="gameCanvas" width="960" height="360" class="w-full h-[280px] sm:h-[340px] md:h-[380px] block"></canvas>
+                
+                <!-- แถบแสดงความคืบหน้าการเดินทาง -->
+                <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-4/5 max-w-md h-3 bg-black/70 rounded-full overflow-hidden border border-white/30 backdrop-blur-sm shadow-inner">
+                    <div id="runner-progress" class="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-300 h-full w-0 transition-all duration-300"></div>
                 </div>
                 
-                <div id="game-quiz-overlay" class="absolute inset-0 bg-slate-900/95 rounded-2xl hidden flex-col items-center justify-center text-center p-6 border-4 border-amber-500 z-30 backdrop-blur-md">
-                    <div class="text-6xl mb-4 animate-bounce">⚠️</div>
-                    <h3 class="text-2xl font-bold text-amber-400 mb-4 bg-amber-500/20 px-6 py-2 rounded-full border border-amber-500/50">สถานการณ์ฉุกเฉิน!</h3>
-                    <p id="game-quiz-text" class="text-white text-xl md:text-2xl mb-10 font-bold max-w-2xl leading-relaxed">คำถาม...</p>
+                <!-- หน้าต่างตอบคำถามสถานการณ์ -->
+                <div id="game-quiz-overlay" class="absolute inset-0 bg-slate-950/95 rounded-2xl hidden flex-col items-center justify-center text-center p-6 border-4 border-amber-500 z-30 backdrop-blur-md">
+                    <div class="text-5xl mb-2 animate-bounce">⚠️</div>
+                    <h3 class="text-xl md:text-2xl font-extrabold text-amber-400 mb-2 bg-amber-500/20 px-6 py-1.5 rounded-full border border-amber-500/50">สถานการณ์ฉุกเฉิน!</h3>
+                    <p id="game-quiz-text" class="text-white text-lg md:text-2xl mb-8 font-bold max-w-2xl leading-relaxed">คำถาม...</p>
                     <div class="flex flex-col md:flex-row gap-4 w-full max-w-2xl">
-                        <button onclick="answerGameQuiz(0)" id="gq-btn-0" class="flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105">ตอบ A</button>
-                        <button onclick="answerGameQuiz(1)" id="gq-btn-1" class="flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105">ตอบ B</button>
+                        <button onclick="answerGameQuiz(0)" id="gq-btn-0" class="flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-4 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-base md:text-lg shadow-lg hover:scale-105">ตอบ A</button>
+                        <button onclick="answerGameQuiz(1)" id="gq-btn-1" class="flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-4 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-base md:text-lg shadow-lg hover:scale-105">ตอบ B</button>
                     </div>
                 </div>
             </div>
@@ -1311,8 +1319,39 @@
             await SoundEngine.init();
             SoundEngine.playWarp();
             SoundEngine.startBGM();
+
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+            const completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            const isMissionsUnlocked = (completedCount === 6) || AppState.unlockedMission;
+
             const targetScreen = (AppState.lastScreen && AppState.lastScreen !== 'screen-welcome') ? AppState.lastScreen : 'screen-main-categories';
-            navTo(targetScreen);
+
+            // ถ้าบันทึกเดิมอยู่ในมินิเกม
+            if (['screen-timeline-game', 'screen-game', 'screen-match-game', 'screen-rat-game', 'screen-quiz'].includes(targetScreen)) {
+                if (!isMissionsUnlocked) {
+                    navTo('screen-main-categories');
+                    showModal(
+                        "🔒 ต้องศึกษาบทเรียนก่อน",
+                        `คุณยังศึกษาบทเรียนไม่ครบ 6 ยุค (ตอนนี้ศึกษาแล้ว ${completedCount}/6 ยุค)\nกรุณาศึกษาเนื้อหาให้ครบก่อนเพื่อปลดล็อกศูนย์ภารกิจครับ 📜`
+                    );
+                    return;
+                }
+                // เรียกฟังก์ชันเริ่มเกมของแต่ละด่านโดยตรง ป้องกันหน้าจอดำ/ค้าง
+                if (targetScreen === 'screen-timeline-game') initTimelineGame();
+                else if (targetScreen === 'screen-game') initRunnerGame();
+                else if (targetScreen === 'screen-match-game') initMemoryGame();
+                else if (targetScreen === 'screen-rat-game') initRatGame();
+                else if (targetScreen === 'screen-quiz') startQuiz();
+            } else if (targetScreen === 'screen-mission-hub') {
+                if (!isMissionsUnlocked) {
+                    navTo('screen-main-categories');
+                    attemptEnterMissionHub();
+                } else {
+                    navTo('screen-mission-hub');
+                }
+            } else {
+                navTo(targetScreen);
+            }
         };
 
         window.resetGameProgress = () => {
@@ -1470,7 +1509,38 @@
             if (cb) cb();
         });
 
+        window.attemptEnterMissionHub = () => {
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+            const completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            const isMissionsUnlocked = (completedCount === 6) || AppState.unlockedMission;
+
+            if (!isMissionsUnlocked) {
+                SoundEngine.playError();
+                showModal(
+                    "🔒 ศูนย์ภารกิจยังถูกล็อกอยู่!",
+                    `นักสำรวจต้องศึกษาบทเรียนประวัติศาสตร์ให้ครบทั้ง 6 ยุคก่อนครับ 📜\n\nความคืบหน้าปัจจุบัน: ศึกษาแล้ว ${completedCount}/6 ยุค\n\nกรุณาเข้าศึกษาเนื้อหาในแผนที่ข้ามเวลา (หมวดก่อนประวัติศาสตร์ และหมวดประวัติศาสตร์ไทย) ให้ครบทั้ง 6 ยุคเพื่อปลดล็อกศูนย์ภารกิจ 5 ด่านครับ! ✨`
+                );
+                return;
+            }
+            navTo('screen-mission-hub');
+        };
+
         function navTo(screenId) {
+            // Guard: ต้องศึกษาบทเรียนครบ 6 ยุคก่อนจึงจะเข้าศูนย์ภารกิจหรือมินิเกมได้
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+            const completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            const isMissionsUnlocked = (completedCount === 6) || AppState.unlockedMission;
+
+            if (screenId === 'screen-mission-hub' && !isMissionsUnlocked) {
+                attemptEnterMissionHub();
+                return;
+            }
+
+            if (['screen-timeline-game', 'screen-game', 'screen-match-game', 'screen-rat-game', 'screen-quiz'].includes(screenId) && !isMissionsUnlocked) {
+                attemptEnterMissionHub();
+                return;
+            }
+
             SoundEngine.playClick();
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
             const targetScreen = document.getElementById(screenId);
@@ -1487,6 +1557,24 @@
             }
             if (screenId === 'screen-main-categories') updateHubProgress();
             if (screenId === 'screen-mission-hub') updateMissionHubStatus();
+
+            // ป้องกันการค้างหลังรีเฟรช: สตาร์ทเกมอัตโนมัติเมื่อเข้ามาหน้าเกม
+            if (screenId === 'screen-game' && !rActive) {
+                initRunnerGame();
+            } else if (screenId === 'screen-timeline-game') {
+                const slots = document.getElementById('timeline-slots');
+                if (!slots || slots.children.length === 0) initTimelineGame();
+            } else if (screenId === 'screen-match-game') {
+                const board = document.getElementById('memory-board');
+                if (!board || board.children.length === 0) initMemoryGame();
+            } else if (screenId === 'screen-rat-game') {
+                const docBody = document.getElementById('doc-body');
+                if (!docBody || docBody.innerText === '') initRatGame();
+            } else if (screenId === 'screen-quiz') {
+                const quizText = document.getElementById('quiz-question');
+                if (!quizText || quizText.innerText === 'คำถามจะปรากฏที่นี่...' || quizText.innerText === '') startQuiz();
+            }
+
             window.scrollTo(0, 0);
             saveAppState(screenId);
         }
@@ -1533,17 +1621,28 @@
                 }
             });
 
+            const isMissionsUnlocked = (completedCount === 6) || AppState.unlockedMission;
             if(completedCount === 6 && !AppState.unlockedMission) {
                 AppState.unlockedMission = true;
-                showModal("🎯 ภารกิจลับปลดล็อกแล้ว!", "ยอดเยี่ยมมาก!\nคุณได้สำรวจครบทั้ง 6 ยุคประวัติศาสตร์\n\n'ศูนย์บัญชาการภารกิจ' เปิดให้คุณเข้าทำภารกิจแล้ว!");
+                showModal("🎯 ภารกิจลับปลดล็อกแล้ว!", "ยอดเยี่ยมมาก!\nคุณได้สำรวจครบทั้ง 6 ยุคประวัติศาสตร์\n\n'ศูนย์บัญชาการภารกิจ' เปิดให้คุณเข้าทำภารกิจ 5 ด่านแล้ว!");
             }
-            if(AppState.unlockedMission && document.getElementById('btn-nav-mission')) {
-                document.getElementById('btn-nav-mission').classList.remove('hidden');
-                document.getElementById('btn-nav-mission').classList.add('flex');
+
+            const missionBtn = document.getElementById('btn-nav-mission');
+            if(missionBtn) {
+                if(isMissionsUnlocked) {
+                    missionBtn.className = "flex bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game items-center gap-1.5";
+                    missionBtn.innerHTML = `<span>🎯</span> <span class="hidden sm:inline">ศูนย์ภารกิจ 5 ด่าน</span>`;
+                    missionBtn.onclick = () => navTo('screen-mission-hub');
+                } else {
+                    missionBtn.className = "flex bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold border border-slate-700 text-xs md:text-sm btn-game items-center gap-1.5";
+                    missionBtn.innerHTML = `<span>🔒</span> <span class="hidden sm:inline">ศูนย์ภารกิจ (${completedCount}/6)</span>`;
+                    missionBtn.onclick = () => attemptEnterMissionHub();
+                }
             }
         }
 
         function updateHubProgress() {
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
             let preCount = ['stone', 'metal'].filter(s => AppState.progress[s]).length;
             if (document.getElementById('progress-prehistoric')) document.getElementById('progress-prehistoric').innerText = `${preCount}/2`;
             let histCount = ['sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'].filter(s => AppState.progress[s]).length;
@@ -1553,6 +1652,57 @@
             if (historicCard) {
                 if (AppState.progress['metal']) historicCard.classList.remove('opacity-60', 'grayscale');
                 else historicCard.classList.add('opacity-60', 'grayscale');
+            }
+
+            let completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            const isMissionsUnlocked = (completedCount === 6) || AppState.unlockedMission;
+            const cardHub = document.getElementById('card-mission-hub');
+            const iconHub = document.getElementById('mission-hub-icon');
+            const badgeHub = document.getElementById('mission-hub-badge');
+            const descHub = document.getElementById('mission-hub-desc');
+            const btnHub = document.getElementById('btn-enter-mission-hub');
+
+            if (isMissionsUnlocked) {
+                AppState.unlockedMission = true;
+                if (cardHub) {
+                    cardHub.className = "bg-gradient-to-r from-fuchsia-950/95 via-purple-950/95 to-indigo-950/95 border-2 border-fuchsia-400/80 p-6 md:p-8 rounded-[2rem] shadow-[0_0_40px_rgba(192,38,211,0.4)] backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 hover:border-fuchsia-300 transition-all duration-500";
+                }
+                if (iconHub) {
+                    iconHub.innerText = "🎯";
+                    iconHub.className = "text-6xl bg-purple-950 p-4 rounded-2xl border border-fuchsia-500 shadow-inner floating";
+                }
+                if (badgeHub) {
+                    badgeHub.className = "inline-flex items-center gap-2 bg-fuchsia-500/30 text-fuchsia-300 px-3 py-0.5 rounded-full text-xs font-bold border border-fuchsia-400 mb-1 animate-pulse";
+                    badgeHub.innerHTML = "<span>✨ ปลดล็อกสมบูรณ์แล้ว! (6/6 ยุค)</span>";
+                }
+                if (descHub) {
+                    descHub.innerText = "เข้าเล่นมินิเกมท้าทายความรู้ 5 ด่าน สะสมคะแนนเหรียญทองเพื่อรับเกียรติบัตร";
+                    descHub.className = "text-purple-100/90 text-sm md:text-base font-medium";
+                }
+                if (btnHub) {
+                    btnHub.className = "w-full md:w-auto bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white font-black py-4 px-8 rounded-xl shadow-[0_0_25px_rgba(192,38,211,0.6)] border border-fuchsia-300 btn-game whitespace-nowrap text-lg animate-pulse";
+                    btnHub.innerText = "เข้าสู่ศูนย์ภารกิจ 5 ด่าน ➔";
+                }
+            } else {
+                if (cardHub) {
+                    cardHub.className = "bg-slate-900/90 border-2 border-slate-700 p-6 md:p-8 rounded-[2rem] shadow-xl backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-500";
+                }
+                if (iconHub) {
+                    iconHub.innerText = "🔒";
+                    iconHub.className = "text-6xl bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-inner";
+                }
+                if (badgeHub) {
+                    badgeHub.className = "inline-flex items-center gap-2 bg-slate-800 text-amber-400 px-3 py-0.5 rounded-full text-xs font-bold border border-slate-700 mb-1";
+                    badgeHub.innerHTML = `<span>🔒 ต้องศึกษาบทเรียนครบ 6 ยุคก่อน (ตอนนี้: ${completedCount}/6 ยุค)</span>`;
+                }
+                if (descHub) {
+                    descHub.innerText = `ศึกษาเนื้อหาประวัติศาสตร์ให้ครบทั้ง 6 ยุคก่อน จึงจะปลดล็อกศูนย์ภารกิจ 5 ด่าน (ศึกษาแล้ว ${completedCount}/6 ยุค)`;
+                    descHub.className = "text-slate-400 text-sm md:text-base font-medium";
+                }
+                if (btnHub) {
+                    btnHub.className = "w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-4 px-8 rounded-xl border border-slate-700 btn-game whitespace-nowrap text-sm md:text-base hover:bg-slate-700 hover:text-slate-300 transition-all";
+                    btnHub.innerText = `🔒 ยังไม่ปลดล็อก (ศึกษาแล้ว ${completedCount}/6 ยุค)`;
+                }
             }
         }
 
@@ -2111,6 +2261,12 @@
         let tLives = 3, tScore = 0, tPlacedCount = 0, tSelected = null;
         
         function initTimelineGame() {
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+            const completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            if (completedCount < 6 && !AppState.unlockedMission) {
+                attemptEnterMissionHub();
+                return;
+            }
             SoundEngine.playClick(); 
             navTo('screen-timeline-game');
             tLives = 3; tScore = 0; tPlacedCount = 0; tSelected = null;
@@ -2219,12 +2375,66 @@
             }
         };
 
-        // --- GAME 2: RUNNER (SCENARIO SURVIVAL) ---
+        // --- GAME 2: RUNNER (SCENARIO SURVIVAL - DYNAMIC ERA WORLD) ---
         const canvas = document.getElementById('gameCanvas'); const ctx = canvas.getContext('2d');
         let rGameId, rActive = false, rState = {}, rObstacles = [], rItems = [], rPlatforms = [];
         let rQCount = 0, finishLineSpawned = false, finishLineX = 0, rFrameCounter = 0, isAnsweringRunner = false;
         let spawnedObstacleInSegment = false, spawnedBoxInSegment = false;
+        let bgOffset = 0;
         
+        const eraRunnerThemes = [
+            {
+                name: "ยุคหิน (Prehistoric Era)",
+                badge: "🌋 ยุคหิน",
+                skyTop: "#451a03", skyBottom: "#b45309",
+                groundTop: "#166534", groundBase: "#14532d",
+                clouds: ["☁️", "🦅", "☁️"],
+                landmarks: ["🌋", "⛰️", "🌴", "🦣", "🦕", "🌴"],
+                platColor: "#78350f", platBorder: "#d97706",
+                obstacleEmoji: "🌵"
+            },
+            {
+                name: "ยุคโลหะ (Metal / Bronze Era)",
+                badge: "⚒️ ยุคโลหะ",
+                skyTop: "#18181b", skyBottom: "#9a3412",
+                groundTop: "#78350f", groundBase: "#292524",
+                clouds: ["💨", "✨", "💨"],
+                landmarks: ["🛖", "🔥", "⚒️", "🪨", "🏺", "🛖"],
+                platColor: "#44403c", platBorder: "#ea580c",
+                obstacleEmoji: "🔥"
+            },
+            {
+                name: "ยุคสุโขทัย (Sukhothai Era)",
+                badge: "🛕 สุโขทัย",
+                skyTop: "#0369a1", skyBottom: "#38bdf8",
+                groundTop: "#15803d", groundBase: "#713f12",
+                clouds: ["☁️", "🕊️", "☁️"],
+                landmarks: ["🛕", "🔔", "🌴", "🏛️", "🐘", "🛕"],
+                platColor: "#b45309", platBorder: "#fde047",
+                obstacleEmoji: "🧱"
+            },
+            {
+                name: "ยุคอยุธยา (Ayutthaya Era)",
+                badge: "🏰 อยุธยา",
+                skyTop: "#1e1b4b", skyBottom: "#ea580c",
+                groundTop: "#047857", groundBase: "#0f172a",
+                clouds: ["☁️", "⛵", "☁️"],
+                landmarks: ["🏰", "⛵", "🏯", "🌊", "👑", "🏰"],
+                platColor: "#0284c7", platBorder: "#38bdf8",
+                obstacleEmoji: "📦"
+            },
+            {
+                name: "ยุครัตนโกสินทร์ & สู่เส้นชัย (Rattanakosin Era)",
+                badge: "🏯 รัตนโกสินทร์",
+                skyTop: "#312e81", skyBottom: "#6366f1",
+                groundTop: "#065f46", groundBase: "#022c22",
+                clouds: ["✨", "🎆", "✨"],
+                landmarks: ["🏯", "🚩", "🎉", "🏆", "🛕", "🏯"],
+                platColor: "#7c3aed", platBorder: "#c084fc",
+                obstacleEmoji: "🚧"
+            }
+        ];
+
         const qBankRunnerFull = [
             { q: "สัตว์ร้ายบุก! มีเครื่องมือหินกะเทาะในยุคเก่า จะเอาตัวรอดอย่างไร?", a: "กะเทาะทำคมอาวุธและใช้ไฟไล่", b: "นำมาขัดฝนจนเงางาม", ans: 0 },
             { q: "ต้องการหลอม 'สำริด' ต้องผสมแร่ใดเข้าด้วยกัน?", a: "เหล็ก + ตะกั่ว", b: "ทองแดง + ดีบุก", ans: 1 },
@@ -2235,14 +2445,20 @@
         let rQuestions = [], currentGQ = null;
 
         function initRunnerGame() {
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+            const completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            if (completedCount < 6 && !AppState.unlockedMission) {
+                attemptEnterMissionHub();
+                return;
+            }
             SoundEngine.playClick(); 
             navTo('screen-game');
             document.getElementById('game-quiz-overlay').classList.replace('flex', 'hidden');
             rQuestions = [...qBankRunnerFull].sort(() => 0.5 - Math.random()).slice(0, 5); 
-            rState = { x: 60, y: 195, dy: 0, w: 45, h: 45, grounded: true, score: 0, lives: 3, speed: 5.5 };
+            rState = { x: 80, y: 235, dy: 0, w: 45, h: 45, grounded: true, score: 0, lives: 3, speed: 5.5 };
             rObstacles = []; rItems = []; rPlatforms = []; rActive = true; 
             rQCount = 0; finishLineSpawned = false; finishLineX = 0;
-            rFrameCounter = 0; isAnsweringRunner = false;
+            rFrameCounter = 0; isAnsweringRunner = false; bgOffset = 0;
             spawnedObstacleInSegment = false; spawnedBoxInSegment = false;
             updateRUI(); 
             if(rGameId) cancelAnimationFrame(rGameId); 
@@ -2252,7 +2468,7 @@
         function rJump() { 
             if (rState.grounded && rActive && !isAnsweringRunner) { 
                 SoundEngine.playClick(); 
-                rState.dy = -14.5; 
+                rState.dy = -15; 
                 rState.grounded = false; 
             } 
         }
@@ -2263,18 +2479,54 @@
         function rLoop() {
             if(!rActive) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
-            const gy = 240;
+            const gy = 280;
+            bgOffset += rState.speed;
             
-            // Background & Ground
-            ctx.fillStyle = '#064e3b'; ctx.fillRect(0, 0, canvas.width, gy);
-            ctx.fillStyle = '#451a03'; ctx.fillRect(0, gy, canvas.width, canvas.height - gy);
-            ctx.fillStyle = '#166534'; ctx.fillRect(0, gy, canvas.width, 10);
+            const currentTheme = eraRunnerThemes[Math.min(rQCount, eraRunnerThemes.length - 1)];
+            const eraBadge = document.getElementById('runner-era-badge');
+            if(eraBadge) eraBadge.innerText = currentTheme.badge;
+
+            // 1. Dynamic Sky Gradient
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, gy);
+            skyGrad.addColorStop(0, currentTheme.skyTop);
+            skyGrad.addColorStop(1, currentTheme.skyBottom);
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, canvas.width, gy);
+
+            // 2. Parallax Distant Clouds / Sky Elements
+            ctx.font = "28px Arial";
+            for (let c = 0; c < 4; c++) {
+                let cx = ((c * 260 - (bgOffset * 0.25)) % 1040 + 1040) % 1040 - 50;
+                let cy = 35 + (c % 2) * 30;
+                ctx.fillText(currentTheme.clouds[c % currentTheme.clouds.length], cx, cy);
+            }
+
+            // 3. Parallax Distant Era Landmarks (Mountains, Temples, Palaces)
+            ctx.font = "42px Arial";
+            const lmList = currentTheme.landmarks;
+            for (let i = 0; i < 6; i++) {
+                let lx = ((i * 180 - (bgOffset * 0.5)) % 1080 + 1080) % 1080 - 40;
+                ctx.fillText(lmList[i % lmList.length], lx, gy - 16);
+            }
+
+            // 4. Ground Layer (Grass & Base Soil with Speed Texture)
+            ctx.fillStyle = currentTheme.groundBase;
+            ctx.fillRect(0, gy, canvas.width, canvas.height - gy);
             
+            ctx.fillStyle = currentTheme.groundTop;
+            ctx.fillRect(0, gy, canvas.width, 14);
+
+            // Ground texture stripes (moving at full speed)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            for (let gx = - (bgOffset % 40); gx < canvas.width; gx += 40) {
+                ctx.fillRect(gx, gy + 4, 18, 5);
+            }
+
             // Progress Bar
             document.getElementById('runner-progress').style.width = `${(rQCount/5)*100}%`;
             
             // Physics
-            rState.dy += 0.8; 
+            rState.dy += 0.85; 
             rState.y += rState.dy; 
             rState.grounded = false;
 
@@ -2284,7 +2536,7 @@
                 rState.grounded = true; 
             } else {
                 for (let p of rPlatforms) {
-                    if (rState.x < p.x + p.w && rState.x + rState.w > p.x && rState.dy > 0 && rState.y + rState.h - rState.dy <= p.y + 12 && rState.y + rState.h >= p.y) {
+                    if (rState.x < p.x + p.w && rState.x + rState.w > p.x && rState.dy > 0 && rState.y + rState.h - rState.dy <= p.y + 14 && rState.y + rState.h >= p.y) {
                         rState.y = p.y - rState.h; 
                         rState.dy = 0; 
                         rState.grounded = true;
@@ -2292,36 +2544,42 @@
                 }
             }
             
-            // Draw Player Avatar
-            ctx.font = "40px Arial"; 
-            ctx.fillText(AppState.avatar, rState.x, rState.y + 36);
+            // Draw Player Jump Shadow & Avatar
+            if (!rState.grounded) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.beginPath();
+                ctx.ellipse(rState.x + 22, gy - 2, 18, 5, 0, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.font = "42px Arial"; 
+            ctx.fillText(AppState.avatar, rState.x, rState.y + 38);
 
             rFrameCounter++;
 
             // Segment Spawning (Controlled sequence)
             if (rQCount < 5) {
-                // At frame 50: spawn obstacle
-                if (rFrameCounter >= 50 && !spawnedObstacleInSegment) {
-                    rObstacles.push({ x: canvas.width, y: gy - 32, w: 32, h: 32 });
+                // At frame 45: spawn obstacle
+                if (rFrameCounter >= 45 && !spawnedObstacleInSegment) {
+                    rObstacles.push({ x: canvas.width, y: gy - 36, w: 36, h: 36, emoji: currentTheme.obstacleEmoji });
                     spawnedObstacleInSegment = true;
                 }
-                // At frame 130: spawn platform & Question box
-                if (rFrameCounter >= 130 && !spawnedBoxInSegment) {
-                    let py = gy - 70;
-                    rPlatforms.push({ x: canvas.width, y: py, w: 140, h: 20 });
-                    rItems.push({ type: 'box', x: canvas.width + 48, y: py - 48, w: 45, h: 45 });
+                // At frame 120: spawn platform & Question box
+                if (rFrameCounter >= 120 && !spawnedBoxInSegment) {
+                    let py = gy - 80;
+                    rPlatforms.push({ x: canvas.width, y: py, w: 150, h: 22, color: currentTheme.platColor, border: currentTheme.platBorder });
+                    rItems.push({ type: 'box', x: canvas.width + 50, y: py - 52, w: 48, h: 48 });
                     spawnedBoxInSegment = true;
                 }
             } else if (!finishLineSpawned) {
-                finishLineX = canvas.width + 80;
+                finishLineX = canvas.width + 100;
                 finishLineSpawned = true;
             }
 
             if (finishLineSpawned) {
                 finishLineX -= rState.speed; 
-                ctx.font = "50px Arial";
+                ctx.font = "60px Arial";
                 ctx.fillText("🏁", finishLineX, gy - 8);
-                if (finishLineX < 60) { 
+                if (finishLineX < 70) { 
                     endRunner(true); 
                     return; 
                 }
@@ -2331,18 +2589,22 @@
             for (let i = rPlatforms.length - 1; i >= 0; i--) {
                 let p = rPlatforms[i]; 
                 p.x -= rState.speed;
-                ctx.fillStyle = '#b45309'; ctx.fillRect(p.x, p.y, p.w, p.h); 
-                ctx.fillStyle = '#f59e0b'; ctx.fillRect(p.x, p.y, p.w, 4);
-                if (p.x + p.w < -50) rPlatforms.splice(i, 1);
+                ctx.fillStyle = p.color || '#b45309'; 
+                ctx.fillRect(p.x, p.y, p.w, p.h); 
+                ctx.fillStyle = p.border || '#f59e0b'; 
+                ctx.fillRect(p.x, p.y, p.w, 5);
+                ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+                ctx.strokeRect(p.x, p.y, p.w, p.h);
+                if (p.x + p.w < -60) rPlatforms.splice(i, 1);
             }
 
             // Obstacles
             for (let i = rObstacles.length - 1; i >= 0; i--) {
                 let o = rObstacles[i]; 
                 o.x -= rState.speed; 
-                ctx.font = "32px Arial";
-                ctx.fillText("🌵", o.x, o.y + 26);
-                if (rState.x < o.x + o.w - 8 && rState.x + rState.w - 8 > o.x && rState.y < o.y + o.h && rState.y + rState.h > o.y) {
+                ctx.font = "34px Arial";
+                ctx.fillText(o.emoji || "🌵", o.x, o.y + 28);
+                if (rState.x < o.x + o.w - 10 && rState.x + rState.w - 10 > o.x && rState.y < o.y + o.h && rState.y + rState.h > o.y) {
                     SoundEngine.playError(); 
                     rState.lives--; 
                     rObstacles.splice(i, 1); 
@@ -2351,33 +2613,34 @@
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     if (rState.lives <= 0) { endRunner(false); return; }
                 }
-                if (o.x + o.w < -50) rObstacles.splice(i, 1);
+                if (o.x + o.w < -60) rObstacles.splice(i, 1);
             }
 
-            // Question Items
+            // Question Items (Glowing Box)
             for (let i = rItems.length - 1; i >= 0; i--) {
                 let it = rItems[i]; 
                 it.x -= rState.speed; 
-                ctx.font = "40px Arial";
-                ctx.fillText("❔", it.x, it.y + 38);
+                let bounceY = Math.sin(rFrameCounter * 0.1) * 4;
+                ctx.font = "42px Arial";
+                ctx.fillText("❔", it.x, it.y + 40 + bounceY);
                 
                 // Hit question box
-                if (rState.x < it.x + it.w && rState.x + rState.w > it.x && rState.y < it.y + it.h && rState.y + rState.h > it.y) {
+                if (rState.x < it.x + it.w && rState.x + rState.w > it.x && rState.y < it.y + it.h + bounceY && rState.y + rState.h > it.y + bounceY) {
                     rItems.splice(i, 1); 
                     rActive = false; 
                     currentGQ = rQuestions[rQCount];
                     document.getElementById('game-quiz-text').innerText = currentGQ.q;
                     const b0 = document.getElementById('gq-btn-0'), b1 = document.getElementById('gq-btn-1');
                     b0.innerText = currentGQ.a; b0.disabled = false; 
-                    b0.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105";
+                    b0.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-4 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-base md:text-lg shadow-lg hover:scale-105";
                     b1.innerText = currentGQ.b; b1.disabled = false; 
-                    b1.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105";
+                    b1.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-4 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-base md:text-lg shadow-lg hover:scale-105";
                     isAnsweringRunner = false;
                     document.getElementById('game-quiz-overlay').classList.replace('hidden', 'flex'); 
                     SoundEngine.playWarp(); 
                     return;
                 }
-                if (it.x + it.w < -50) { rItems.splice(i, 1); }
+                if (it.x + it.w < -60) { rItems.splice(i, 1); }
             }
             
             rGameId = requestAnimationFrame(rLoop);
@@ -2395,12 +2658,12 @@
             if(isCorrect) { 
                 rState.score += 200; 
                 SoundEngine.playSuccess(); 
-                selectedBtn.className = "flex-1 bg-green-600 text-white py-5 px-4 rounded-xl font-black text-lg border-2 border-green-300 shadow-[0_0_20px_rgba(34,197,94,0.8)] scale-105";
+                selectedBtn.className = "flex-1 bg-green-600 text-white py-4 px-4 rounded-xl font-black text-base md:text-lg border-2 border-green-300 shadow-[0_0_20px_rgba(34,197,94,0.8)] scale-105";
                 selectedBtn.innerHTML = `✅ ถูกต้อง! (+200 แต้ม)`;
             } else { 
                 rState.lives--; 
                 SoundEngine.playError(); 
-                selectedBtn.className = "flex-1 bg-red-600 text-white py-5 px-4 rounded-xl font-black text-lg border-2 border-red-300 shadow-[0_0_20px_rgba(239,68,68,0.8)] scale-105";
+                selectedBtn.className = "flex-1 bg-red-600 text-white py-4 px-4 rounded-xl font-black text-base md:text-lg border-2 border-red-300 shadow-[0_0_20px_rgba(239,68,68,0.8)] scale-105";
                 selectedBtn.innerHTML = `❌ พลาดแล้ว! (-1 ❤️)`;
             }
             updateRUI();
@@ -2418,7 +2681,7 @@
 
         function resumeRunner() { 
             rObstacles = []; rPlatforms = []; rItems = []; 
-            rState.y = 195; rState.dy = 0; rState.grounded = true;
+            rState.y = 235; rState.dy = 0; rState.grounded = true;
             rFrameCounter = 0;
             spawnedObstacleInSegment = false;
             spawnedBoxInSegment = false;
@@ -2496,6 +2759,12 @@
         let isFlipping = false, currentMatchTotal = 4, comboCount = 0;
 
         function initMemoryGame() {
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+            const completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            if (completedCount < 6 && !AppState.unlockedMission) {
+                attemptEnterMissionHub();
+                return;
+            }
             SoundEngine.playClick(); 
             navTo('screen-match-game');
             memLives = 8; memScore = 0; memMatched = 0; comboCount = 0; flippedCards = []; isFlipping = true;
@@ -2621,6 +2890,12 @@
         let ratQIdx = 0, ratScore = 0, isStamping = false;
 
         function initRatGame() { 
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+            const completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            if (completedCount < 6 && !AppState.unlockedMission) {
+                attemptEnterMissionHub();
+                return;
+            }
             SoundEngine.playClick(); 
             ratQIdx = 0; 
             ratScore = 0; 
@@ -2739,6 +3014,12 @@
         let playerHP = 100, bossHP = 100, isSubmittingQuiz = false;
 
         function startQuiz() {
+            const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+            const completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
+            if (completedCount < 6 && !AppState.unlockedMission) {
+                attemptEnterMissionHub();
+                return;
+            }
             SoundEngine.playClick();
             qList = [...quizBankFull].sort(()=>0.5-Math.random()).slice(0, 10);
             qCurrentIdx = 0; qScore = 0; playerHP = 100; bossHP = 100; isSubmittingQuiz = false;
