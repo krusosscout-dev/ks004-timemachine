@@ -755,48 +755,94 @@
     </main>
 
     <!-- หน้าเกียรติบัตร -->
-    <main id="screen-certificate" class="screen flex-col items-center justify-center p-4 bg-slate-900 flex-grow">
-        <div id="cert-container" class="bg-white w-full max-w-4xl p-2 relative shadow-2xl overflow-hidden aspect-[1.414/1] flex items-center justify-center my-6">
-            <div class="absolute inset-4 border-[12px] border-double border-amber-600 rounded-xl opacity-90"></div>
-            <div class="absolute inset-8 border-[2px] border-solid border-amber-800 rounded-lg opacity-30"></div>
-            <div class="relative z-10 text-center text-gray-800 px-12 py-8 flex flex-col items-center justify-center h-full w-full bg-[url('https://www.transparenttextures.com/patterns/rice-paper.png')]">
-                <div class="mb-4"><i class="fa-solid fa-award text-7xl text-amber-500 drop-shadow-md"></i></div>
-                <h1 class="text-4xl md:text-5xl font-extrabold text-amber-900 mb-2 tracking-widest" style="font-family: 'Chonburi', serif;">เกียรติบัตรนักสำรวจเวลา</h1>
-                <p class="text-lg text-gray-700 mb-6 font-medium" style="font-family: 'Kanit', sans-serif;">ขอมอบเกียรติบัตรฉบับนี้เพื่อแสดงว่า</p>
-                <h2 id="cert-name" class="text-4xl md:text-5xl font-black text-indigo-900 mb-4 border-b-2 border-indigo-300 pb-2 px-10 inline-block drop-shadow-sm" style="font-family: 'Chonburi', serif;">ชื่อผู้เล่น</h2>
-                <p class="text-lg md:text-xl text-gray-700 mb-4 font-medium leading-relaxed" style="font-family: 'Kanit', sans-serif;">
-                    ได้ผ่านการศึกษาและพิชิตภารกิจอย่างสมบูรณ์แบบในโครงการ<br><span class="font-bold text-indigo-800 text-2xl">"ไทม์แมชชีน ย้อนรอยประวัติศาสตร์"</span>
+    <main id="screen-certificate" class="screen flex-col items-center justify-start p-3 sm:p-4 md:p-6 bg-slate-950 flex-grow overflow-y-auto">
+        <!-- Certificate Card (Fixed internal structure for 100% Pixel-Perfect HTML2Canvas export) -->
+        <div id="cert-container" class="bg-[#fffdf8] w-full max-w-[820px] relative shadow-[0_0_50px_rgba(0,0,0,0.9)] rounded-2xl border-[8px] border-[#92400e] my-2 p-6 sm:p-8 md:p-10 text-slate-800 text-center box-border overflow-hidden">
+            <!-- Double Golden Border -->
+            <div class="absolute inset-2 border-2 border-dashed border-[#d97706]/70 rounded-xl pointer-events-none"></div>
+            <div class="absolute inset-3.5 border border-[#b45309]/30 rounded-lg pointer-events-none"></div>
+            
+            <!-- 4 Corner Thai Ornaments -->
+            <div class="absolute top-3 left-3 text-[#b45309] text-xl font-bold opacity-70 pointer-events-none select-none">❖</div>
+            <div class="absolute top-3 right-3 text-[#b45309] text-xl font-bold opacity-70 pointer-events-none select-none">❖</div>
+            <div class="absolute bottom-3 left-3 text-[#b45309] text-xl font-bold opacity-70 pointer-events-none select-none">❖</div>
+            <div class="absolute bottom-3 right-3 text-[#b45309] text-xl font-bold opacity-70 pointer-events-none select-none">❖</div>
+
+            <!-- Content Area (Structured Flow, No awkward stretching) -->
+            <div class="relative z-10 flex flex-col items-center">
+                <!-- Emblem Ribbon -->
+                <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 flex items-center justify-center text-2xl md:text-3xl shadow-md border-2 border-amber-200 mb-2">
+                    🏆
+                </div>
+
+                <!-- Title -->
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#78350f] tracking-wide mb-1 leading-tight" style="font-family: 'Chonburi', serif;">
+                    เกียรติบัตรนักสำรวจเวลา
+                </h1>
+                <p class="text-xs sm:text-sm text-slate-600 font-medium mb-3">
+                    ขอมอบเกียรติบัตรฉบับนี้เพื่อแสดงว่า
                 </p>
-                <div class="mb-8 bg-amber-50 px-8 py-3 rounded-xl border border-amber-200">
-                    <span class="text-gray-600 text-sm font-bold uppercase tracking-wider block" style="font-family: 'Kanit', sans-serif;">ประเมินระดับความสามารถ:</span>
-                    <div id="cert-rank-display" class="text-3xl font-black text-indigo-700 mt-1" style="font-family: 'Chonburi', serif;">ปรมาจารย์ข้ามเวลา</div>
-                    <div id="cert-stars" class="text-3xl text-amber-500 mt-2 flex gap-2 justify-center drop-shadow-sm">★ ★ ★</div>
+                
+                <!-- Player Name Plaque -->
+                <div class="inline-block mb-3 bg-gradient-to-r from-amber-100/80 via-amber-50 to-amber-100/80 px-8 sm:px-12 py-1.5 sm:py-2 rounded-xl border border-amber-300 shadow-sm">
+                    <h2 id="cert-name" class="text-2xl sm:text-3xl font-black text-indigo-950 tracking-wider" style="font-family: 'Chonburi', serif;">
+                        👦 ชื่อผู้เล่น
+                    </h2>
                 </div>
-                <div class="flex justify-between w-full mt-auto pt-6 px-10 border-t border-gray-300" style="font-family: 'Kanit', sans-serif;">
-                    <div class="text-center">
-                        <p id="cert-date" class="text-base text-gray-800 font-bold mb-1 border-b border-gray-400 pb-1 w-40 mx-auto">วันที่</p>
-                        <p class="text-xs text-gray-500 font-bold uppercase">วันที่ออกเอกสาร</p>
+
+                <!-- Description -->
+                <p class="text-xs sm:text-sm text-slate-700 font-medium max-w-xl leading-relaxed mb-3.5">
+                    ได้ผ่านการศึกษาบทเรียนและพิชิตมินิเกมครบทั้ง 5 ด่านอย่างสมบูรณ์แบบในโครงการ<br>
+                    <span class="font-extrabold text-amber-900 text-sm sm:text-base">"ไทม์แมชชีน ย้อนรอยประวัติศาสตร์"</span>
+                </p>
+
+                <!-- Evaluation Rank Plaque -->
+                <div class="bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 px-6 sm:px-8 py-2 rounded-xl border border-amber-300 shadow-sm mb-6 flex flex-col items-center">
+                    <span class="text-[11px] font-bold text-amber-800 uppercase tracking-wider">ประเมินระดับความสามารถ</span>
+                    <div id="cert-rank-display" class="text-lg sm:text-xl md:text-2xl font-black text-indigo-900 mt-0.5" style="font-family: 'Chonburi', serif;">
+                        ปรมาจารย์ข้ามเวลา
                     </div>
-                    <div class="text-center">
-                        <div class="text-4xl font-bold text-gray-800 mb-1 border-b border-gray-400 pb-1 w-40 mx-auto" style="font-family: 'Charm', cursive;">Time Machine</div>
-                        <p class="text-xs text-gray-500 font-bold uppercase">ผู้อำนวยการศูนย์วิจัยเวลา</p>
+                    <div id="cert-stars" class="text-base sm:text-lg text-amber-500 flex gap-1 justify-center drop-shadow-sm mt-0.5">
+                        ★ ★ ★ ★
                     </div>
                 </div>
-                <p class="text-[10px] text-gray-400 mt-2 font-medium" style="font-family: 'Kanit', sans-serif;">© 2026 พัฒนาโดย กลุ่ม นอ หนู (นรากรณ์ นิธินันท์ นันทญา นันทิกานต์) • นิสิต ป.โท 69</p>
+
+                <!-- Footer Signatures & Date (Stable Widths and Padding) -->
+                <div class="w-full flex justify-between items-end pt-3 px-2 sm:px-6 border-t-2 border-amber-900/20 text-xs text-slate-700">
+                    <div class="text-center w-36 sm:w-44">
+                        <p id="cert-date" class="font-bold text-slate-900 border-b border-slate-400 pb-1 mb-1 text-xs sm:text-sm">29 ส.ค. 2569</p>
+                        <p class="text-[10px] sm:text-xs text-slate-500 font-medium">วันที่ออกเอกสาร</p>
+                    </div>
+
+                    <!-- Seal -->
+                    <div class="flex flex-col items-center justify-center text-amber-600 opacity-85">
+                        <span class="text-2xl sm:text-3xl">🎖️</span>
+                        <span class="text-[8px] sm:text-[9px] font-bold text-amber-800 uppercase tracking-widest mt-0.5">ตราประทับรับรอง</span>
+                    </div>
+
+                    <div class="text-center w-36 sm:w-44">
+                        <p class="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 border-b border-slate-400 pb-1 mb-1" style="font-family: 'Charm', cursive;">Time Machine</p>
+                        <p class="text-[10px] sm:text-xs text-slate-500 font-medium">ผู้อำนวยการศูนย์วิจัยเวลา</p>
+                    </div>
+                </div>
+
+                <p class="text-[9px] text-slate-400 mt-3 font-medium">© 2026 พัฒนาโดย กลุ่ม นอ หนู (นรากรณ์ นิธินันท์ นันทญา นันทิกานต์) • นิสิต ป.โท 69</p>
             </div>
         </div>
-        <div class="flex gap-3 no-print flex-wrap justify-center relative z-10 mb-8">
-            <button onclick="downloadCertificateImage()" id="btn-dl-img" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-xl btn-game text-base shadow-lg flex items-center gap-2">
-                <i class="fa-solid fa-download"></i> เซฟรูปภาพ
+
+        <!-- Action Buttons (Responsive & Clean) -->
+        <div class="flex gap-2.5 no-print flex-wrap justify-center relative z-10 mt-1 mb-4 max-w-2xl w-full">
+            <button onclick="downloadCertificateImage()" id="btn-dl-img" class="flex-1 min-w-[140px] bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-2.5 px-4 rounded-xl btn-game text-sm shadow-md flex items-center justify-center gap-2">
+                <i class="fa-solid fa-download"></i> ดาวน์โหลดรูปภาพ
             </button>
-            <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-xl btn-game text-base shadow-lg flex items-center gap-2">
+            <button onclick="window.print()" class="flex-1 min-w-[140px] bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-2.5 px-4 rounded-xl btn-game text-sm shadow-md flex items-center justify-center gap-2">
                 <i class="fa-solid fa-print"></i> พิมพ์ / PDF
             </button>
-            <button onclick="navTo('screen-main-categories')" class="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-6 rounded-xl text-base btn-game shadow-md flex items-center gap-2">
+            <button onclick="navTo('screen-main-categories')" class="flex-1 min-w-[140px] bg-slate-800 hover:bg-slate-700 text-emerald-300 font-bold py-2.5 px-4 rounded-xl text-sm btn-game border border-emerald-500/40 flex items-center justify-center gap-2">
                 <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
             </button>
-            <button onclick="navTo('screen-leaderboard')" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-3 px-6 rounded-xl border border-slate-600 text-base btn-game">
-                หน้ารวมคะแนน
+            <button onclick="navTo('screen-leaderboard')" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2.5 px-4 rounded-xl border border-slate-600 text-sm btn-game flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-trophy"></i> หน้ารวมคะแนน
             </button>
         </div>
         <div class="w-full text-center mt-auto text-[10px] md:text-xs text-white/40 pointer-events-none no-print tracking-wide font-medium drop-shadow-md pb-4 z-40">
@@ -1309,7 +1355,14 @@
                 AppState.progress = saved.progress || AppState.progress;
                 AppState.tabProgress = saved.tabProgress || {};
                 AppState.playedGames = saved.playedGames || AppState.playedGames;
-                AppState.scores = saved.scores || AppState.scores;
+                AppState.scores = {
+                    timeline: parseInt(saved.scores?.timeline, 10) || 0,
+                    runner: parseInt(saved.scores?.runner, 10) || 0,
+                    match: parseInt(saved.scores?.match, 10) || 0,
+                    rattanakosin: parseInt(saved.scores?.rattanakosin, 10) || 0,
+                    quiz: parseInt(saved.scores?.quiz, 10) || 0,
+                    total: parseInt(saved.scores?.total, 10) || 0
+                };
                 AppState.unlockedMission = saved.unlockedMission || false;
                 AppState.playerRank = saved.playerRank || '';
                 AppState.currentLessonId = saved.currentLessonId || null;
@@ -1597,7 +1650,8 @@
         function updateTopBar() {
             if(document.getElementById('player-avatar-mini')) document.getElementById('player-avatar-mini').innerText = AppState.avatar;
             if(document.getElementById('player-name-display')) document.getElementById('player-name-display').innerText = AppState.playerName || 'นักสำรวจ';
-            if(document.getElementById('global-score')) document.getElementById('global-score').innerText = AppState.scores.total;
+            const safeTotal = Math.max(0, parseInt(AppState.scores?.total, 10) || 0);
+            if(document.getElementById('global-score')) document.getElementById('global-score').innerText = safeTotal.toLocaleString('th-TH');
             
             const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
             let completedCount = stageSeq.filter(stage => AppState.progress[stage]).length;
@@ -2516,13 +2570,16 @@
                 ctx.fillText(currentTheme.clouds[c % currentTheme.clouds.length], cx, cy);
             }
 
-            // 3. Parallax Distant Era Landmarks (Mountains, Temples, Palaces)
-            ctx.font = "42px Arial";
+            // 3. Parallax Distant Era Landmarks (Semi-transparent background scenery)
+            ctx.save();
+            ctx.globalAlpha = 0.5;
+            ctx.font = "38px Arial";
             const lmList = currentTheme.landmarks;
             for (let i = 0; i < 6; i++) {
-                let lx = ((i * 180 - (bgOffset * 0.5)) % 1080 + 1080) % 1080 - 40;
+                let lx = ((i * 190 - (bgOffset * 0.45)) % 1140 + 1140) % 1140 - 40;
                 ctx.fillText(lmList[i % lmList.length], lx, gy - 16);
             }
+            ctx.restore();
 
             // 4. Ground Layer (Grass & Base Soil with Speed Texture)
             ctx.fillStyle = currentTheme.groundBase;
@@ -2559,15 +2616,49 @@
                 }
             }
             
-            // Draw Player Jump Shadow & Avatar
-            if (!rState.grounded) {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            // Draw Player Jump Shadow & High-Contrast Avatar Badge
+            const px = rState.x + 24;
+            const py = rState.y + 24;
+
+            if (rState.grounded) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
                 ctx.beginPath();
-                ctx.ellipse(rState.x + 22, gy - 2, 18, 5, 0, 0, Math.PI * 2);
+                ctx.ellipse(px, gy - 2, 20, 6, 0, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                ctx.beginPath();
+                ctx.ellipse(px, gy - 2, 16, 5, 0, 0, Math.PI * 2);
                 ctx.fill();
             }
-            ctx.font = "42px Arial"; 
-            ctx.fillText(AppState.avatar, rState.x, rState.y + 38);
+
+            // 1. Soft glowing aura behind player
+            ctx.save();
+            const auraGrad = ctx.createRadialGradient(px, py, 12, px, py, 34);
+            auraGrad.addColorStop(0, 'rgba(251, 191, 36, 0.7)');
+            auraGrad.addColorStop(1, 'rgba(251, 191, 36, 0)');
+            ctx.fillStyle = auraGrad;
+            ctx.beginPath();
+            ctx.arc(px, py, 34, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 2. High-contrast solid badge background so background items never obscure the character
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.arc(px, py, 26, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 3. Golden ring border
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // 4. Player Avatar (Crisp & Large)
+            ctx.font = "38px Arial"; 
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(AppState.avatar || '👦', px, py + 2);
+            ctx.restore();
 
             rFrameCounter++;
 
@@ -3181,19 +3272,42 @@
 
         // --- SUMMARY & CERTIFICATE ---
         function updateTotal() {
-            AppState.scores.total = AppState.scores.runner + AppState.scores.match + AppState.scores.timeline + AppState.scores.rattanakosin + AppState.scores.quiz;
-            document.getElementById('score-runner').innerText = AppState.scores.runner;
-            document.getElementById('score-match').innerText = AppState.scores.match;
-            document.getElementById('score-timeline').innerText = AppState.scores.timeline;
-            document.getElementById('score-rat').innerText = AppState.scores.rattanakosin;
-            document.getElementById('score-quiz').innerText = AppState.scores.quiz;
+            const sTimeline = Math.max(0, parseInt(AppState.scores?.timeline, 10) || 0);
+            const sRunner = Math.max(0, parseInt(AppState.scores?.runner, 10) || 0);
+            const sMatch = Math.max(0, parseInt(AppState.scores?.match, 10) || 0);
+            const sRat = Math.max(0, parseInt(AppState.scores?.rattanakosin, 10) || 0);
+            const sQuiz = Math.max(0, parseInt(AppState.scores?.quiz, 10) || 0);
             
-            let currentDisplayScore = 0; const targetScore = AppState.scores.total;
-            const scoreEl = document.getElementById('score-total'); const inc = Math.ceil(targetScore / 30) || 1;
-            const scoreAnim = setInterval(() => {
-                currentDisplayScore += inc; if(currentDisplayScore >= targetScore) { currentDisplayScore = targetScore; clearInterval(scoreAnim); }
-                scoreEl.innerText = currentDisplayScore;
-            }, 30);
+            AppState.scores = {
+                timeline: sTimeline,
+                runner: sRunner,
+                match: sMatch,
+                rattanakosin: sRat,
+                quiz: sQuiz,
+                total: sTimeline + sRunner + sMatch + sRat + sQuiz
+            };
+
+            if (document.getElementById('score-runner')) document.getElementById('score-runner').innerText = sRunner;
+            if (document.getElementById('score-match')) document.getElementById('score-match').innerText = sMatch;
+            if (document.getElementById('score-timeline')) document.getElementById('score-timeline').innerText = sTimeline;
+            if (document.getElementById('score-rat')) document.getElementById('score-rat').innerText = sRat;
+            if (document.getElementById('score-quiz')) document.getElementById('score-quiz').innerText = sQuiz;
+            
+            const targetScore = AppState.scores.total;
+            const scoreEl = document.getElementById('score-total');
+            if (scoreEl) {
+                if (window.scoreAnimTimer) clearInterval(window.scoreAnimTimer);
+                let currentDisplayScore = 0;
+                const inc = Math.max(1, Math.ceil(targetScore / 25));
+                window.scoreAnimTimer = setInterval(() => {
+                    currentDisplayScore += inc;
+                    if (currentDisplayScore >= targetScore) {
+                        currentDisplayScore = targetScore;
+                        clearInterval(window.scoreAnimTimer);
+                    }
+                    scoreEl.innerText = currentDisplayScore.toLocaleString('th-TH');
+                }, 30);
+            }
 
             let rankName = "", rankColor = "";
             if (targetScore < 3000) { rankName = "🌱 นักสำรวจฝึกหัด"; rankColor = "from-green-400 to-emerald-400"; } 
@@ -3205,32 +3319,68 @@
                 document.getElementById('player-rank').innerText = rankName;
                 document.getElementById('player-rank').className = `text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${rankColor} relative z-10 drop-shadow-md`;
             }
-            AppState.playerRank = rankName; updateTopBar(); saveScoreToFirebase();
+            AppState.playerRank = rankName; 
+            updateTopBar(); 
+            saveScoreToFirebase();
         }
 
         window.generateCertificate = () => {
             SoundEngine.playSuccess();
-            document.getElementById('cert-name').innerText = `${AppState.avatar} ${AppState.playerName}`;
-            const today = new Date(); const dateStr = `${today.getDate()} ${today.toLocaleString('th-TH', { month: 'short' })} ${today.getFullYear() + 543}`;
-            document.getElementById('cert-date').innerText = dateStr;
+            updateTotal();
+            const nameEl = document.getElementById('cert-name');
+            if (nameEl) nameEl.innerText = `${AppState.avatar || '👦'} ${AppState.playerName || 'นักสำรวจ'}`;
+            const today = new Date(); 
+            const dateStr = `${today.getDate()} ${today.toLocaleString('th-TH', { month: 'short' })} ${today.getFullYear() + 543}`;
+            const dateEl = document.getElementById('cert-date');
+            if (dateEl) dateEl.innerText = dateStr;
             let starsStr = '★';
-            if(AppState.scores.total > 3000) starsStr = '★ ★'; if(AppState.scores.total > 6000) starsStr = '★ ★ ★'; if(AppState.scores.total >= 9000) starsStr = '★ ★ ★ ★';
-            document.getElementById('cert-stars').innerText = starsStr;
-            document.getElementById('cert-rank-display').innerText = AppState.playerRank || "นักสำรวจ";
+            const tot = AppState.scores?.total || 0;
+            if(tot > 3000) starsStr = '★ ★'; 
+            if(tot > 6000) starsStr = '★ ★ ★'; 
+            if(tot >= 9000) starsStr = '★ ★ ★ ★';
+            const starsEl = document.getElementById('cert-stars');
+            if (starsEl) starsEl.innerText = starsStr;
+            const rankEl = document.getElementById('cert-rank-display');
+            if (rankEl) rankEl.innerText = AppState.playerRank || "ปรมาจารย์ข้ามเวลา";
             navTo('screen-certificate');
-        }
+        };
 
         window.downloadCertificateImage = () => {
-            SoundEngine.playClick(); const btn = document.getElementById('btn-dl-img');
-            const originalText = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึกภาพ...'; btn.disabled = true;
+            SoundEngine.playClick(); 
+            const btn = document.getElementById('btn-dl-img');
+            const originalText = btn.innerHTML; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึกภาพ...'; 
+            btn.disabled = true;
+
+            const certEl = document.getElementById('cert-container');
             document.fonts.ready.then(function() {
-                html2canvas(document.getElementById('cert-container'), { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false }).then(canvas => {
-                    const link = document.createElement('a'); link.download = `Certificate_${AppState.playerName || 'TimeExplorer'}.png`; link.href = canvas.toDataURL("image/png");
-                    document.body.appendChild(link); link.click(); document.body.removeChild(link);
-                    btn.innerHTML = originalText; btn.disabled = false; SoundEngine.playSuccess();
-                }).catch(err => { btn.innerHTML = originalText; btn.disabled = false; showModal("เกิดข้อผิดพลาด", "ไม่สามารถดาวน์โหลดรูปภาพได้"); });
+                html2canvas(certEl, {
+                    scale: 2,
+                    backgroundColor: '#fffdf8',
+                    useCORS: false,
+                    allowTaint: true,
+                    logging: false,
+                    scrollX: 0,
+                    scrollY: 0
+                }).then(canvas => {
+                    const link = document.createElement('a'); 
+                    const safeName = (AppState.playerName || 'TimeExplorer').trim().replace(/[\/\\:*?"<>|]/g, '_');
+                    link.download = `Certificate_${safeName}.png`; 
+                    link.href = canvas.toDataURL("image/png");
+                    document.body.appendChild(link); 
+                    link.click(); 
+                    document.body.removeChild(link);
+                    btn.innerHTML = originalText; 
+                    btn.disabled = false; 
+                    SoundEngine.playSuccess();
+                }).catch(err => { 
+                    console.error("Download certificate error:", err);
+                    btn.innerHTML = originalText; 
+                    btn.disabled = false; 
+                    showModal("เกิดข้อผิดพลาด", "ไม่สามารถดาวน์โหลดรูปภาพได้ กรุณาลองใหม่อีกครั้ง"); 
+                });
             });
-        }
+        };
 
         // --- WORKSHEET ---
         window.openWorksheet = () => {
@@ -3267,16 +3417,37 @@
         }
 
         window.downloadWorksheetImage = () => {
-            SoundEngine.playClick(); const btn = document.getElementById('btn-dl-ws');
-            const originalText = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...'; btn.disabled = true;
+            SoundEngine.playClick(); 
+            const btn = document.getElementById('btn-dl-ws');
+            const originalText = btn.innerHTML; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...'; 
+            btn.disabled = true;
             document.fonts.ready.then(function() {
-                html2canvas(document.getElementById('worksheet-paper'), { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false }).then(canvas => {
-                    const link = document.createElement('a'); link.download = `Worksheet_${AppState.playerName || 'Student'}.jpg`; link.href = canvas.toDataURL("image/jpeg", 0.9);
-                    document.body.appendChild(link); link.click(); document.body.removeChild(link);
-                    btn.innerHTML = originalText; btn.disabled = false; SoundEngine.playSuccess();
-                }).catch(err => { btn.innerHTML = originalText; btn.disabled = false; showModal("เกิดข้อผิดพลาด", "ไม่สามารถดาวน์โหลดใบงานได้"); });
+                html2canvas(document.getElementById('worksheet-paper'), { 
+                    scale: 2, 
+                    backgroundColor: '#ffffff', 
+                    useCORS: false, 
+                    allowTaint: true,
+                    logging: false 
+                }).then(canvas => {
+                    const link = document.createElement('a'); 
+                    const safeName = (AppState.playerName || 'Student').trim().replace(/[\/\\:*?"<>|]/g, '_');
+                    link.download = `Worksheet_${safeName}.jpg`; 
+                    link.href = canvas.toDataURL("image/jpeg", 0.9);
+                    document.body.appendChild(link); 
+                    link.click(); 
+                    document.body.removeChild(link);
+                    btn.innerHTML = originalText; 
+                    btn.disabled = false; 
+                    SoundEngine.playSuccess();
+                }).catch(err => { 
+                    console.error("Download worksheet error:", err);
+                    btn.innerHTML = originalText; 
+                    btn.disabled = false; 
+                    showModal("เกิดข้อผิดพลาด", "ไม่สามารถดาวน์โหลดใบงานได้"); 
+                });
             });
-        }
+        };
 
         // --- Expose functions to window ---
         window.navTo = navTo; 
