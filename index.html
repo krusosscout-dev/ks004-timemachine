@@ -135,20 +135,34 @@
         </div>
 
         <!-- ฝั่งขวา: ปุ่มลัด & คะแนนสะสมเหรียญทอง -->
-        <div class="flex items-center gap-1.5 md:gap-2.5 shrink-0">
-            <button onclick="toggleBGM()" class="btn-toggle-bgm bg-slate-800 hover:bg-slate-700 text-slate-200 p-2 md:px-3 md:py-1.5 rounded-xl border border-slate-700 text-xs md:text-sm font-bold flex items-center gap-1.5 transition btn-game shadow-inner" title="เปิด/ปิด เสียงดนตรีคลอ">
-                <i class="fa-solid fa-music text-emerald-400"></i> <span class="hidden lg:inline text-emerald-300">เพลงคลอ</span>
+        <div class="flex items-center gap-1.5 md:gap-2 shrink-0">
+            <!-- ปุ่มแผนที่ / บทเรียน -->
+            <button onclick="navTo('screen-main-categories')" class="bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-white px-2.5 md:px-3 py-1.5 md:py-2 rounded-xl border border-emerald-500/40 text-xs md:text-sm font-bold flex items-center gap-1.5 transition btn-game shadow-md" title="กลับแผนที่บทเรียน">
+                <i class="fa-solid fa-map-location-dot text-emerald-400"></i> <span class="hidden sm:inline">บทเรียน</span>
             </button>
 
-            <button id="btn-nav-mission" onclick="navTo('screen-mission-hub')" class="hidden bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game items-center gap-1.5">
-                <span>🎯</span> <span class="hidden sm:inline">ศูนย์ภารกิจ 5 ด่าน</span>
+            <!-- ปุ่มศูนย์ภารกิจ 5 ด่าน -->
+            <button id="btn-nav-mission" onclick="attemptEnterMissionHub()" class="bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 px-2.5 md:px-3 py-1.5 md:py-2 rounded-xl font-bold border border-slate-700 text-xs md:text-sm btn-game flex items-center gap-1.5" title="ศูนย์ภารกิจ 5 ด่าน">
+                <span>🎯</span> <span class="hidden sm:inline">ศูนย์ภารกิจ</span>
             </button>
-            
-            <button onclick="openHallOfFame()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-amber-200 p-2 md:px-3 md:py-1.5 rounded-xl border border-slate-700 text-xs md:text-sm font-bold flex items-center gap-1.5 transition btn-game shadow-inner" title="ดูกระดานผู้นำ">
+
+            <!-- ปุ่มใบงานฝึกซ้อม (Worksheet) -->
+            <button onclick="openWorksheet()" class="bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 hover:text-white px-2.5 md:px-3 py-1.5 md:py-2 rounded-xl border border-indigo-400/50 text-xs md:text-sm font-bold flex items-center gap-1.5 transition btn-game shadow-md" title="มุมใบงานฝึกซ้อม">
+                <i class="fa-solid fa-book-open text-indigo-300"></i> <span class="hidden md:inline">ใบงาน</span>
+            </button>
+
+            <!-- ปุ่มกระดานผู้นำ -->
+            <button onclick="openHallOfFame()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-amber-200 px-2.5 md:px-3 py-1.5 md:py-2 rounded-xl border border-slate-700 text-xs md:text-sm font-bold flex items-center gap-1.5 transition btn-game shadow-inner" title="ดูกระดานผู้นำ">
                 <i class="fa-solid fa-trophy text-amber-400"></i> <span class="hidden lg:inline">อันดับ</span>
             </button>
 
-            <div class="bg-gradient-to-r from-amber-500/20 to-yellow-500/10 text-amber-300 px-3 md:px-4 py-1.5 md:py-2 rounded-xl border border-amber-500/40 font-black shadow-inner flex items-center gap-1.5 text-xs md:text-sm">
+            <!-- ปุ่มเปิด/ปิดเสียงเพลง -->
+            <button onclick="toggleBGM()" class="btn-toggle-bgm bg-slate-800 hover:bg-slate-700 text-slate-200 p-1.5 md:px-2.5 md:py-2 rounded-xl border border-slate-700 text-xs md:text-sm font-bold flex items-center gap-1.5 transition btn-game shadow-inner" title="เปิด/ปิด เสียงดนตรีคลอ">
+                <i class="fa-solid fa-music text-emerald-400"></i>
+            </button>
+
+            <!-- คะแนนเหรียญทอง -->
+            <div class="bg-gradient-to-r from-amber-500/20 to-yellow-500/10 text-amber-300 px-2.5 md:px-3 py-1.5 md:py-2 rounded-xl border border-amber-500/40 font-black shadow-inner flex items-center gap-1.5 text-xs md:text-sm">
                 <i class="fa-solid fa-coins text-amber-400 drop-shadow"></i> 
                 <span id="global-score" class="font-black text-amber-300">0</span>
             </div>
@@ -409,11 +423,20 @@
     </main>
 
     <!-- ศูนย์ภารกิจ -->
-    <main id="screen-mission-hub" class="screen flex-col items-center justify-start p-4 pt-24 flex-grow overflow-y-auto">
-        <div class="text-center mb-10 relative z-10">
-            <div class="text-7xl mb-4 floating">🎯</div>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-amber-400 mb-4 drop-shadow-lg">ศูนย์บัญชาการภารกิจ</h2>
-            <p class="text-slate-200 text-lg font-medium bg-slate-800/80 inline-block px-6 py-2 rounded-full border border-slate-600">เล่นตามลำดับจาก 1 ไป 5 (ภารกิจท้าทาย เล่นได้แค่ครั้งเดียวเท่านั้น!)</p>
+    <main id="screen-mission-hub" class="screen flex-col items-center justify-start p-4 pt-20 flex-grow overflow-y-auto">
+        <div class="w-full max-w-4xl mb-6 flex justify-between items-center relative z-10">
+            <button onclick="navTo('screen-main-categories')" class="text-white bg-slate-800 hover:bg-slate-700 px-5 py-2.5 rounded-xl font-bold shadow-md border border-slate-600 btn-game flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> กลับแผนที่บทเรียน
+            </button>
+            <button onclick="openWorksheet()" class="text-white bg-indigo-700 hover:bg-indigo-600 px-5 py-2.5 rounded-xl font-bold shadow-md border border-indigo-500 btn-game flex items-center gap-2">
+                <i class="fa-solid fa-book-open"></i> มุมใบงานฝึกซ้อม 📝
+            </button>
+        </div>
+
+        <div class="text-center mb-8 relative z-10">
+            <div class="text-7xl mb-3 floating">🎯</div>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-amber-400 mb-2 drop-shadow-lg">ศูนย์บัญชาการภารกิจ</h2>
+            <p class="text-slate-200 text-base md:text-lg font-medium bg-slate-800/80 inline-block px-6 py-2 rounded-full border border-slate-600">เล่นตามลำดับจาก 1 ไป 5 (ภารกิจท้าทาย สะสมคะแนนเหรียญทอง)</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full relative z-10 mb-8">
@@ -656,9 +679,12 @@
 
             <div class="bg-slate-900 rounded-2xl p-3 md:p-4 mb-6 border border-slate-700 max-h-[350px] overflow-y-auto hide-scrollbar hidden" id="leaderboard-list"></div>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center w-full mt-2" id="leaderboard-btn-container">
+            <div class="flex flex-col sm:flex-row gap-3 justify-center w-full mt-2" id="leaderboard-btn-container">
+                <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-6 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
+                </button>
                 <button onclick="navTo('screen-welcome')" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-arrow-left"></i> กลับหน้าลงทะเบียน
+                    <i class="fa-solid fa-house"></i> หน้าแรก/ลงทะเบียน
                 </button>
             </div>
         </div>
@@ -709,13 +735,18 @@
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-3">
                 <button onclick="generateCertificate()" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-white font-black py-4 px-6 rounded-xl btn-game shadow-[0_0_20px_rgba(245,158,11,0.5)] text-lg border border-yellow-300 uppercase tracking-wide">
                     <i class="fa-solid fa-scroll mr-2"></i> รับเกียรติบัตรแห่งความสำเร็จ
                 </button>
-                <button onclick="openHallOfFame()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-3 px-6 rounded-xl transition border border-slate-600 btn-game text-lg flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-trophy text-amber-400"></i> ดูทำเนียบคะแนนทั้งหมด
-                </button>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button onclick="openHallOfFame()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-3 px-4 rounded-xl transition border border-slate-600 btn-game text-base flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-trophy text-amber-400"></i> ทำเนียบคะแนน
+                    </button>
+                    <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-4 rounded-xl btn-game shadow-md text-base flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
+                    </button>
+                </div>
             </div>
         </div>
         <div class="w-full text-center mt-auto text-[10px] md:text-xs text-white/40 pointer-events-none no-print tracking-wide font-medium drop-shadow-md pb-4 z-40">
@@ -754,15 +785,18 @@
                 <p class="text-[10px] text-gray-400 mt-2 font-medium" style="font-family: 'Kanit', sans-serif;">© 2026 พัฒนาโดย กลุ่ม นอ หนู (นรากรณ์ นิธินันท์ นันทญา นันทิกานต์) • นิสิต ป.โท 69</p>
             </div>
         </div>
-        <div class="flex gap-4 no-print flex-wrap justify-center relative z-10 mb-8">
-            <button onclick="downloadCertificateImage()" id="btn-dl-img" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl btn-game text-lg shadow-lg flex items-center gap-2">
-                <i class="fa-solid fa-download"></i> ดาวน์โหลดไฟล์รูปภาพ
+        <div class="flex gap-3 no-print flex-wrap justify-center relative z-10 mb-8">
+            <button onclick="downloadCertificateImage()" id="btn-dl-img" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-xl btn-game text-base shadow-lg flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> เซฟรูปภาพ
             </button>
-            <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl btn-game text-lg shadow-lg flex items-center gap-2">
-                <i class="fa-solid fa-print"></i> พิมพ์ / Save PDF
+            <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-xl btn-game text-base shadow-lg flex items-center gap-2">
+                <i class="fa-solid fa-print"></i> พิมพ์ / PDF
             </button>
-            <button onclick="navTo('screen-leaderboard')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-xl border border-slate-500 text-lg btn-game">
-                กลับหน้ารางวัล
+            <button onclick="navTo('screen-main-categories')" class="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-6 rounded-xl text-base btn-game shadow-md flex items-center gap-2">
+                <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
+            </button>
+            <button onclick="navTo('screen-leaderboard')" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-3 px-6 rounded-xl border border-slate-600 text-base btn-game">
+                หน้ารวมคะแนน
             </button>
         </div>
         <div class="w-full text-center mt-auto text-[10px] md:text-xs text-white/40 pointer-events-none no-print tracking-wide font-medium drop-shadow-md pb-4 z-40">
@@ -1476,17 +1510,23 @@
             btnContainer.innerHTML = '';
             if (AppState.playedGames.quiz || AppState.scores.total > 0) {
                 btnContainer.innerHTML = `
-                    <button onclick="navTo('screen-leaderboard')" class="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold py-3 px-6 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-chart-simple"></i> ดูสรุปผลของฉัน
+                    <button onclick="navTo('screen-leaderboard')" class="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold py-3 px-5 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-chart-simple"></i> สรุปผลของฉัน
                     </button>
-                    <button onclick="navTo('screen-welcome')" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-arrow-left"></i> กลับหน้าลงทะเบียน
+                    <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-5 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
+                    </button>
+                    <button onclick="navTo('screen-welcome')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-5 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-house"></i> หน้าแรก
                     </button>
                 `;
             } else {
                 btnContainer.innerHTML = `
-                    <button onclick="navTo('screen-welcome')" class="flex-1 max-w-sm bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2 mx-auto">
-                        <i class="fa-solid fa-arrow-left"></i> กลับหน้าลงทะเบียน
+                    <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-6 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
+                    </button>
+                    <button onclick="navTo('screen-welcome')" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-house"></i> หน้าแรก/ลงทะเบียน
                     </button>
                 `;
             }
@@ -1548,7 +1588,7 @@
             
             const topBar = document.getElementById('top-bar');
             if (topBar) {
-                if(['screen-welcome', 'screen-certificate', 'screen-leaderboard', 'screen-hall-of-fame', 'screen-worksheet'].includes(screenId)) {
+                if(['screen-welcome', 'screen-certificate'].includes(screenId)) {
                     topBar.classList.add('hidden'); topBar.classList.remove('flex');
                 } else {
                     topBar.classList.remove('hidden'); topBar.classList.add('flex');
@@ -1630,15 +1670,13 @@
             const missionBtn = document.getElementById('btn-nav-mission');
             if(missionBtn) {
                 if(isMissionsUnlocked) {
-                    missionBtn.classList.remove('hidden');
-                    missionBtn.classList.add('flex');
-                    missionBtn.className = "flex bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game items-center gap-1.5";
+                    missionBtn.className = "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-2.5 md:px-3.5 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game flex items-center gap-1.5";
                     missionBtn.innerHTML = `<span>🎯</span> <span class="hidden sm:inline">ศูนย์ภารกิจ 5 ด่าน</span>`;
                     missionBtn.onclick = () => navTo('screen-mission-hub');
                 } else {
-                    // ซ่อนปุ่มบน Top Bar ระหว่างล็อก เพื่อไม่ให้ขึ้นซ้ำซ้อนกับปุ่มในหน้าจอหลัก
-                    missionBtn.classList.add('hidden');
-                    missionBtn.classList.remove('flex');
+                    missionBtn.className = "bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 px-2.5 md:px-3 py-1.5 md:py-2 rounded-xl font-bold border border-slate-700 text-xs md:text-sm btn-game flex items-center gap-1.5";
+                    missionBtn.innerHTML = `<span>🔒</span> <span class="hidden sm:inline">ศูนย์ภารกิจ (${completedCount}/6)</span>`;
+                    missionBtn.onclick = () => attemptEnterMissionHub();
                 }
             }
         }
