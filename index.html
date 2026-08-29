@@ -353,7 +353,7 @@
                 <div class="w-full max-w-md">
                     <div class="flex justify-between text-sm text-slate-300 mb-1 font-bold">
                         <span>เวลาศึกษา <span id="tab-name-display" class="text-amber-400">หัวข้อนี้</span></span>
-                        <span id="study-timer-text">เหลือ 20 วินาที</span>
+                        <span id="study-timer-text">เหลือ 15 วินาที</span>
                     </div>
                     <div class="w-full bg-slate-700 rounded-full h-4 overflow-hidden border border-slate-600 shadow-inner">
                         <div id="study-progress" class="bg-gradient-to-r from-amber-500 to-orange-500 h-full progress-bar-fill w-0"></div>
@@ -520,7 +520,7 @@
                 </div>
             </div>
 
-            <div id="document-container" class="bg-[#fdf6e3] border-4 border-[#d4b483] p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative w-full aspect-[4/3] md:aspect-[16/9] flex flex-col justify-center items-center transition-transform duration-500 rounded-sm">
+            <div id="document-container" class="bg-[#fdf6e3] border-4 border-[#d4b483] p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative w-full aspect-[4/3] md:aspect-[16/9] flex flex-col justify-center items-center transition-all duration-500 rounded-sm">
                 <div class="absolute top-4 right-4 text-5xl opacity-40">🏮</div>
                 <h3 id="rat-q-text" class="text-2xl md:text-4xl font-extrabold text-[#3e2723] mb-10 leading-relaxed drop-shadow-sm" style="font-family: 'Chonburi', serif;">
                     กำลังโหลดฎีกา...
@@ -530,10 +530,10 @@
             </div>
 
             <div class="flex gap-6 mt-8 relative z-10 justify-center">
-                <button onclick="handleStamp(true)" class="bg-gradient-to-b from-green-500 to-green-700 hover:from-green-400 hover:to-green-600 text-white py-6 px-8 rounded-full font-black text-2xl shadow-[0_15px_0_#14532d,0_20px_20px_rgba(0,0,0,0.5)] active:translate-y-[10px] active:shadow-[0_5px_0_#14532d,0_10px_10px_rgba(0,0,0,0.5)] transition-all flex items-center gap-3 border-4 border-green-300">
+                <button id="btn-stamp-true" onclick="handleStamp(true)" class="bg-gradient-to-b from-green-500 to-green-700 hover:from-green-400 hover:to-green-600 text-white py-6 px-8 rounded-full font-black text-2xl shadow-[0_15px_0_#14532d,0_20px_20px_rgba(0,0,0,0.5)] active:translate-y-[10px] active:shadow-[0_5px_0_#14532d,0_10px_10px_rgba(0,0,0,0.5)] transition-all flex items-center gap-3 border-4 border-green-300">
                     <span class="text-4xl bg-white/20 p-2 rounded-full">✅</span> ประทับตรา จริง
                 </button>
-                <button onclick="handleStamp(false)" class="bg-gradient-to-b from-red-500 to-red-700 hover:from-red-400 hover:to-red-600 text-white py-6 px-8 rounded-full font-black text-2xl shadow-[0_15px_0_#7f1d1d,0_20px_20px_rgba(0,0,0,0.5)] active:translate-y-[10px] active:shadow-[0_5px_0_#7f1d1d,0_10px_10px_rgba(0,0,0,0.5)] transition-all flex items-center gap-3 border-4 border-red-300">
+                <button id="btn-stamp-false" onclick="handleStamp(false)" class="bg-gradient-to-b from-red-500 to-red-700 hover:from-red-400 hover:to-red-600 text-white py-6 px-8 rounded-full font-black text-2xl shadow-[0_15px_0_#7f1d1d,0_20px_20px_rgba(0,0,0,0.5)] active:translate-y-[10px] active:shadow-[0_5px_0_#7f1d1d,0_10px_10px_rgba(0,0,0,0.5)] transition-all flex items-center gap-3 border-4 border-red-300">
                     <span class="text-4xl bg-white/20 p-2 rounded-full">❌</span> ประทับตรา เท็จ
                 </button>
             </div>
@@ -1184,7 +1184,7 @@
             tabProgress: {}, 
             playedGames: { timeline: false, runner: false, match: false, rattanakosin: false, quiz: false },
             scores: { timeline: 0, runner: 0, match: 0, rattanakosin: 0, quiz: 0, total: 0 },
-            currentLessonId: null, studyTimeRequired: 20, unlockedMission: false, playerRank: ''
+            currentLessonId: null, studyTimeRequired: 15, unlockedMission: false, playerRank: ''
         };
 
         function renderLeaderboard() {
@@ -1273,7 +1273,9 @@
             SoundEngine.playClick();
             const modal = document.getElementById('custom-modal');
             if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-            if(modalConfirmCallback) modalConfirmCallback();
+            const cb = modalConfirmCallback;
+            modalConfirmCallback = null;
+            if (cb) cb();
         });
 
         function navTo(screenId) {
@@ -1853,15 +1855,34 @@
         function updateMissionHubStatus() {
             const updateBtn = (id, played, unlockCond, score, lockedMsg, unlockMsg, btnText) => {
                 const btn = document.getElementById(`btn-${id}`); const stat = document.getElementById(`status-${id}`);
-                if(played) { stat.className = "mb-4 text-sm font-bold text-white bg-slate-600 px-4 py-2 rounded-xl"; stat.innerText = `✅ จบแล้ว (${score} แต้ม)`; btn.disabled = true; btn.className = "mt-auto w-full max-w-sm bg-slate-700 text-slate-400 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700 mx-auto"; btn.innerText = "เล่นไปแล้ว (ห้ามเล่นซ้ำ)"; }
-                else if(unlockCond) { stat.className = `mb-4 text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-xl border-2 border-slate-600 animate-pulse`; stat.innerText = unlockMsg; btn.disabled = false; btn.className = "mt-auto w-full max-w-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 rounded-xl font-bold btn-game shadow-lg mx-auto"; btn.innerText = btnText; }
-                else { stat.className = "mb-4 text-sm font-bold text-slate-500 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700"; stat.innerText = "🔒 ล็อคอยู่"; btn.disabled = true; btn.className = "mt-auto w-full max-w-sm bg-slate-800 text-slate-500 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700 mx-auto"; btn.innerText = lockedMsg; }
+                if (!btn || !stat) return;
+                if(played) { 
+                    stat.className = "mb-4 text-sm font-bold text-white bg-slate-600 px-4 py-2 rounded-xl border border-slate-500"; 
+                    stat.innerText = `✅ จบแล้ว (${score} แต้ม)`; 
+                    btn.disabled = true; 
+                    btn.className = "mt-auto w-full bg-slate-700 text-slate-400 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-600"; 
+                    btn.innerText = "ผ่านภารกิจแล้ว (เล่นได้ครั้งเดียว)"; 
+                }
+                else if(unlockCond) { 
+                    stat.className = `mb-4 text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-xl border-2 border-amber-400 animate-pulse`; 
+                    stat.innerText = unlockMsg; 
+                    btn.disabled = false; 
+                    btn.className = "mt-auto w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white py-3.5 rounded-xl font-black btn-game shadow-[0_0_20px_rgba(245,158,11,0.5)] border border-amber-300"; 
+                    btn.innerText = btnText; 
+                }
+                else { 
+                    stat.className = "mb-4 text-sm font-bold text-slate-500 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700"; 
+                    stat.innerText = "🔒 ล็อคอยู่"; 
+                    btn.disabled = true; 
+                    btn.className = "mt-auto w-full bg-slate-800 text-slate-500 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700"; 
+                    btn.innerText = lockedMsg; 
+                }
             };
-            updateBtn('timeline', AppState.playedGames.timeline, true, AppState.scores.timeline, "", "ปลดล็อกแล้ว (เริ่มได้เลย!)", "เริ่มติดตั้งวงจร ➔");
-            updateBtn('runner', AppState.playedGames.runner, AppState.playedGames.timeline, AppState.scores.runner, "ต้องผ่านด่าน 1 ก่อน", "ปลดล็อกแล้ว", "เริ่มวิ่งตะลุย ➔");
-            updateBtn('match', AppState.playedGames.match, AppState.playedGames.runner, AppState.scores.match, "ต้องผ่านด่าน 2 ก่อน", "ปลดล็อกแล้ว", "เริ่มจับคู่ ➔");
-            updateBtn('rat', AppState.playedGames.rattanakosin, AppState.playedGames.match, AppState.scores.rattanakosin, "ต้องผ่านด่าน 3 ก่อน", "ปลดล็อกแล้ว", "เริ่มตรวจฎีกา ➔");
-            updateBtn('quiz', AppState.playedGames.quiz, AppState.playedGames.rattanakosin, AppState.scores.quiz, "ต้องผ่านด่าน 4 ก่อน", "ปลดล็อกแล้ว (ด่านสุดท้าย)", "ท้าประลองบอส ➔");
+            updateBtn('timeline', AppState.playedGames.timeline, true, AppState.scores.timeline, "", "ปลดล็อกแล้ว (เริ่มได้เลย!)", "เริ่มด่าน 1: ติดตั้งวงจร ➔");
+            updateBtn('runner', AppState.playedGames.runner, AppState.playedGames.timeline, AppState.scores.runner, "ต้องผ่านด่าน 1 ก่อน", "ปลดล็อกด่านที่ 2 แล้ว!", "เริ่มด่าน 2: วิ่งตะลุยป่า ➔");
+            updateBtn('match', AppState.playedGames.match, AppState.playedGames.runner, AppState.scores.match, "ต้องผ่านด่าน 2 ก่อน", "ปลดล็อกด่านที่ 3 แล้ว!", "เริ่มด่าน 3: การ์ดพาณิชย์นาวี ➔");
+            updateBtn('rat', AppState.playedGames.rattanakosin, AppState.playedGames.match, AppState.scores.rattanakosin, "ต้องผ่านด่าน 3 ก่อน", "ปลดล็อกด่านที่ 4 แล้ว!", "เริ่มด่าน 4: ตรวจฎีกา ➔");
+            updateBtn('quiz', AppState.playedGames.quiz, AppState.playedGames.rattanakosin, AppState.scores.quiz, "ต้องผ่านด่าน 4 ก่อน", "ด่านสุดท้ายปลดล็อกแล้ว!", "เริ่มด่าน 5: ท้าประลองบอส ➔");
         }
 
         function endGameEarly(gameName) { 
@@ -1896,7 +1917,7 @@
                 btn.classList.add('border-amber-500', 'scale-105', 'shadow-[0_0_15px_rgba(245,158,11,0.5)]');
                 tSelected = tEvents.find(e => e.id === id);
             }
-        }
+        };
 
         window.placeTimeline = (slotNum) => {
             if(!tSelected) { SoundEngine.playError(); showModal("ยังไม่ได้เลือก", "คลิกเลือกวัตถุโบราณจากด้านล่างก่อนครับ"); return; }
@@ -1914,26 +1935,33 @@
                 document.getElementById('time-score-disp').innerText = tScore;
                 
                 if(tExpected > tEvents.length) {
-                    AppState.playedGames.timeline = true; AppState.scores.timeline = tScore + (tLives * 200);
-                    showModal('ติดตั้งสำเร็จ! ⏳', `เครื่องไทม์แมชชีนทำงานแล้ว!\n\nคะแนน: ${tScore}\nโบนัสหัวใจ: +${tLives*200}\n= สรุปรอบนี้: ${AppState.scores.timeline} แต้ม!`, () => navTo('screen-mission-hub'));
+                    AppState.playedGames.timeline = true; 
+                    AppState.scores.timeline = tScore + (tLives * 200);
+                    SoundEngine.playSuccess();
+                    showModal('🎉 ติดตั้งสำเร็จ! ⏳', `เครื่องไทม์แมชชีนทำงานแล้ว!\n\nคะแนนด่าน 1: ${tScore}\nโบนัสหัวใจ (+${tLives*200})\n= รวมรอบนี้: ${AppState.scores.timeline} แต้ม!\n\n🚀 กด 'รับทราบ' เพื่อไปด่านที่ 2 (วิ่งตะลุยสถานการณ์)`, () => navTo('screen-mission-hub'));
                 }
             } else {
                 SoundEngine.playError(); tLives--; document.getElementById('time-lives').innerText = tLives;
                 document.getElementById(`tslot-${slotNum}`).classList.add('border-red-500', 'bg-red-900/30', 'animate-shake-ui');
-                setTimeout(() => document.getElementById(`tslot-${slotNum}`).classList.remove('border-red-500', 'bg-red-900/30', 'animate-shake-ui'), 500);
-                if(tLives <= 0) { AppState.playedGames.timeline = true; AppState.scores.timeline = tScore; showModal('เครื่องพัง! 💔', `พลังชีวิตหมดแล้ว\nได้คะแนนไป ${tScore} แต้ม`, () => navTo('screen-mission-hub')); }
+                setTimeout(() => document.getElementById(`tslot-${slotNum}`)?.classList.remove('border-red-500', 'bg-red-900/30', 'animate-shake-ui'), 500);
+                if(tLives <= 0) { 
+                    AppState.playedGames.timeline = true; 
+                    AppState.scores.timeline = tScore; 
+                    SoundEngine.playError();
+                    showModal('💔 เครื่องพัง!', `พลังชีวิตหมดแล้ว\nได้คะแนนไป ${tScore} แต้ม\n\nกด 'รับทราบ' เพื่อไปต่อที่ศูนย์ภารกิจ`, () => navTo('screen-mission-hub')); 
+                }
             }
-        }
+        };
 
         // --- GAME 2: RUNNER (SCENARIO SURVIVAL) ---
         const canvas = document.getElementById('gameCanvas'); const ctx = canvas.getContext('2d');
         let rGameId, rActive = false, rState = {}, rObstacles = [], rItems = [], rPlatforms = [];
-        let rSpawnedQ = 0, rQCount = 0, finishLineSpawned = false, finishLineX = 0;
+        let rSpawnedQ = 0, rQCount = 0, finishLineSpawned = false, finishLineX = 0, rFrameCounter = 0, isAnsweringRunner = false;
         
         const qBankRunnerFull = [
-            { q: "สัตว์ร้ายบุก! คุณมีเครื่องมือหินในยุคเก่า จะทำอย่างไร?", a: "นำมากะเทาะให้พอมีคมทำอาวุธ", b: "นำมาฝนจนเรียบเงางาม", ans: 0 },
+            { q: "สัตว์ร้ายบุก! มีเครื่องมือหินกะเทาะในยุคเก่า จะเอาตัวรอดอย่างไร?", a: "กะเทาะทำคมอาวุธและใช้ไฟไล่", b: "นำมาขัดฝนจนเงางาม", ans: 0 },
             { q: "ต้องการหลอม 'สำริด' ต้องผสมแร่ใดเข้าด้วยกัน?", a: "เหล็ก + ตะกั่ว", b: "ทองแดง + ดีบุก", ans: 1 },
-            { q: "สร้างบ้านในยุคหินใหม่ อยากได้เครื่องมือตัดไม้ที่คมและเรียบ?", a: "ใช้หินกะเทาะหยาบๆ", b: "ใช้ขวานหินขัด (ขวานฟ้า)", ans: 1 },
+            { q: "สร้างบ้านในยุคหินใหม่ อยากได้เครื่องมือตัดไม้ที่คมและเรียบเนียน?", a: "ใช้หินกะเทาะหยาบๆ", b: "ใช้ขวานหินขัด (ขวานฟ้า)", ans: 1 },
             { q: "อยากขายสินค้าในสุโขทัย ต้องจ่ายภาษีผ่านด่าน (จกอบ) หรือไม่?", a: "ไม่ต้องจ่าย (ค้าเสรี)", b: "ต้องจ่ายให้พระคลัง", ans: 0 },
             { q: "เดือดร้อนหนัก ถูกรังแกในสมัยสุโขทัยตอนต้น ต้องไปที่ไหน?", a: "ไปตลาดปสาน", b: "สั่นกระดิ่งหน้าวัง", ans: 1 }
         ];
@@ -1944,7 +1972,7 @@
             document.getElementById('game-quiz-overlay').classList.replace('flex', 'hidden');
             rQuestions = [...qBankRunnerFull].sort(() => 0.5 - Math.random()).slice(0, 5); 
             rState = { x: 50, y: 200, dy: 0, w: 40, h: 40, grounded: true, score: 0, lives: 3, speed: 5.5 };
-            rObstacles = []; rItems = []; rPlatforms = []; rActive = true; rSpawnedQ = 0; rQCount = 0; finishLineSpawned = false;
+            rObstacles = []; rItems = []; rPlatforms = []; rActive = true; rSpawnedQ = 0; rQCount = 0; finishLineSpawned = false; rFrameCounter = 0; isAnsweringRunner = false;
             updateRUI(); if(rGameId) cancelAnimationFrame(rGameId); rLoop();
         }
 
@@ -1973,19 +2001,24 @@
             }
             ctx.font = "40px Arial"; ctx.fillText(AppState.avatar, rState.x, rState.y + 35);
 
+            rFrameCounter++;
+
+            // Finish line after 5 questions
             if (rQCount >= 5 && !finishLineSpawned) { finishLineX = canvas.width + 100; finishLineSpawned = true; }
             if (finishLineSpawned) {
                 finishLineX -= rState.speed; ctx.fillText("🏁", finishLineX, gy - 10);
                 if (finishLineX < 50) { endRunner(true); return; }
             }
 
-            if (!finishLineSpawned) {
-                if (rSpawnedQ < 5 && Math.random() < 0.018 && rPlatforms.length === 0 && rObstacles.length === 0) {
-                    let py = gy - 60 - Math.random() * 40;
-                    rPlatforms.push({x: canvas.width, y: py, w: 120, h: 20});
-                    rItems.push({type: 'box', x: canvas.width + 40, y: py - 50, w: 40, h: 40});
+            // Spawning Box items & Obstacles sequentially
+            if (!finishLineSpawned && rSpawnedQ < 5) {
+                if (rFrameCounter > 120 && rPlatforms.length === 0 && rItems.length === 0 && rObstacles.length === 0) {
+                    let py = gy - 70;
+                    rPlatforms.push({x: canvas.width, y: py, w: 130, h: 20});
+                    rItems.push({type: 'box', x: canvas.width + 45, y: py - 45, w: 40, h: 40});
                     rSpawnedQ++;
-                } else if (Math.random() < 0.012 && rPlatforms.length === 0) {
+                    rFrameCounter = 0;
+                } else if (rFrameCounter % 90 === 0 && rPlatforms.length === 0 && rItems.length === 0) {
                     rObstacles.push({ x: canvas.width, y: gy - 30, w: 30, h: 30 });
                 }
             }
@@ -2011,35 +2044,80 @@
                 if (rState.x < it.x + it.w && rState.x + rState.w > it.x && rState.y < it.y + it.h && rState.y + rState.h > it.y) {
                     rItems.splice(i, 1); rActive = false; currentGQ = rQuestions[rQCount];
                     document.getElementById('game-quiz-text').innerText = currentGQ.q;
-                    document.getElementById('gq-btn-0').innerText = currentGQ.a; document.getElementById('gq-btn-1').innerText = currentGQ.b;
-                    document.getElementById('game-quiz-overlay').classList.replace('hidden', 'flex'); SoundEngine.playWarp(); return;
+                    const b0 = document.getElementById('gq-btn-0'), b1 = document.getElementById('gq-btn-1');
+                    b0.innerText = currentGQ.a; b0.disabled = false; b0.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105";
+                    b1.innerText = currentGQ.b; b1.disabled = false; b1.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105";
+                    isAnsweringRunner = false;
+                    document.getElementById('game-quiz-overlay').classList.replace('hidden', 'flex'); 
+                    SoundEngine.playWarp(); 
+                    return;
                 }
-                if (it.x + it.w < 0) { rItems.splice(i, 1); rSpawnedQ--; }
+                if (it.x + it.w < 0) { rItems.splice(i, 1); }
             }
             rGameId = requestAnimationFrame(rLoop);
         }
 
         window.answerGameQuiz = (choice) => {
-            document.getElementById('game-quiz-overlay').classList.replace('flex', 'hidden');
-            if(choice === currentGQ.ans) { rState.score += 200; SoundEngine.playSuccess(); showModal("ถูกต้อง! 🎉", "รอดชีวิต! ได้โบนัส +200 แต้ม", () => { rQCount++; resumeRunner(); }); } 
-            else { rState.lives--; SoundEngine.playError(); showModal("พลาดแล้ว! ❌", "ตัดสินใจผิด! โดนหักหัวใจ 1 ดวง", () => { rQCount++; if(rState.lives <= 0) endRunner(false); else resumeRunner(); }); }
-            updateRUI();
-        }
+            if(isAnsweringRunner) return;
+            isAnsweringRunner = true;
+            const b0 = document.getElementById('gq-btn-0'), b1 = document.getElementById('gq-btn-1');
+            b0.disabled = true; b1.disabled = true;
 
-        function resumeRunner() { rObstacles = []; rPlatforms = []; rItems = []; rActive = true; rLoop(); }
+            const selectedBtn = choice === 0 ? b0 : b1;
+            const isCorrect = (choice === currentGQ.ans);
+
+            if(isCorrect) { 
+                rState.score += 200; 
+                SoundEngine.playSuccess(); 
+                selectedBtn.className = "flex-1 bg-green-600 text-white py-5 px-4 rounded-xl font-black text-lg border-2 border-green-300 shadow-[0_0_20px_rgba(34,197,94,0.8)] scale-105";
+                selectedBtn.innerHTML = `✅ ถูกต้อง! (+200 แต้ม)`;
+            } else { 
+                rState.lives--; 
+                SoundEngine.playError(); 
+                selectedBtn.className = "flex-1 bg-red-600 text-white py-5 px-4 rounded-xl font-black text-lg border-2 border-red-300 shadow-[0_0_20px_rgba(239,68,68,0.8)] scale-105";
+                selectedBtn.innerHTML = `❌ พลาดแล้ว! (-1 ❤️)`;
+            }
+            updateRUI();
+
+            setTimeout(() => {
+                document.getElementById('game-quiz-overlay').classList.replace('flex', 'hidden');
+                rQCount++;
+                if(rState.lives <= 0) {
+                    endRunner(false);
+                } else {
+                    resumeRunner();
+                }
+            }, 1200);
+        };
+
+        function resumeRunner() { 
+            rObstacles = []; rPlatforms = []; rItems = []; 
+            rState.y = 200; rState.dy = 0; rState.grounded = true;
+            rFrameCounter = 0;
+            rActive = true; 
+            if(rGameId) cancelAnimationFrame(rGameId);
+            rLoop(); 
+        }
         function updateRUI() { document.getElementById('runner-score').innerText = rState.score; document.getElementById('runner-lives').innerText = rState.lives; }
         
         function endRunner(isWin) {
             rActive = false; cancelAnimationFrame(rGameId); AppState.playedGames.runner = true;
             let finalScore = rState.score + (isWin ? (rState.lives * 100) : 0); AppState.scores.runner = finalScore;
-            if(isWin) { SoundEngine.playSuccess(); showModal('รอดชีวิตออกจากป่า! 🏆', `แต้ม: ${rState.score}\nโบนัสหัวใจ: +${rState.lives*100}\nรวม: ${finalScore} แต้ม`, () => navTo('screen-mission-hub')); } 
-            else { SoundEngine.playError(); showModal('เกมโอเวอร์! 💥', `พลังชีวิตหมด ได้ไป ${rState.score} แต้ม`, () => navTo('screen-mission-hub')); }
+            if(isWin) { 
+                SoundEngine.playSuccess(); 
+                showModal('🎉 รอดชีวิตออกจากป่า! 🏆', `แต้มด่าน 2: ${rState.score}\nโบนัสหัวใจ (+${rState.lives*100})\n= รวมรอบนี้: ${finalScore} แต้ม!\n\n🚀 กด 'รับทราบ' เพื่อไปด่านที่ 3 (เปิดการ์ดจับคู่พาณิชย์นาวี)`, () => navTo('screen-mission-hub')); 
+            } else { 
+                SoundEngine.playError(); 
+                showModal('💔 เกมโอเวอร์!', `พลังชีวิตหมด ได้ไป ${rState.score} แต้ม\n\nกด 'รับทราบ' เพื่อไปต่อที่ศูนย์ภารกิจ`, () => navTo('screen-mission-hub')); 
+            }
         }
 
         // --- GAME 3: ENHANCED MEMORY MATCH (COMBO) ---
         const memoryDataFull = [
-            { id: '1', text: 'เวียง วัง คลัง นา', pair: 'จตุสดมภ์ 🏰' }, { id: '2', text: 'ผูกขาดการค้า\nกับต่างชาติ', pair: 'พระคลังสินค้า 💰' },
-            { id: '3', text: 'กษัตริย์เปรียบดั่งเทพ', pair: 'สมมติเทพ 👑' }, { id: '4', text: 'ชายไทยต้อง\nเข้าเวรรับใช้หลวง', pair: 'ระบบไพร่ 👥' }
+            { id: '1', text: 'เวียง วัง คลัง นา', pair: 'จตุสดมภ์ 🏰' }, 
+            { id: '2', text: 'ผูกขาดการค้า\nกับต่างชาติ', pair: 'พระคลังสินค้า 💰' },
+            { id: '3', text: 'กษัตริย์เปรียบดั่งเทพ', pair: 'สมมติเทพ 👑' }, 
+            { id: '4', text: 'ชายไทยต้อง\nเข้าเวรรับใช้หลวง', pair: 'ระบบไพร่ 👥' }
         ];
         let memCards = [], flippedCards = [], memLives = 8, memScore = 0, memMatched = 0;
         let isFlipping = false, currentMatchTotal = 4, comboCount = 0;
@@ -2067,15 +2145,21 @@
             setTimeout(() => {
                 document.querySelectorAll('.memory-card').forEach(card => card.classList.remove('flipped'));
                 isFlipping = false; SoundEngine.playClick();
-            }, 4000);
+            }, 3500);
         }
 
         window.handleCardFlip = (card) => {
-            if(isFlipping || card.classList.contains('flipped') || card.classList.contains('matched')) return;
-            SoundEngine.playClick(); card.classList.add('flipped'); flippedCards.push(card);
+            if(isFlipping || !card || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+            SoundEngine.playClick(); 
+            card.classList.add('flipped'); 
+            flippedCards.push(card);
 
             if(flippedCards.length === 2) {
-                isFlipping = true; const match1 = flippedCards[0].dataset.id; const match2 = flippedCards[1].dataset.id;
+                isFlipping = true;
+                const [c1, c2] = flippedCards;
+                const match1 = c1.dataset.id; 
+                const match2 = c2.dataset.id;
+
                 if(match1 === match2) {
                     SoundEngine.playSuccess(); comboCount++;
                     let pts = 200 * comboCount; memScore += pts; document.getElementById('mem-score-disp').innerText = memScore;
@@ -2084,32 +2168,45 @@
                         const comboUI = document.getElementById('combo-display');
                         comboUI.innerText = `COMBO x${comboCount}!`;
                         comboUI.style.opacity = '1'; comboUI.style.transform = 'translate(-50%, -50%) scale(1.2)';
-                        setTimeout(() => { comboUI.style.opacity = '0'; comboUI.style.transform = 'translate(-50%, -50%) scale(0.5)'; }, 1000);
+                        setTimeout(() => { comboUI.style.opacity = '0'; comboUI.style.transform = 'translate(-50%, -50%) scale(0.5)'; }, 900);
                     }
 
                     setTimeout(() => {
-                        flippedCards[0]?.classList.add('matched'); flippedCards[1]?.classList.add('matched');
-                        memMatched++; flippedCards = []; isFlipping = false; checkMemoryWin();
-                    }, 600);
+                        c1.classList.add('matched'); 
+                        c2.classList.add('matched');
+                        memMatched++; 
+                        flippedCards = []; 
+                        isFlipping = false; 
+                        checkMemoryWin();
+                    }, 500);
                 } else {
                     SoundEngine.playError(); comboCount = 0;
-                    setTimeout(() => { flippedCards[0]?.classList.add('wrong'); flippedCards[1]?.classList.add('wrong'); }, 500);
+                    setTimeout(() => { c1.classList.add('wrong'); c2.classList.add('wrong'); }, 400);
                     setTimeout(() => {
-                        flippedCards[0]?.classList.remove('flipped', 'wrong'); flippedCards[1]?.classList.remove('flipped', 'wrong');
-                        flippedCards = []; isFlipping = false; memLives--; document.getElementById('mem-lives').innerText = memLives;
+                        c1.classList.remove('flipped', 'wrong'); 
+                        c2.classList.remove('flipped', 'wrong');
+                        flippedCards = []; 
+                        isFlipping = false; 
+                        memLives--; 
+                        document.getElementById('mem-lives').innerText = memLives;
                         if(memLives <= 0) {
                             AppState.playedGames.match = true; AppState.scores.match = memScore;
-                            showModal('เกมโอเวอร์ 💔', `พลาดเกินกำหนดแล้ว!\nได้คะแนนไป ${memScore} แต้ม`, () => navTo('screen-mission-hub'));
+                            SoundEngine.playError();
+                            showModal('💔 เกมโอเวอร์', `พลาดเกินกำหนดแล้ว!\nได้คะแนนไป ${memScore} แต้ม\n\nกด 'รับทราบ' เพื่อไปต่อที่ศูนย์ภารกิจ`, () => navTo('screen-mission-hub'));
                         }
-                    }, 1200);
+                    }, 1000);
                 }
             }
-        }
+        };
 
         function checkMemoryWin() {
-            if(memMatched === currentMatchTotal) {
-                AppState.playedGames.match = true; let finalMemScore = memScore + (memLives * 100); AppState.scores.match = finalMemScore; 
-                showModal('ความจำยอดเยี่ยม! 🧠', `จับคู่ครบทั้งหมดแล้ว!\n\nคะแนน: ${memScore}\nโบนัสหัวใจเหลือ (${memLives}x100): +${memLives*100}\n= สรุปรอบนี้: ${finalMemScore} แต้ม!`, () => navTo('screen-mission-hub'));
+            const unmatchedCount = document.querySelectorAll('.memory-card:not(.matched)').length;
+            if(memMatched >= currentMatchTotal || unmatchedCount === 0) {
+                AppState.playedGames.match = true; 
+                let finalMemScore = memScore + (memLives * 100); 
+                AppState.scores.match = finalMemScore; 
+                SoundEngine.playSuccess();
+                showModal('🎉 ยอดเยี่ยมมาก! 🧠', `จับคู่พาณิชย์นาวีครบทั้ง 4 คู่แล้ว!\n\nคะแนน: ${memScore}\nโบนัสหัวใจเหลือ (${memLives}x100): +${memLives*100}\n= สรุปรอบนี้: ${finalMemScore} แต้ม!\n\n🚀 กด 'รับทราบ' เพื่อไปด่านที่ 4 (โต๊ะตรวจเอกสารราชการ)`, () => navTo('screen-mission-hub'));
             }
         }
 
@@ -2121,24 +2218,42 @@
             { q: "ประเทศไทยเปลี่ยนเป็น 'ประชาธิปไตย' ในปี พ.ศ. 2475 สมัยรัชกาลที่ 7", ans: true, exp: "ถูกต้อง! คณะราษฎรเปลี่ยนแปลงการปกครองเมื่อวันที่ 24 มิ.ย. 2475" },
             { q: "รัตนโกสินทร์ตอนต้น มีการสร้าง 'วัดพระแก้ว' โดยจำลองแบบมาจากกรุงธนบุรี", ans: false, exp: "ผิด! จำลองแบบและสถาปัตยกรรมมาจาก 'กรุงศรีอยุธยา' เพื่อฟื้นฟูขวัญกำลังใจ" }
         ];
-        let ratQIdx = 0, ratScore = 0;
+        let ratQIdx = 0, ratScore = 0, isStamping = false;
 
-        function initRatGame() { SoundEngine.playClick(); ratQIdx = 0; ratScore = 0; navTo('screen-rat-game'); loadRatQuestion(); }
+        function initRatGame() { 
+            SoundEngine.playClick(); 
+            ratQIdx = 0; 
+            ratScore = 0; 
+            isStamping = false;
+            navTo('screen-rat-game'); 
+            loadRatQuestion(); 
+        }
         
         function loadRatQuestion() {
             if (ratQIdx >= ratQuestions.length) {
-                AppState.playedGames.rattanakosin = true; AppState.scores.rattanakosin = ratScore;
-                showModal('ตรวจงานเสร็จสิ้น! 📜', `สายตาเฉียบขาดมาก!\nทำคะแนนด่านนี้ได้: ${ratScore} แต้ม\n\nเตรียมตัวเข้าสู่ ศึกตัดสินบอส ได้เลย!`, () => navTo('screen-mission-hub')); return;
+                AppState.playedGames.rattanakosin = true; 
+                AppState.scores.rattanakosin = ratScore;
+                SoundEngine.playSuccess();
+                showModal('🎉 ตรวจฎีกาเสร็จสิ้น! 📜', `สายตาเฉียบขาดมาก!\nทำคะแนนด่าน 4 ได้: ${ratScore} แต้ม\n\n🚀 กด 'รับทราบ' เพื่อเข้าสู่ ด่านสุดท้าย (ศึกประลองบอส Quiz)!`, () => navTo('screen-mission-hub')); 
+                return;
             }
             document.getElementById('rat-q-num').innerText = ratQIdx + 1;
             document.getElementById('rat-q-text').innerText = ratQuestions[ratQIdx].q;
-            document.getElementById('document-container').style.transform = 'translateY(0) rotate(0deg)';
-            document.getElementById('document-container').style.opacity = '1';
+            
+            const docContainer = document.getElementById('document-container');
+            docContainer.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            docContainer.style.transform = 'translateY(0) rotate(0deg) scale(1)';
+            docContainer.style.opacity = '1';
+
             document.getElementById('stamp-true').classList.remove('stamp-anim');
             document.getElementById('stamp-false').classList.remove('stamp-anim');
+            isStamping = false;
         }
 
         window.handleStamp = (userAns) => {
+            if(isStamping) return;
+            isStamping = true;
+
             const currentQ = ratQuestions[ratQIdx];
             const stampEl = userAns ? document.getElementById('stamp-true') : document.getElementById('stamp-false');
             
@@ -2147,21 +2262,28 @@
             document.body.classList.add('animate-shake-ui');
             setTimeout(() => document.body.classList.remove('animate-shake-ui'), 300);
 
+            const isCorrect = (userAns === currentQ.ans);
+            if (isCorrect) {
+                ratScore += 300; 
+                SoundEngine.playSuccess();
+            } else {
+                SoundEngine.playError();
+            }
+
             setTimeout(() => {
-                document.getElementById('document-container').style.transform = 'translateY(-100vh) rotate(15deg)';
-                document.getElementById('document-container').style.opacity = '0';
+                const docContainer = document.getElementById('document-container');
+                docContainer.style.transform = 'translateY(-120%) rotate(15deg) scale(0.85)';
+                docContainer.style.opacity = '0';
                 
                 setTimeout(() => {
-                    if (userAns === currentQ.ans) {
-                        ratScore += 300; SoundEngine.playSuccess();
-                        showModal("วิเคราะห์ถูกต้อง! ✅", `ได้รับ +300 แต้ม\n\n${currentQ.exp}`, () => { ratQIdx++; loadRatQuestion(); });
+                    if (isCorrect) {
+                        showModal("✅ วิเคราะห์ถูกต้อง! (+300 แต้ม)", currentQ.exp, () => { ratQIdx++; loadRatQuestion(); });
                     } else {
-                        SoundEngine.playError();
-                        showModal("ผิดพลาด! ❌", `โดนตีกลับ!\n\n${currentQ.exp}`, () => { ratQIdx++; loadRatQuestion(); });
+                        showModal("❌ ตรวจผิดพลาด!", currentQ.exp, () => { ratQIdx++; loadRatQuestion(); });
                     }
                 }, 400);
-            }, 800);
-        }
+            }, 700);
+        };
 
         // --- GAME 5: RPG BOSS BATTLE QUIZ ---
         const quizBankFull = [
@@ -2177,12 +2299,12 @@
             { q: "อยากขายช้างขายม้าในสุโขทัย ต้องจ่ายภาษีผ่านด่าน (จกอบ) หรือไม่?", options: ["ไม่ต้องจ่าย (ค้าเสรี)", "ต้องจ่ายให้พระคลัง", "ห้ามค้าขายสัตว์", "จ่ายด้วยทองคำ"], a: 0 }
         ];
         let qCurrentIdx = 0, qTimer, qTimeLeft = 30, qScore = 0, qList = [];
-        let playerHP = 100, bossHP = 100;
+        let playerHP = 100, bossHP = 100, isSubmittingQuiz = false;
 
         function startQuiz() {
             SoundEngine.playClick();
             qList = [...quizBankFull].sort(()=>0.5-Math.random()).slice(0, 10);
-            qCurrentIdx = 0; qScore = 0; playerHP = 100; bossHP = 100;
+            qCurrentIdx = 0; qScore = 0; playerHP = 100; bossHP = 100; isSubmittingQuiz = false;
             document.getElementById('rpg-avatar').innerText = AppState.avatar;
             document.getElementById('rpg-name').innerText = AppState.playerName || "Hero";
             updateHPUIs(); navTo('screen-quiz'); loadQuestion();
@@ -2197,6 +2319,7 @@
 
         function loadQuestion() {
             if (qCurrentIdx >= qList.length || playerHP <= 0 || bossHP <= 0) { finishQuiz(); return; }
+            isSubmittingQuiz = false;
             const qData = qList[qCurrentIdx];
             document.getElementById('quiz-current').innerText = qCurrentIdx + 1;
             document.getElementById('quiz-question').innerText = qData.q;
@@ -2204,8 +2327,9 @@
             const optCont = document.getElementById('quiz-options'); optCont.innerHTML = '';
             qData.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
+                btn.id = `quiz-opt-btn-${idx}`;
                 btn.className = 'bg-slate-700 hover:bg-purple-600 text-white text-left p-4 md:p-5 rounded-2xl border border-slate-500 transition-all shadow-md text-base font-medium w-full flex items-center gap-3 hover:scale-105';
-                btn.innerHTML = `<span class="bg-slate-900 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0">${['A','B','C','D'][idx]}</span> ${opt}`;
+                btn.innerHTML = `<span class="bg-slate-900 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0">${['A','B','C','D'][idx]}</span> <span>${opt}</span>`;
                 btn.onclick = () => submitQuiz(idx, qData.a);
                 optCont.appendChild(btn);
             });
@@ -2219,48 +2343,82 @@
         }
 
         window.submitQuiz = (selIdx, correctIdx) => {
+            if (isSubmittingQuiz) return;
+            isSubmittingQuiz = true;
             clearInterval(qTimer);
+
+            // Disable all option buttons
+            for (let i = 0; i < 4; i++) {
+                const b = document.getElementById(`quiz-opt-btn-${i}`);
+                if (b) {
+                    b.disabled = true;
+                    if (i === correctIdx) b.className = "bg-green-600 text-white text-left p-4 md:p-5 rounded-2xl border-2 border-green-300 shadow-[0_0_20px_rgba(34,197,94,0.7)] text-base font-bold w-full flex items-center gap-3 scale-105";
+                    else if (i === selIdx) b.className = "bg-red-600 text-white text-left p-4 md:p-5 rounded-2xl border-2 border-red-300 shadow-[0_0_20px_rgba(239,68,68,0.7)] text-base font-bold w-full flex items-center gap-3";
+                    else b.className = "bg-slate-800 text-slate-500 text-left p-4 md:p-5 rounded-2xl border border-slate-700 text-base font-medium w-full flex items-center gap-3 opacity-50";
+                }
+            }
+
             const playerSprite = document.getElementById('player-sprite');
             const bossSprite = document.getElementById('boss-sprite');
             const slashFx = document.getElementById('slash-fx');
 
             if (selIdx === correctIdx) {
                 SoundEngine.playSlash();
+                SoundEngine.playSuccess();
                 playerSprite.style.animation = "playerAttack 0.3s ease-in-out";
                 setTimeout(() => {
-                    slashFx.style.opacity = '1'; slashFx.style.left = '60%';
+                    slashFx.innerText = '✨';
+                    slashFx.style.opacity = '1'; 
+                    slashFx.style.left = '60%';
                     bossSprite.style.animation = "damageBlink 0.3s infinite";
-                    bossHP -= 15; updateHPUIs();
+                    bossHP = Math.max(0, bossHP - 10); 
+                    updateHPUIs();
+                    let roundScore = 300 + Math.floor(qTimeLeft * 5); 
+                    qScore += roundScore;
                     setTimeout(() => {
-                        slashFx.style.opacity = '0'; slashFx.style.left = '50%';
-                        bossSprite.style.animation = "none"; playerSprite.style.animation = "none";
-                        let roundScore = 300 + Math.floor(qTimeLeft * 5); qScore += roundScore;
-                        SoundEngine.playSuccess();
-                        showModal("โจมตีสำเร็จ! ⚔️", `+${roundScore} แต้ม`, () => { qCurrentIdx++; loadQuestion(); });
+                        slashFx.style.opacity = '0'; 
+                        slashFx.style.left = '50%';
+                        bossSprite.style.animation = "none"; 
+                        playerSprite.style.animation = "none";
                     }, 400);
                 }, 150);
             } else {
                 SoundEngine.playThud();
+                SoundEngine.playError();
                 bossSprite.style.animation = "bossAttack 0.3s ease-in-out";
                 setTimeout(() => {
-                    slashFx.innerText = '💥'; slashFx.style.opacity = '1'; slashFx.style.left = '30%';
+                    slashFx.innerText = '💥'; 
+                    slashFx.style.opacity = '1'; 
+                    slashFx.style.left = '30%';
                     playerSprite.style.animation = "damageBlink 0.3s infinite";
-                    playerHP -= 25; updateHPUIs();
+                    playerHP = Math.max(0, playerHP - 20); 
+                    updateHPUIs();
                     setTimeout(() => {
-                        slashFx.innerText = '✨'; slashFx.style.opacity = '0'; slashFx.style.left = '50%';
-                        bossSprite.style.animation = "none"; playerSprite.style.animation = "none";
-                        SoundEngine.playError();
-                        showModal(selIdx === -1 ? "หมดเวลา! ⏰" : "โดนโจมตี! ❌", "สูญเสีย HP!", () => { qCurrentIdx++; loadQuestion(); });
+                        slashFx.innerText = '✨'; 
+                        slashFx.style.opacity = '0'; 
+                        slashFx.style.left = '50%';
+                        bossSprite.style.animation = "none"; 
+                        playerSprite.style.animation = "none";
                     }, 400);
                 }, 150);
             }
-        }
+
+            setTimeout(() => {
+                qCurrentIdx++;
+                loadQuestion();
+            }, 1300);
+        };
 
         function finishQuiz() {
-            AppState.playedGames.quiz = true; AppState.scores.quiz = qScore + (playerHP * 10);
+            clearInterval(qTimer);
+            const finalQuizScore = qScore + (Math.max(0, playerHP) * 10);
+            AppState.playedGames.quiz = true; 
+            AppState.scores.quiz = finalQuizScore;
             const isWin = playerHP > 0;
-            showModal(isWin ? 'ปราบบอสสำเร็จ! 🏆' : 'พ่ายแพ้! 💀', `คะแนนรอบนี้: ${qScore}\nโบนัส HP เหลือ: +${Math.max(0, playerHP*10)}\n\nไปดูผลลัพธ์และระดับ Rank กันเลย!`, () => {
-                updateTotal(); navTo('screen-leaderboard');
+            if(isWin) SoundEngine.playSuccess(); else SoundEngine.playError();
+            showModal(isWin ? '🏆 พิชิตศึกประลองสำเร็จ!' : '💀 พ่ายแพ้ศึกประลอง!', `คุณผ่านครบทั้ง 5 มินิเกมแล้ว!\n\nคะแนนด่าน 5: ${qScore}\nโบนัส HP เหลือ (+${Math.max(0, playerHP*10)})\n= รวมด่านนี้: ${finalQuizScore} แต้ม!\n\n🌟 กด 'รับทราบ' เพื่อดูสรุปผลคะแนนและรับเกียรติบัตร`, () => {
+                updateTotal(); 
+                navTo('screen-leaderboard');
             });
         }
 
@@ -2372,10 +2530,16 @@
         window.markLessonComplete = markLessonComplete; 
         window.openHallOfFame = () => { SoundEngine.playClick(); renderLeaderboard(); navTo('screen-hall-of-fame'); };
         window.initTimelineGame = initTimelineGame;
+        window.selectTimeline = selectTimeline;
+        window.placeTimeline = placeTimeline;
         window.initRunnerGame = initRunnerGame;
+        window.answerGameQuiz = answerGameQuiz;
         window.initMemoryGame = initMemoryGame;
+        window.handleCardFlip = handleCardFlip;
         window.initRatGame = initRatGame;
+        window.handleStamp = handleStamp;
         window.startQuiz = startQuiz;
+        window.submitQuiz = submitQuiz;
         window.generateCertificate = generateCertificate;
         window.downloadCertificateImage = downloadCertificateImage;
         window.openWorksheet = openWorksheet;
