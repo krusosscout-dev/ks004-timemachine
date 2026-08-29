@@ -496,7 +496,9 @@
     <main id="screen-timeline-game" class="screen flex-col items-center justify-start p-4 pt-24 flex-grow overflow-y-auto z-50 bg-slate-950">
          <div class="max-w-4xl w-full">
             <div class="flex justify-between items-center mb-6 bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-lg">
-                <button onclick="endGameEarly('timeline')" class="text-slate-400 hover:text-white mr-4 bg-slate-700 p-2 rounded-lg"><i class="fa-solid fa-times text-xl"></i> ถอนตัว</button>
+                <button onclick="endGameEarly('timeline')" class="text-slate-400 hover:text-white mr-4 bg-slate-700/90 hover:bg-slate-600 px-3.5 py-2 rounded-xl text-sm font-bold flex items-center gap-1.5 transition shadow">
+                    <i class="fa-solid fa-arrow-left"></i> ย้อนกลับ
+                </button>
                 <div class="flex-grow">
                     <h2 class="text-xl md:text-2xl font-bold text-amber-400">ด่าน 1: ติดตั้งวงจรข้ามเวลา</h2>
                     <p class="text-slate-300 text-xs md:text-sm font-medium">1. คลิกเลือกวัตถุโบราณด้านล่าง 2. คลิกใส่ในช่องยุคให้ถูกต้องตามลำดับเวลา (เก่าสุด ไป ใหม่สุด)</p>
@@ -518,7 +520,9 @@
     <main id="screen-game" class="screen flex-col items-center justify-center p-3 sm:p-4 pt-16 md:pt-20 bg-slate-950 z-50 flex-grow">
         <div class="max-w-5xl w-full">
             <div class="flex justify-between items-center mb-3 bg-slate-800/90 backdrop-blur-sm p-3.5 rounded-2xl border border-slate-700 shadow-lg">
-                <button onclick="endGameEarly('runner')" class="text-slate-400 hover:text-white mr-3 bg-slate-700/80 p-2 rounded-xl text-sm font-bold flex items-center gap-1 transition hover:bg-slate-600"><i class="fa-solid fa-times text-lg"></i> ถอนตัว</button>
+                <button onclick="endGameEarly('runner')" class="text-slate-400 hover:text-white mr-3 bg-slate-700/80 hover:bg-slate-600 px-3.5 py-2 rounded-xl text-sm font-bold flex items-center gap-1.5 transition shadow">
+                    <i class="fa-solid fa-arrow-left"></i> ย้อนกลับ
+                </button>
                 <div class="flex-grow text-left">
                     <div class="flex items-center gap-2">
                         <h2 class="text-lg md:text-2xl font-black text-green-400">ด่าน 2: วิ่งตะลุยสถานการณ์</h2>
@@ -558,7 +562,9 @@
     <main id="screen-match-game" class="screen flex-col items-center justify-start p-4 pt-24 flex-grow overflow-y-auto z-50 bg-slate-950">
         <div class="max-w-4xl w-full">
             <div class="flex justify-between items-center mb-6 bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-lg">
-                <button onclick="endGameEarly('match')" class="text-slate-400 hover:text-white mr-4 bg-slate-700 p-2 rounded-lg"><i class="fa-solid fa-times text-xl"></i> ถอนตัว</button>
+                <button onclick="endGameEarly('match')" class="text-slate-400 hover:text-white mr-4 bg-slate-700/90 hover:bg-slate-600 px-3.5 py-2 rounded-xl text-sm font-bold flex items-center gap-1.5 transition shadow">
+                    <i class="fa-solid fa-arrow-left"></i> ย้อนกลับ
+                </button>
                 <div class="flex-grow">
                     <h2 class="text-xl md:text-2xl font-bold text-blue-400">ด่าน 3: พาณิชย์นาวี (เปิดการ์ดจับคู่)</h2>
                     <p class="text-slate-300 text-xs md:text-sm font-medium">จับคู่เหตุการณ์อยุธยา-ธนบุรี (จับคู่ติดกันรัวๆ ได้คะแนนคูณ 2!)</p>
@@ -574,51 +580,80 @@
         </div>
     </main>
 
-    <!-- มินิเกม 4: รัตนโกสินทร์ Stamp Game (Royal Decree) -->
+    <!-- มินิเกม 4: รัตนโกสินทร์ Stamp Game (Royal Decree Analysis) -->
     <main id="screen-rat-game" class="screen flex-col items-center justify-center p-4 pt-20 bg-slate-950 z-50 flex-grow relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] bg-[#3e2723] opacity-60 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[#2d1b15] opacity-80 pointer-events-none"></div>
         
         <div class="max-w-3xl w-full z-10 relative">
-            <div class="flex justify-between items-center mb-6 bg-slate-800/90 backdrop-blur-sm p-4 rounded-2xl border border-slate-700 shadow-xl">
-                <button onclick="endGameEarly('rattanakosin')" class="text-slate-400 hover:text-white mr-4 bg-slate-700 p-2 rounded-lg"><i class="fa-solid fa-times text-xl"></i> ถอนตัว</button>
-                <div class="flex-grow">
-                    <h2 class="text-xl md:text-2xl font-bold text-amber-400">ด่าน 4: โต๊ะตรวจเอกสารราชการ</h2>
-                    <p class="text-slate-300 text-xs md:text-sm font-medium">อ่านฎีกา (ยุครัตนโกสินทร์) แล้วประทับตรา "อนุมัติ (จริง)" หรือ "ตีตก (เท็จ)"</p>
+            <div class="flex justify-between items-center mb-5 bg-slate-800/90 backdrop-blur-sm p-4 rounded-2xl border border-slate-700 shadow-xl">
+                <button onclick="endGameEarly('rattanakosin')" class="text-slate-400 hover:text-white mr-4 bg-slate-700/90 hover:bg-slate-600 px-3.5 py-2 rounded-xl text-sm font-bold flex items-center gap-1.5 transition shadow">
+                    <i class="fa-solid fa-arrow-left"></i> ย้อนกลับ
+                </button>
+                <div class="flex-grow text-left">
+                    <h2 class="text-lg md:text-2xl font-black text-amber-400">ด่าน 4: โต๊ะวิเคราะห์ฎีกาและยุทธศาสตร์ประวัติศาสตร์</h2>
+                    <p class="text-slate-300 text-xs md:text-sm font-medium">วิเคราะห์สถานการณ์ยุทธศาสตร์ยุครัตนโกสินทร์ แล้วตัดสินใจ "✅ อนุมัติ (วิเคราะห์ถูกต้อง)" หรือ "❌ ตีตก (วิเคราะห์คลาดเคลื่อน)"</p>
                 </div>
-                <div class="text-right bg-slate-900 px-4 py-2 rounded-xl border border-slate-700">
-                    <div class="text-amber-400 font-bold text-xl">ฉบับที่ <span id="rat-q-num">1</span>/5</div>
+                <div class="text-right bg-slate-900 px-3.5 py-1.5 rounded-xl border border-slate-700 shrink-0">
+                    <div class="text-amber-400 font-bold text-base md:text-lg">ฉบับที่ <span id="rat-q-num" class="text-xl font-black text-white">1</span>/5</div>
                 </div>
             </div>
 
-            <div id="document-container" class="bg-[#fdf6e3] border-4 border-[#d4b483] p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative w-full aspect-[4/3] md:aspect-[16/9] flex flex-col justify-center items-center transition-all duration-500 rounded-sm">
-                <div class="absolute top-4 right-4 text-5xl opacity-40">🏮</div>
-                <h3 id="rat-q-text" class="text-2xl md:text-4xl font-extrabold text-[#3e2723] mb-10 leading-relaxed drop-shadow-sm" style="font-family: 'Chonburi', serif;">
+            <!-- Royal Scroll Paper Container -->
+            <div id="document-container" class="bg-[#fef9ec] border-4 border-[#b45309] p-6 sm:p-8 md:p-10 text-center shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative w-full flex flex-col justify-center items-center transition-all duration-500 rounded-2xl">
+                <div class="flex items-center gap-2 mb-2">
+                    <span id="rat-q-topic" class="bg-amber-800/20 text-amber-900 border border-amber-800/30 text-xs md:text-sm px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
+                        🏛️ ยุทธศาสตร์ประวัติศาสตร์
+                    </span>
+                </div>
+                
+                <h3 id="rat-q-text" class="text-base sm:text-lg md:text-xl font-bold text-[#451a03] mb-4 leading-relaxed max-w-2xl" style="font-family: 'Kanit', sans-serif;">
                     กำลังโหลดฎีกา...
                 </h3>
-                <div id="stamp-true" class="absolute inset-0 m-auto w-48 h-48 border-8 border-green-600 text-green-600 rounded-full flex items-center justify-center text-4xl font-black rotate-12 opacity-0 pointer-events-none bg-green-100/30 backdrop-blur-sm" style="font-family: 'Kanit', sans-serif;">อนุมัติ<br>✅</div>
-                <div id="stamp-false" class="absolute inset-0 m-auto w-48 h-48 border-8 border-red-600 text-red-600 rounded-full flex items-center justify-center text-4xl font-black -rotate-12 opacity-0 pointer-events-none bg-red-100/30 backdrop-blur-sm" style="font-family: 'Kanit', sans-serif;">ตีตก<br>❌</div>
+
+                <!-- Feedback Reasoning Box (Shown after stamping) -->
+                <div id="rat-feedback-box" class="hidden w-full max-w-xl p-3.5 rounded-xl bg-amber-950 text-amber-200 border-2 border-amber-500/60 text-xs sm:text-sm font-medium shadow-md animate-fadeInScale">
+                </div>
+
+                <div id="stamp-true" class="absolute inset-0 m-auto w-48 h-48 border-8 border-green-600 text-green-600 rounded-full flex items-center justify-center text-3xl font-black rotate-12 opacity-0 pointer-events-none bg-green-100/30 backdrop-blur-sm" style="font-family: 'Kanit', sans-serif;">อนุมัติ<br>✅</div>
+                <div id="stamp-false" class="absolute inset-0 m-auto w-48 h-48 border-8 border-red-600 text-red-600 rounded-full flex items-center justify-center text-3xl font-black -rotate-12 opacity-0 pointer-events-none bg-red-100/30 backdrop-blur-sm" style="font-family: 'Kanit', sans-serif;">ตีตก<br>❌</div>
             </div>
 
-            <div class="flex gap-6 mt-8 relative z-10 justify-center">
-                <button id="btn-stamp-true" onclick="handleStamp(true)" class="bg-gradient-to-b from-green-500 to-green-700 hover:from-green-400 hover:to-green-600 text-white py-6 px-8 rounded-full font-black text-2xl shadow-[0_15px_0_#14532d,0_20px_20px_rgba(0,0,0,0.5)] active:translate-y-[10px] active:shadow-[0_5px_0_#14532d,0_10px_10px_rgba(0,0,0,0.5)] transition-all flex items-center gap-3 border-4 border-green-300">
-                    <span class="text-4xl bg-white/20 p-2 rounded-full">✅</span> ประทับตรา จริง
+            <div class="flex gap-4 sm:gap-6 mt-6 relative z-10 justify-center">
+                <button id="btn-stamp-true" onclick="handleStamp(true)" class="flex-1 max-w-xs bg-gradient-to-b from-green-500 to-green-700 hover:from-green-400 hover:to-green-600 text-white py-4 sm:py-5 px-6 rounded-2xl font-black text-lg sm:text-xl shadow-[0_10px_0_#14532d,0_15px_15px_rgba(0,0,0,0.5)] active:translate-y-[6px] active:shadow-[0_4px_0_#14532d] transition-all flex items-center justify-center gap-2.5 border-2 border-green-300">
+                    <span class="text-2xl bg-white/20 p-1.5 rounded-full">✅</span> อนุมัติ (ถูกต้อง)
                 </button>
-                <button id="btn-stamp-false" onclick="handleStamp(false)" class="bg-gradient-to-b from-red-500 to-red-700 hover:from-red-400 hover:to-red-600 text-white py-6 px-8 rounded-full font-black text-2xl shadow-[0_15px_0_#7f1d1d,0_20px_20px_rgba(0,0,0,0.5)] active:translate-y-[10px] active:shadow-[0_5px_0_#7f1d1d,0_10px_10px_rgba(0,0,0,0.5)] transition-all flex items-center gap-3 border-4 border-red-300">
-                    <span class="text-4xl bg-white/20 p-2 rounded-full">❌</span> ประทับตรา เท็จ
+                <button id="btn-stamp-false" onclick="handleStamp(false)" class="flex-1 max-w-xs bg-gradient-to-b from-red-500 to-red-700 hover:from-red-400 hover:to-red-600 text-white py-4 sm:py-5 px-6 rounded-2xl font-black text-lg sm:text-xl shadow-[0_10px_0_#7f1d1d,0_15px_15px_rgba(0,0,0,0.5)] active:translate-y-[6px] active:shadow-[0_4px_0_#7f1d1d] transition-all flex items-center justify-center gap-2.5 border-2 border-red-300">
+                    <span class="text-2xl bg-white/20 p-1.5 rounded-full">❌</span> ตีตก (คลาดเคลื่อน)
                 </button>
             </div>
+        </div>
+    </main>
         </div>
     </main>
 
     <!-- มินิเกม 5: RPG Boss Battle Quiz -->
     <main id="screen-quiz" class="screen flex-col items-center justify-center p-4 pt-20 bg-slate-950 z-50 flex-grow overflow-y-auto">
         <div class="max-w-4xl w-full">
-            <div class="flex justify-between items-center mb-4 pb-4 border-b border-slate-600 relative z-10 bg-slate-800/90 p-4 rounded-xl">
-                <h2 class="text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">ด่าน 5: ศึกประลองประวัติศาสตร์</h2>
-                <div class="flex gap-4 items-center">
-                    <span class="bg-purple-900/50 px-4 py-2 rounded-full text-sm font-bold border border-purple-500/30 text-purple-200">ข้อ <span id="quiz-current" class="text-white text-lg">1</span>/10</span>
-                    <span class="text-amber-400 font-bold text-xl flex items-center gap-2 bg-slate-900 px-4 py-2 rounded-full border border-slate-700"><i class="fa-regular fa-clock animate-pulse"></i> <span id="quiz-timer">30</span>s</span>
+            <div class="flex justify-between items-center mb-3 bg-slate-800/90 backdrop-blur-sm p-3.5 rounded-2xl border border-slate-700 shadow-lg">
+                <button onclick="endGameEarly('quiz')" class="text-slate-400 hover:text-white mr-3 bg-slate-700/80 p-2 rounded-xl text-sm font-bold flex items-center gap-1 transition hover:bg-slate-600">
+                    <i class="fa-solid fa-arrow-left text-lg"></i> ย้อนกลับ
+                </button>
+                <div class="flex-grow text-left">
+                    <h2 class="text-lg md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">ด่าน 5: ศึกประลองประวัติศาสตร์</h2>
                 </div>
+                <div class="flex gap-2.5 items-center">
+                    <span class="bg-purple-900/50 px-3 py-1.5 rounded-xl text-xs md:text-sm font-bold border border-purple-500/30 text-purple-200">
+                        ข้อ <span id="quiz-current" class="text-white text-base md:text-lg font-black">1</span>/10
+                    </span>
+                    <span class="text-amber-300 font-black text-sm md:text-base flex items-center gap-1.5 bg-slate-900 px-3.5 py-1.5 rounded-xl border border-amber-500/40 shadow-inner">
+                        <i class="fa-regular fa-clock text-amber-400 animate-pulse"></i> <span id="quiz-timer" class="w-8 text-center">15</span>s
+                    </span>
+                </div>
+            </div>
+
+            <!-- Per-Question Countdown Progress Bar -->
+            <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-700 mb-3 shadow-inner">
+                <div id="quiz-time-bar" class="bg-gradient-to-r from-emerald-400 via-yellow-400 to-rose-500 h-full w-full transition-all duration-300"></div>
             </div>
 
             <div class="bg-gradient-to-b from-indigo-950 to-slate-900 border-2 border-indigo-500/50 rounded-3xl p-6 mb-6 shadow-[0_0_40px_rgba(79,70,229,0.3)] relative overflow-hidden flex justify-between items-center h-48 md:h-64">
@@ -2311,10 +2346,16 @@
         }
 
         function endGameEarly(gameName) { 
+            SoundEngine.playClick();
+            if(window.qTimer) clearInterval(window.qTimer);
             if(gameName === 'timeline') { AppState.playedGames.timeline = true; AppState.scores.timeline = tScore; }
-            if(gameName === 'runner') { rActive = false; cancelAnimationFrame(rGameId); AppState.playedGames.runner = true; AppState.scores.runner = rState.score; }
+            if(gameName === 'runner') { rActive = false; if(rGameId) cancelAnimationFrame(rGameId); AppState.playedGames.runner = true; AppState.scores.runner = rState.score; }
             if(gameName === 'match') { AppState.playedGames.match = true; AppState.scores.match = memScore; }
             if(gameName === 'rattanakosin') { AppState.playedGames.rattanakosin = true; AppState.scores.rattanakosin = ratScore; }
+            if(gameName === 'quiz') { AppState.playedGames.quiz = true; AppState.scores.quiz = qScore; }
+            saveAppState('screen-mission-hub'); 
+            updateTopBar();
+            updateMissionHubStatus();
             navTo('screen-mission-hub'); 
         }
 
@@ -2727,11 +2768,11 @@
                 let it = rItems[i]; 
                 it.x -= rState.speed; 
                 let bounceY = Math.sin(rFrameCounter * 0.1) * 4;
-                ctx.font = "42px Arial";
-                ctx.fillText("❔", it.x, it.y + 40 + bounceY);
+                ctx.font = "46px Arial";
+                ctx.fillText("❔", it.x, it.y + 42 + bounceY);
                 
-                // Hit question box
-                if (rState.x < it.x + it.w && rState.x + rState.w > it.x && rState.y < it.y + it.h + bounceY && rState.y + rState.h > it.y + bounceY) {
+                // Hit question box (Generous collision zone)
+                if (rState.x < it.x + it.w + 12 && rState.x + rState.w > it.x - 12 && rState.y < it.y + it.h + bounceY + 16 && rState.y + rState.h > it.y + bounceY - 10) {
                     rItems.splice(i, 1); 
                     rActive = false; 
                     currentGQ = rQuestions[rQCount];
@@ -2746,7 +2787,14 @@
                     SoundEngine.playWarp(); 
                     return;
                 }
-                if (it.x + it.w < -60) { rItems.splice(i, 1); }
+                
+                // Missed question box leaves the screen: reset segment to spawn another question box soon!
+                if (it.x + it.w < -30) { 
+                    rItems.splice(i, 1);
+                    rFrameCounter = 0;
+                    spawnedObstacleInSegment = false;
+                    spawnedBoxInSegment = false;
+                }
             }
             
             rGameId = requestAnimationFrame(rLoop);
@@ -2985,13 +3033,38 @@
             }
         }
 
-        // --- GAME 4: RATTANAKOSIN (ROYAL STAMP) ---
+        // --- GAME 4: RATTANAKOSIN (HISTORICAL SITUATION & POLICY ANALYSIS) ---
         const ratQuestions = [
-            { q: "รัชกาลที่ 1 ทรงย้ายราชธานีมาฝั่งตะวันออก (พระนคร) เพื่อสร้างคูเมืองป้องกันข้าศึก", ans: true, exp: "ถูกต้อง! ทรงใช้แม่น้ำเจ้าพระยาและขุดคลองรอบกรุงเป็นคูเมือง" },
-            { q: "กฎหมายใหม่ในสมัยรัชกาลที่ 1 เรียกว่า 'กฎหมายตราห้าดวง'", ans: false, exp: "ผิด! ต้องเป็น 'กฎหมายตราสามดวง' (คชสีห์, ราชสีห์, บัวแก้ว)" },
-            { q: "การ 'เลิกทาสและเลิกไพร่' เป็นผลงานการปฏิรูปประเทศของรัชกาลที่ 5", ans: true, exp: "ถูกต้อง! ทรงปลดปล่อยคนไทยให้เป็นอิสระโดยสันติวิธี" },
-            { q: "ประเทศไทยเปลี่ยนเป็น 'ประชาธิปไตย' ในปี พ.ศ. 2475 สมัยรัชกาลที่ 7", ans: true, exp: "ถูกต้อง! คณะราษฎรเปลี่ยนแปลงการปกครองเมื่อวันที่ 24 มิ.ย. 2475" },
-            { q: "รัตนโกสินทร์ตอนต้น มีการสร้าง 'วัดพระแก้ว' โดยจำลองแบบมาจากกรุงธนบุรี", ans: false, exp: "ผิด! จำลองแบบและสถาปัตยกรรมมาจาก 'กรุงศรีอยุธยา' เพื่อฟื้นฟูขวัญกำลังใจ" }
+            { 
+                topic: "ยุทธศาสตร์ชัยภูมิเมืองหลวง (ร.1)",
+                q: "การที่รัชกาลที่ 1 ทรงย้ายศูนย์กลางเมืองหลวงจากฝั่งธนบุรีมายังฝั่งพระนคร เพราะทรงวิเคราะห์ว่าฝั่งตะวันออกมีแม่น้ำเจ้าพระยาขวางหน้าข้าศึก และมีพื้นที่ขยายเมืองได้กว้างขวางกว่าฝั่งธนบุรีที่มีท้องคุ้งน้ำแคบและถูกแม่น้ำผ่ากลางเมือง", 
+                ans: true, 
+                exp: "💡 วิเคราะห์ถูกต้อง: การย้ายมาฝั่งพระนครทำให้ใช้แม่น้ำเจ้าพระยาและคูเมืองป้องกันศัตรูได้แข็งแกร่ง และรองรับการขยายตัวของเมืองได้ดีกว่าฝั่งธนบุรี" 
+            },
+            { 
+                topic: "การทูตและการค้าเสรี (ร.4)",
+                q: "ในสมัยรัชกาลที่ 4 สยามยอมลงนามในสนธิสัญญาเบาว์ริงเพื่อยกเลิกระบบพระคลังสินค้าผูกขาด เพราะทรงวิเคราะห์ว่าการเปิดการค้าเสรีและการผูกมิตรทางการทูต จะช่วยให้สยามรอดพ้นจากการถูกชาติตะวันตกใช้กำลังทหารบุกยึดเป็นอาณานิคม", 
+                ans: true, 
+                exp: "💡 วิเคราะห์ถูกต้อง: เป็นยุทธศาสตร์ยอมเสียผลประโยชน์ผูกขาดทางการค้าบางส่วน เพื่อแลกกับการรักษาเอกราชและความมั่นคงของชาติในยุคล่าอาณานิคม" 
+            },
+            { 
+                topic: "การปฏิรูปโครงสร้างสังคมและแรงงาน (ร.5)",
+                q: "รัชกาลที่ 5 ทรงเลือกวิธี 'เลิกทาสแบบค่อยเป็นค่อยไป' แทนการประกาศเลิกทันที เพราะทรงวิเคราะห์เพื่อป้องกันความขัดแย้งรุนแรงระหว่างนายเงินกับทาส และป้องกันปัญหาทางเศรษฐกิจจากการขาดแคลนแรงงานกะทันหัน", 
+                ans: true, 
+                exp: "💡 วิเคราะห์ถูกต้อง: การเลิกทาสอย่างสันติวิธีทำให้สยามไม่เกิดสงครามกลางเมืองเหมือนในต่างประเทศ และพัฒนาแรงงานสู่ระบบพลเมืองเสรีอย่างยั่งยืน" 
+            },
+            { 
+                topic: "การรวมศูนย์อำนาจและการรักษาพรมแดน (ร.5)",
+                q: "การปฏิรูปการปกครองตั้งกระทรวง 12 กระทรวงและระบบเทศาภิบาลในสมัย ร.5 มีเป้าหมายเพียงเพื่อเก็บภาษีให้มากขึ้น โดยไม่ได้เกี่ยวข้องกับการป้องกันการรุกล้ำดินแดนจากชาติตะวันตกตามหัวเมือง", 
+                ans: false, 
+                exp: "💡 วิเคราะห์คลาดเคลื่อน: หัวใจสำคัญของการปฏิรูปคือการรวบอำนาจสู่ศูนย์กลาง ยกเลิกประเทศราช และกำหนดพรมแดนชาติสยามที่ชัดเจนเพื่อสกัดกั้นการล่าอาณานิคม" 
+            },
+            { 
+                topic: "ยุทธศาสตร์คมนาคมและความมั่นคง (ร.5)",
+                q: "การสร้างทางรถไฟสายแรก (กรุงเทพฯ - นครราชสีมา) เป็นยุทธศาสตร์สำคัญที่เชื่อมโยงหัวเมืองภาคอีสานเข้ากับเมืองหลวง เพื่อให้สามารถเคลื่อนกำลังพลและควบคุมพื้นที่ชายแดนได้อย่างรวดเร็วในยามวิกฤต", 
+                ans: true, 
+                exp: "💡 วิเคราะห์ถูกต้อง: ทางรถไฟไม่ได้สร้างเพื่อโดยสารเท่านั้น แต่เป็นยุทธศาสตร์ความมั่นคงที่ทำให้สยามส่งกำลังพลและบริหารหัวเมืองไกลๆ ได้อย่างทันท่วงที" 
+            }
         ];
         let ratQIdx = 0, ratScore = 0, isStamping = false;
 
@@ -3028,7 +3101,7 @@
                         <div class="text-center p-4">
                             <div class="text-6xl mb-3 floating">📜</div>
                             <h3 class="text-2xl md:text-3xl font-black text-[#3e2723] mb-2" style="font-family: 'Chonburi', serif;">ผ่านด่านที่ 4 สำเร็จแล้ว!</h3>
-                            <p class="text-slate-700 text-sm md:text-base mb-6 font-bold">สายตาเฉียบคมมาก! ทำคะแนนด่าน 4 ได้: <b class="text-amber-700 text-xl md:text-2xl font-black">${ratScore} แต้ม</b></p>
+                            <p class="text-slate-700 text-sm md:text-base mb-6 font-bold">วิเคราะห์ยุทธศาสตร์เฉียบคมมาก! ทำคะแนนด่าน 4 ได้: <b class="text-amber-700 text-xl md:text-2xl font-black">${ratScore} แต้ม</b></p>
                             <div class="flex flex-col sm:flex-row gap-3 justify-center">
                                 <button onclick="startQuiz()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black py-4 px-6 rounded-2xl shadow-xl border border-purple-300 btn-game text-base flex items-center justify-center gap-2 animate-bounce">
                                     <span>🚀 ไปด่านที่ 5: ศึกประลองบอส ➔</span>
@@ -3043,12 +3116,22 @@
                 const bTrue = document.getElementById('btn-stamp-true');
                 if(bTrue && bTrue.parentElement) bTrue.parentElement.classList.add('hidden');
 
-                showModal('🎉 ตรวจฎีกาเสร็จสิ้น! 📜', `สายตาเฉียบขาดมาก!\nทำคะแนนด่าน 4 ได้: ${ratScore} แต้ม\n\n🚀 ด่านที่ 5 (ศึกประลองบอส Quiz) ปลดล็อกแล้ว!`); 
+                showModal('🎉 ตรวจฎีกาวิเคราะห์เสร็จสิ้น! 📜', `คุณวิเคราะห์ยุทธศาสตร์ประวัติศาสตร์ได้อย่างยอดเยี่ยม!\nทำคะแนนด่าน 4 ได้: ${ratScore} แต้ม\n\n🚀 ด่านที่ 5 (ศึกประลองบอส Quiz) ปลดล็อกแล้ว!`); 
                 return;
             }
+
+            const cur = ratQuestions[ratQIdx];
             document.getElementById('rat-q-num').innerText = ratQIdx + 1;
-            document.getElementById('rat-q-text').innerText = ratQuestions[ratQIdx].q;
+            const topicEl = document.getElementById('rat-q-topic');
+            if (topicEl) topicEl.innerText = `🏛️ ${cur.topic}`;
+            document.getElementById('rat-q-text').innerText = cur.q;
             
+            const fbBox = document.getElementById('rat-feedback-box');
+            if (fbBox) {
+                fbBox.classList.add('hidden');
+                fbBox.innerText = '';
+            }
+
             if (docContainer) {
                 docContainer.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                 docContainer.style.transform = 'translateY(0) rotate(0deg) scale(1)';
@@ -3090,7 +3173,17 @@
                 SoundEngine.playError();
             }
 
-            // Slide out and load next question
+            // Show Analytical Feedback Explanation
+            const fbBox = document.getElementById('rat-feedback-box');
+            if (fbBox) {
+                fbBox.innerHTML = currentQ.exp;
+                fbBox.className = isCorrect 
+                    ? "mt-3 p-3.5 rounded-xl bg-emerald-950 text-emerald-200 border-2 border-emerald-500 text-xs sm:text-sm font-bold shadow-md animate-fadeInScale"
+                    : "mt-3 p-3.5 rounded-xl bg-rose-950 text-rose-200 border-2 border-rose-500 text-xs sm:text-sm font-bold shadow-md animate-fadeInScale";
+                fbBox.classList.remove('hidden');
+            }
+
+            // Slide out and load next question after student reads explanation
             setTimeout(() => {
                 const docContainer = document.getElementById('document-container');
                 docContainer.style.transform = 'translateY(-120%) rotate(15deg) scale(0.85)';
@@ -3100,7 +3193,7 @@
                     ratQIdx++;
                     loadRatQuestion();
                 }, 400);
-            }, 1200);
+            }, 2200);
         };
 
         // --- GAME 5: RPG BOSS BATTLE QUIZ ---
@@ -3116,8 +3209,9 @@
             { q: "ศิลาจารึกหลักที่ 1 (ของพ่อขุนรามคำแหง) มีความสำคัญอย่างไร?", options: ["กฎหมายฉบับแรก", "หลักฐานใช้ 'ลายสือไทย'", "วิธีหลอมสำริด", "แผนที่กรุงธนบุรี"], a: 1 },
             { q: "อยากขายช้างขายม้าในสุโขทัย ต้องจ่ายภาษีผ่านด่าน (จกอบ) หรือไม่?", options: ["ไม่ต้องจ่าย (ค้าเสรี)", "ต้องจ่ายให้พระคลัง", "ห้ามค้าขายสัตว์", "จ่ายด้วยทองคำ"], a: 0 }
         ];
-        let qCurrentIdx = 0, qTimer, qTimeLeft = 30, qScore = 0, qList = [];
+        let qCurrentIdx = 0, qTimer, qTimeLeft = 15, qScore = 0, qList = [];
         let playerHP = 100, bossHP = 100, isSubmittingQuiz = false;
+        const QUESTION_TIME_LIMIT = 15;
 
         function startQuiz() {
             const stageSeq = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
@@ -3160,11 +3254,30 @@
                 optCont.appendChild(btn);
             });
 
-            qTimeLeft = 30; document.getElementById('quiz-timer').innerText = qTimeLeft;
+            qTimeLeft = QUESTION_TIME_LIMIT; 
+            const timerText = document.getElementById('quiz-timer');
+            const timeBar = document.getElementById('quiz-time-bar');
+            if (timerText) timerText.innerText = qTimeLeft;
+            if (timeBar) {
+                timeBar.style.width = '100%';
+                timeBar.className = 'bg-gradient-to-r from-emerald-400 via-yellow-400 to-rose-500 h-full transition-all duration-300';
+            }
+
             clearInterval(qTimer);
             qTimer = setInterval(() => {
-                qTimeLeft--; document.getElementById('quiz-timer').innerText = qTimeLeft;
-                if (qTimeLeft <= 0) submitQuiz(-1, qData.a);
+                qTimeLeft--; 
+                if (timerText) timerText.innerText = Math.max(0, qTimeLeft);
+                if (timeBar) {
+                    const pct = (Math.max(0, qTimeLeft) / QUESTION_TIME_LIMIT) * 100;
+                    timeBar.style.width = `${pct}%`;
+                    if (qTimeLeft <= 5) {
+                        timeBar.className = 'bg-rose-500 h-full transition-all duration-300 animate-pulse';
+                    }
+                }
+                if (qTimeLeft <= 0) {
+                    clearInterval(qTimer);
+                    submitQuiz(-1, qData.a);
+                }
             }, 1000);
         }
 
@@ -3178,9 +3291,16 @@
                 const b = document.getElementById(`quiz-opt-btn-${i}`);
                 if (b) {
                     b.disabled = true;
-                    if (i === correctIdx) b.className = "bg-green-600 text-white text-left p-4 md:p-5 rounded-2xl border-2 border-green-300 shadow-[0_0_20px_rgba(34,197,94,0.7)] text-base font-bold w-full flex items-center gap-3 scale-105";
-                    else if (i === selIdx) b.className = "bg-red-600 text-white text-left p-4 md:p-5 rounded-2xl border-2 border-red-300 shadow-[0_0_20px_rgba(239,68,68,0.7)] text-base font-bold w-full flex items-center gap-3";
-                    else b.className = "bg-slate-800 text-slate-500 text-left p-4 md:p-5 rounded-2xl border border-slate-700 text-base font-medium w-full flex items-center gap-3 opacity-50";
+                    if (i === correctIdx) {
+                        b.className = "bg-green-600 text-white text-left p-4 md:p-5 rounded-2xl border-2 border-green-300 shadow-[0_0_20px_rgba(34,197,94,0.7)] text-base font-bold w-full flex items-center gap-3 scale-105";
+                        if (selIdx === -1) b.innerHTML += ` <span class="ml-auto bg-amber-900/80 text-amber-300 text-xs px-2.5 py-1 rounded-lg">⏰ เฉลย (หมดเวลา)</span>`;
+                    }
+                    else if (i === selIdx) {
+                        b.className = "bg-red-600 text-white text-left p-4 md:p-5 rounded-2xl border-2 border-red-300 shadow-[0_0_20px_rgba(239,68,68,0.7)] text-base font-bold w-full flex items-center gap-3";
+                    }
+                    else {
+                        b.className = "bg-slate-800 text-slate-500 text-left p-4 md:p-5 rounded-2xl border border-slate-700 text-base font-medium w-full flex items-center gap-3 opacity-50";
+                    }
                 }
             }
 
@@ -3199,7 +3319,7 @@
                     bossSprite.style.animation = "damageBlink 0.3s infinite";
                     bossHP = Math.max(0, bossHP - 10); 
                     updateHPUIs();
-                    let roundScore = 300 + Math.floor(qTimeLeft * 5); 
+                    let roundScore = 300 + Math.floor(qTimeLeft * 10); 
                     qScore += roundScore;
                     setTimeout(() => {
                         slashFx.style.opacity = '0'; 
@@ -3207,32 +3327,30 @@
                         bossSprite.style.animation = "none"; 
                         playerSprite.style.animation = "none";
                     }, 400);
-                }, 150);
+                }, 300);
             } else {
-                SoundEngine.playThud();
                 SoundEngine.playError();
                 bossSprite.style.animation = "bossAttack 0.3s ease-in-out";
                 setTimeout(() => {
-                    slashFx.innerText = '💥'; 
+                    slashFx.innerText = '💥';
                     slashFx.style.opacity = '1'; 
                     slashFx.style.left = '30%';
                     playerSprite.style.animation = "damageBlink 0.3s infinite";
-                    playerHP = Math.max(0, playerHP - 20); 
+                    playerHP = Math.max(0, playerHP - 15);
                     updateHPUIs();
                     setTimeout(() => {
-                        slashFx.innerText = '✨'; 
                         slashFx.style.opacity = '0'; 
                         slashFx.style.left = '50%';
-                        bossSprite.style.animation = "none"; 
-                        playerSprite.style.animation = "none";
+                        playerSprite.style.animation = "none"; 
+                        bossSprite.style.animation = "none";
                     }, 400);
-                }, 150);
+                }, 300);
             }
 
             setTimeout(() => {
                 qCurrentIdx++;
                 loadQuestion();
-            }, 1300);
+            }, 1800);
         };
 
         function finishQuiz() {
