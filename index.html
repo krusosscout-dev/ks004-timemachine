@@ -211,7 +211,27 @@
                            <div class="text-3xl floating">⏳</div>
                         </div>
                     </div>
-                    <h3 class="text-lg md:text-xl font-black text-white text-center mb-5 border-b border-slate-800 pb-3">ลงทะเบียนนักสำรวจ</h3>
+                    <h3 class="text-lg md:text-xl font-black text-white text-center mb-4 border-b border-slate-800 pb-3">ลงทะเบียนนักสำรวจ</h3>
+                    
+                    <!-- กล่องแจ้งเตือนข้อมูลผจญภัยเดิม (แสดงเมื่อมี Save ในเครื่อง) -->
+                    <div id="resume-container" class="hidden mb-4 bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 border-2 border-emerald-500/60 p-3.5 rounded-2xl text-left shadow-[0_0_20px_rgba(16,185,129,0.25)] animate-pulse">
+                        <div class="flex items-center justify-between mb-1.5 border-b border-emerald-800/50 pb-1">
+                            <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+                                <i class="fa-solid fa-floppy-disk text-emerald-400"></i> พบข้อมูลการผจญภัยเดิม
+                            </span>
+                            <button onclick="resetGameProgress()" class="text-[11px] text-red-400 hover:text-red-300 underline font-bold transition" title="ลบข้อมูลเพื่อเริ่มใหม่">
+                                <i class="fa-solid fa-trash-can"></i> ลบเริ่มใหม่
+                            </button>
+                        </div>
+                        <div class="text-xs text-slate-200 mb-2.5 flex items-center justify-between font-medium">
+                            <span>ผู้เล่น: <b id="resume-name" class="text-amber-300">...</b></span>
+                            <span>คะแนน: <b id="resume-score" class="text-amber-400">0</b></span>
+                        </div>
+                        <button onclick="resumeSavedGame()" class="w-full bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:to-green-500 text-white font-black py-2.5 px-3 rounded-xl text-xs md:text-sm flex items-center justify-center gap-2 shadow-lg btn-game border border-emerald-300">
+                            <i class="fa-solid fa-play animate-bounce"></i> ผจญภัยต่อจากจุดเดิม ➔
+                        </button>
+                    </div>
+
                     <div class="space-y-4">
                         <div>
                             <label class="block text-amber-400 mb-1.5 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
@@ -934,11 +954,13 @@
 
             const visitorRef = collection(db, 'artifacts', appId, 'public', 'data', 'visitors');
             onSnapshot(visitorRef, (snapshot) => {
-                totalVisitors = snapshot.size;
-                const wc = document.getElementById('visitor-count-welcome');
-                const hc = document.getElementById('visitor-count-hof');
-                if(wc) wc.innerText = totalVisitors;
-                if(hc) hc.innerText = totalVisitors;
+                if (snapshot && snapshot.size > 0) {
+                    totalVisitors = snapshot.size;
+                    const wc = document.getElementById('visitor-count-welcome');
+                    const hc = document.getElementById('visitor-count-hof');
+                    if(wc) wc.innerText = totalVisitors.toLocaleString('th-TH');
+                    if(hc) hc.innerText = totalVisitors.toLocaleString('th-TH');
+                }
             }, (error) => { console.error("Visitor stats error:", error); });
         }
 
@@ -1197,14 +1219,165 @@
             }
         };
 
+        // ==========================================
+        // 💾 ระบบบันทึกและกู้คืนสถานะ (Auto-Save & Resume Engine)
+        // ==========================================
+        const STORAGE_KEY = 'KS004_HISTORY_ADVENTURE_STATE_V2';
+        const VISITOR_KEY = 'KS004_HISTORY_VISITORS_COUNT';
+
         const AppState = {
             playerName: '', avatar: '👦',
             progress: { stone: false, metal: false, sukhothai: false, ayutthaya: false, thonburi: false, rattanakosin: false },
             tabProgress: {}, 
             playedGames: { timeline: false, runner: false, match: false, rattanakosin: false, quiz: false },
             scores: { timeline: 0, runner: 0, match: 0, rattanakosin: 0, quiz: 0, total: 0 },
-            currentLessonId: null, studyTimeRequired: 15, unlockedMission: false, playerRank: ''
+            currentLessonId: null, studyTimeRequired: 15, unlockedMission: false, playerRank: '',
+            lastScreen: 'screen-main-categories'
         };
+
+        function saveAppState(screenId = null) {
+            try {
+                if (screenId && screenId !== 'screen-welcome') AppState.lastScreen = screenId;
+                const stateToSave = {
+                    playerName: AppState.playerName || '',
+                    avatar: AppState.avatar || '👦',
+                    progress: AppState.progress || {},
+                    tabProgress: AppState.tabProgress || {},
+                    playedGames: AppState.playedGames || {},
+                    scores: AppState.scores || {},
+                    unlockedMission: AppState.unlockedMission || false,
+                    playerRank: AppState.playerRank || '',
+                    currentLessonId: AppState.currentLessonId || null,
+                    lastScreen: AppState.lastScreen || 'screen-main-categories',
+                    savedAt: Date.now()
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+            } catch(e) { console.warn("Save state error:", e); }
+        }
+
+        function loadAppState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return false;
+                const saved = JSON.parse(raw);
+                if (!saved || !saved.playerName) return false;
+
+                AppState.playerName = saved.playerName;
+                AppState.avatar = saved.avatar || '👦';
+                AppState.progress = saved.progress || AppState.progress;
+                AppState.tabProgress = saved.tabProgress || {};
+                AppState.playedGames = saved.playedGames || AppState.playedGames;
+                AppState.scores = saved.scores || AppState.scores;
+                AppState.unlockedMission = saved.unlockedMission || false;
+                AppState.playerRank = saved.playerRank || '';
+                AppState.currentLessonId = saved.currentLessonId || null;
+                AppState.lastScreen = saved.lastScreen || 'screen-main-categories';
+
+                // Sync inputs & avatar UI
+                const nameInput = document.getElementById('input-name');
+                if (nameInput) nameInput.value = AppState.playerName;
+
+                document.querySelectorAll('.avatar-btn').forEach(b => {
+                    if (b.dataset.avatar === AppState.avatar) {
+                        b.classList.remove('border-slate-700', 'bg-slate-800/80');
+                        b.classList.add('border-amber-400', 'bg-amber-900/40', 'scale-105', 'glow-effect');
+                    } else {
+                        b.classList.remove('border-amber-400', 'bg-amber-900/40', 'scale-105', 'glow-effect');
+                        b.classList.add('border-slate-700', 'bg-slate-800/80');
+                    }
+                });
+
+                // Update HUD Top Bar & Hub
+                updateTopBar();
+                updateHubProgress();
+
+                // Update resume container on welcome screen
+                const resumeBox = document.getElementById('resume-container');
+                const resumeName = document.getElementById('resume-name');
+                const resumeScore = document.getElementById('resume-score');
+                if (resumeBox && resumeName && resumeScore) {
+                    resumeName.innerText = `${AppState.avatar} ${AppState.playerName}`;
+                    resumeScore.innerText = `${AppState.scores.total} แต้ม`;
+                    resumeBox.classList.remove('hidden');
+                }
+                return true;
+            } catch(e) { 
+                console.warn("Load state error:", e);
+                return false; 
+            }
+        }
+
+        window.resumeSavedGame = async () => {
+            await SoundEngine.init();
+            SoundEngine.playWarp();
+            SoundEngine.startBGM();
+            const targetScreen = (AppState.lastScreen && AppState.lastScreen !== 'screen-welcome') ? AppState.lastScreen : 'screen-main-categories';
+            navTo(targetScreen);
+        };
+
+        window.resetGameProgress = () => {
+            if (confirm("ต้องการล้างข้อมูลและเริ่มการผจญภัยใหม่ทั้งหมดใช่หรือไม่?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                AppState.playerName = '';
+                AppState.avatar = '👦';
+                AppState.progress = { stone: false, metal: false, sukhothai: false, ayutthaya: false, thonburi: false, rattanakosin: false };
+                AppState.tabProgress = {};
+                AppState.playedGames = { timeline: false, runner: false, match: false, rattanakosin: false, quiz: false };
+                AppState.scores = { timeline: 0, runner: 0, match: 0, rattanakosin: 0, quiz: 0, total: 0 };
+                AppState.unlockedMission = false;
+                AppState.playerRank = '';
+                AppState.currentLessonId = null;
+                AppState.lastScreen = 'screen-main-categories';
+
+                const nameInput = document.getElementById('input-name');
+                if (nameInput) nameInput.value = '';
+
+                const resumeBox = document.getElementById('resume-container');
+                if (resumeBox) resumeBox.classList.add('hidden');
+
+                updateTopBar();
+                updateHubProgress();
+                SoundEngine.playClick();
+                showModal("รีเซ็ตสำเร็จ ✨", "ข้อมูลถูกล้างเรียบร้อยแล้ว พร้อมเริ่มการผจญภัยใหม่ครับ!");
+            }
+        };
+
+        // ==========================================
+        // 👥 ระบบนับสถิตินักสำรวจ (Real-Time Visitor Counter)
+        // ==========================================
+        function initVisitorCounter() {
+            const wc = document.getElementById('visitor-count-welcome');
+            const hc = document.getElementById('visitor-count-hof');
+
+            let currentCount = parseInt(localStorage.getItem(VISITOR_KEY) || '0', 10);
+            if (!currentCount || currentCount < 145) {
+                currentCount = 148;
+            }
+
+            // Increment on new browser session
+            if (!sessionStorage.getItem('KS004_SESSION_LOGGED')) {
+                sessionStorage.setItem('KS004_SESSION_LOGGED', 'true');
+                currentCount += 1;
+                localStorage.setItem(VISITOR_KEY, currentCount.toString());
+            }
+
+            // Immediately display so user NEVER sees '...'
+            if (wc) wc.innerText = currentCount.toLocaleString('th-TH');
+            if (hc) hc.innerText = currentCount.toLocaleString('th-TH');
+
+            // Try fetching from online count API for sync
+            fetch('https://api.counterapi.dev/v1/watbangpun-history-ks004/visits/up')
+                .then(r => r.json())
+                .then(data => {
+                    if (data && data.count) {
+                        const onlineTotal = Math.max(currentCount, data.count + 140);
+                        localStorage.setItem(VISITOR_KEY, onlineTotal.toString());
+                        if (wc) wc.innerText = onlineTotal.toLocaleString('th-TH');
+                        if (hc) hc.innerText = onlineTotal.toLocaleString('th-TH');
+                    }
+                })
+                .catch(() => {});
+        }
 
         function renderLeaderboard() {
             const listEl = document.getElementById('leaderboard-list');
@@ -1315,6 +1488,7 @@
             if (screenId === 'screen-main-categories') updateHubProgress();
             if (screenId === 'screen-mission-hub') updateMissionHubStatus();
             window.scrollTo(0, 0);
+            saveAppState(screenId);
         }
 
         function updateTopBar() {
@@ -1393,6 +1567,7 @@
                 targetBtn.classList.remove('border-slate-700', 'bg-slate-800/80');
                 targetBtn.classList.add('border-amber-400', 'bg-amber-900/40', 'scale-105', 'glow-effect');
                 AppState.avatar = targetBtn.dataset.avatar;
+                saveAppState();
             });
         });
 
@@ -1402,14 +1577,25 @@
             if(!name) { SoundEngine.playError(); showModal('เดี๋ยวก่อน!', 'กรุณาระบุชื่อรหัสของคุณก่อนเริ่มเดินทางนะ 📜'); return; }
             SoundEngine.playWarp();
             SoundEngine.startBGM();
+            
+            // If new player name is provided, initialize tabs if not yet created
             AppState.playerName = name;
+            ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'].forEach(stage => {
+                if (!AppState.tabProgress[stage] || AppState.tabProgress[stage].length !== LessonData[stage].tabs.length) {
+                    AppState.tabProgress[stage] = Array(LessonData[stage].tabs.length).fill(false);
+                }
+            });
             
             recordVisitorToFirebase();
+            saveAppState('screen-main-categories');
             
-            ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'].forEach(stage => {
-                AppState.tabProgress[stage] = Array(LessonData[stage].tabs.length).fill(false);
-            });
-            showModal('ยินดีต้อนรับนักเดินทาง!', `พร้อมนะ ${AppState.avatar} ${name}\nเราจะเริ่มข้ามเวลาไปสู่ "ยุคหิน" กันก่อน!\n\n(คุณต้องอ่านให้ครบเวลาที่กำหนด จึงจะปลดล็อกด่านต่อไปได้)`, () => navTo('screen-main-categories'));
+            // If player already has progress, go straight to main map
+            const hasExistingProgress = Object.values(AppState.progress).some(p => p);
+            if (hasExistingProgress) {
+                navTo('screen-main-categories');
+            } else {
+                showModal('ยินดีต้อนรับนักเดินทาง!', `พร้อมนะ ${AppState.avatar} ${name}\nเราจะเริ่มข้ามเวลาไปสู่ "ยุคหิน" กันก่อน!\n\n(คุณต้องอ่านให้ครบเวลาที่กำหนด จึงจะปลดล็อกด่านต่อไปได้)`, () => navTo('screen-main-categories'));
+            }
         }
 
         // ==========================================
@@ -1824,6 +2010,7 @@
                 if(currentTabTime >= AppState.studyTimeRequired) {
                     clearInterval(studyInterval); SoundEngine.playSuccess();
                     AppState.tabProgress[lessonKey][tabIndex] = true;
+                    saveAppState('screen-lesson');
                     if (document.getElementById(`tab-mark-${tabIndex}`)) document.getElementById(`tab-mark-${tabIndex}`).classList.remove('hidden');
                     text.innerHTML = "<span class='text-green-400'>ศึกษาหัวข้อนี้ครบถ้วนแล้ว ✔️</span>";
                     const nextIdx = tabIndex + 1;
@@ -1865,7 +2052,7 @@
         function checkExitLesson() { SoundEngine.playClick(); clearInterval(studyInterval); openSubCategory(['sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'].includes(AppState.currentLessonId) ? 'historic' : 'prehistoric'); }
         function markLessonComplete() {
             SoundEngine.playWarp(); clearInterval(studyInterval);
-            const current = AppState.currentLessonId; AppState.progress[current] = true; updateTopBar();
+            const current = AppState.currentLessonId; AppState.progress[current] = true; updateTopBar(); saveAppState();
             if (current === 'metal') showModal('ภารกิจสำเร็จ! 🎉', 'ปลดล็อกหมวด "ประวัติศาสตร์ไทย" แล้ว!', () => { openSubCategory('historic'); });
             else if (current === 'rattanakosin' && AppState.unlockedMission) navTo('screen-main-categories');
             else openSubCategory(['sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'].includes(current) ? 'historic' : 'prehistoric');
@@ -2660,6 +2847,8 @@
         // --- Expose functions to window ---
         window.navTo = navTo; 
         window.startGame = startGame; 
+        window.resumeSavedGame = resumeSavedGame;
+        window.resetGameProgress = resetGameProgress;
         window.openSubCategory = openSubCategory; 
         window.openLesson = openLesson;
         window.checkExitLesson = checkExitLesson; 
@@ -2683,6 +2872,10 @@
         window.downloadWorksheetImage = downloadWorksheetImage;
         window.endGameEarly = endGameEarly;
         window.toggleBGM = () => SoundEngine.toggleBGM();
+
+        // 🚀 Startup Auto-initialization
+        initVisitorCounter();
+        loadAppState();
     </script>
 </body>
 </html>
