@@ -140,8 +140,8 @@
                 <i class="fa-solid fa-music text-emerald-400"></i> <span class="hidden lg:inline text-emerald-300">เพลงคลอ</span>
             </button>
 
-            <button id="btn-nav-mission" onclick="navTo('screen-mission-hub')" class="hidden bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game items-center gap-1.5">
-                <span>🎯</span> <span class="hidden sm:inline">ศูนย์ภารกิจ</span>
+            <button id="btn-nav-mission" onclick="navTo('screen-mission-hub')" class="flex bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game items-center gap-1.5">
+                <span>🎯</span> <span class="hidden sm:inline">ศูนย์ภารกิจ 5 ด่าน</span>
             </button>
             
             <button onclick="openHallOfFame()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-amber-200 p-2 md:px-3 md:py-1.5 rounded-xl border border-slate-700 text-xs md:text-sm font-bold flex items-center gap-1.5 transition btn-game shadow-inner" title="ดูกระดานผู้นำ">
@@ -293,8 +293,27 @@
             </div>
         </div>
 
+        <!-- โซนศูนย์บัญชาการภารกิจ 5 ด่าน -->
+        <div class="w-full max-w-4xl mt-2 mb-4 z-10 relative">
+            <div class="bg-gradient-to-r from-fuchsia-950/90 via-purple-950/90 to-indigo-950/90 border-2 border-fuchsia-400/60 p-6 md:p-8 rounded-[2rem] shadow-[0_0_35px_rgba(192,38,211,0.35)] backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 hover:border-fuchsia-300 transition-colors">
+                <div class="flex items-center gap-6">
+                    <div class="text-6xl bg-purple-950 p-4 rounded-2xl border border-fuchsia-500 shadow-inner floating">🎯</div>
+                    <div>
+                        <div class="inline-flex items-center gap-2 bg-fuchsia-500/20 text-fuchsia-300 px-3 py-0.5 rounded-full text-xs font-bold border border-fuchsia-500/40 mb-1">
+                            <span>🎮 Mini-Games Challenge</span>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-black text-fuchsia-300 mb-1">ศูนย์ภารกิจข้ามเวลา (5 มินิเกม)</h3>
+                        <p class="text-purple-100/90 text-sm md:text-base font-medium">เข้าเล่นมินิเกมท้าทายความรู้ 5 ด่าน สะสมคะแนนเหรียญทองเพื่อรับเกียรติบัตร</p>
+                    </div>
+                </div>
+                <button onclick="navTo('screen-mission-hub')" class="w-full md:w-auto bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white font-black py-4 px-8 rounded-xl shadow-[0_0_20px_rgba(192,38,211,0.5)] border border-fuchsia-300 btn-game whitespace-nowrap text-lg animate-pulse">
+                    เข้าสู่ศูนย์ภารกิจ 5 ด่าน ➔
+                </button>
+            </div>
+        </div>
+
         <!-- โซนใบงานทบทวนความรู้ -->
-        <div class="w-full max-w-4xl mt-4 mb-10 z-10 relative">
+        <div class="w-full max-w-4xl mt-2 mb-10 z-10 relative">
             <div class="bg-gradient-to-r from-indigo-900/80 to-purple-900/80 border-2 border-indigo-400/50 p-6 md:p-8 rounded-[2rem] shadow-[0_0_30px_rgba(79,70,229,0.3)] backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 hover:border-indigo-300 transition-colors">
                 <div class="flex items-center gap-6">
                     <div class="text-6xl bg-indigo-950 p-4 rounded-2xl border border-indigo-500 shadow-inner floating">📚</div>
@@ -1857,14 +1876,14 @@
                 const btn = document.getElementById(`btn-${id}`); const stat = document.getElementById(`status-${id}`);
                 if (!btn || !stat) return;
                 if(played) { 
-                    stat.className = "mb-4 text-sm font-bold text-white bg-slate-600 px-4 py-2 rounded-xl border border-slate-500"; 
-                    stat.innerText = `✅ จบแล้ว (${score} แต้ม)`; 
-                    btn.disabled = true; 
-                    btn.className = "mt-auto w-full bg-slate-700 text-slate-400 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-600"; 
-                    btn.innerText = "ผ่านภารกิจแล้ว (เล่นได้ครั้งเดียว)"; 
+                    stat.className = "mb-4 text-sm font-bold text-emerald-300 bg-emerald-950/80 px-4 py-2 rounded-xl border border-emerald-500 shadow-md"; 
+                    stat.innerText = `✅ ผ่านแล้ว (คะแนน: ${score} แต้ม)`; 
+                    btn.disabled = false; 
+                    btn.className = "mt-auto w-full bg-slate-700 hover:bg-slate-600 text-amber-300 hover:text-white py-3 rounded-xl font-bold btn-game border border-slate-500 shadow-md transition-all"; 
+                    btn.innerText = `เล่นอีกครั้ง (Replay) ➔`; 
                 }
                 else if(unlockCond) { 
-                    stat.className = `mb-4 text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-xl border-2 border-amber-400 animate-pulse`; 
+                    stat.className = `mb-4 text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-xl border-2 border-amber-400 animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]`; 
                     stat.innerText = unlockMsg; 
                     btn.disabled = false; 
                     btn.className = "mt-auto w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white py-3.5 rounded-xl font-black btn-game shadow-[0_0_20px_rgba(245,158,11,0.5)] border border-amber-300"; 
@@ -1894,61 +1913,96 @@
         }
 
         // --- GAME 1: INTERACTIVE TIMELINE (PLACER) ---
-        const tEvents = [ { id:1, t: 'ยุคหิน', icon: '🪨', era: 1 }, { id:2, t: 'ยุคโลหะ', icon: '⛏️', era: 2 }, { id:3, t: 'สุโขทัย', icon: '🔔', era: 3 }, { id:4, t: 'อยุธยา', icon: '⛵', era: 4 }, { id:5, t: 'ธนบุรี', icon: '🏇', era: 5 }, { id:6, t: 'รัตนโกสินทร์', icon: '🏙️', era: 6 } ];
-        let tLives = 3, tScore = 0, tExpected = 1, tSelected = null;
+        const tEvents = [ 
+            { id:1, t: 'ยุคหิน', icon: '🪨', era: 1, desc: 'หินเก่า หินกลาง หินใหม่' }, 
+            { id:2, t: 'ยุคโลหะ', icon: '⛏️', era: 2, desc: 'สำริด และ เหล็ก' }, 
+            { id:3, t: 'สุโขทัย', icon: '🔔', era: 3, desc: 'พ่อปกครองลูก / ลายสือไทย' }, 
+            { id:4, t: 'อยุธยา', icon: '⛵', era: 4, desc: 'สมมติเทพ / จตุสดมภ์ / ค้าสำเภา' }, 
+            { id:5, t: 'ธนบุรี', icon: '🏇', era: 5, desc: 'กอบกู้เอกราช / เมืองท่าค้าขาย' }, 
+            { id:6, t: 'รัตนโกสินทร์', icon: '🏙️', era: 6, desc: 'ร.1 ถึง ปัจจุบัน / ปฏิรูปพัฒนา' } 
+        ];
+        let tLives = 3, tScore = 0, tPlacedCount = 0, tSelected = null;
         
         function initTimelineGame() {
-            SoundEngine.playClick(); navTo('screen-timeline-game');
-            tLives = 3; tScore = 0; tExpected = 1; tSelected = null;
-            document.getElementById('time-lives').innerText = tLives; document.getElementById('time-score-disp').innerText = tScore;
+            SoundEngine.playClick(); 
+            navTo('screen-timeline-game');
+            tLives = 3; tScore = 0; tPlacedCount = 0; tSelected = null;
+            document.getElementById('time-lives').innerText = tLives; 
+            document.getElementById('time-score-disp').innerText = tScore;
             
-            const slotsHtml = tEvents.map(e => `<div id="tslot-${e.era}" onclick="placeTimeline(${e.era})" class="w-full h-14 bg-slate-800 rounded-xl border-2 border-dashed border-slate-600 flex items-center px-4 cursor-pointer hover:bg-slate-700 transition-colors"><span class="text-slate-500 font-bold mr-4">ช่องที่ ${e.era}</span><div id="tslot-content-${e.era}" class="flex-grow"></div></div>`).join('');
+            const eraNames = ['1. ยุคก่อนประวัติศาสตร์ (เก่าแก่ที่สุด)', '2. ยุคโลหะ (สำริด-เหล็ก)', '3. อาณาจักรแรกของไทย', '4. ราชธานียาวนาน 417 ปี', '5. ยุคกอบกู้เอกราชริมเจ้าพระยา', '6. ยุคราชธานีปัจจุบัน'];
+            const slotsHtml = tEvents.map(e => `
+                <div id="tslot-${e.era}" onclick="placeTimeline(${e.era})" class="w-full h-14 bg-slate-800/90 rounded-xl border-2 border-dashed border-slate-600 flex items-center px-4 cursor-pointer hover:bg-slate-700 transition-all hover:border-amber-400">
+                    <span class="text-amber-400 font-bold mr-4 text-xs md:text-sm shrink-0">ช่องที่ ${e.era}:</span>
+                    <div id="tslot-content-${e.era}" class="flex-grow text-slate-400 text-xs md:text-sm italic">${eraNames[e.era-1]} (คลิกใส่ที่นี่)</div>
+                </div>
+            `).join('');
             document.getElementById('timeline-slots').innerHTML = slotsHtml;
             
-            const opts = [...tEvents].sort(()=>0.5-Math.random());
-            document.getElementById('timeline-options').innerHTML = opts.map(o => `<button id="topt-${o.id}" onclick="selectTimeline(${o.id})" class="bg-gradient-to-b from-slate-700 to-slate-800 text-white font-bold py-3 px-2 rounded-xl border-2 border-slate-500 shadow-lg flex flex-col items-center gap-1 hover:border-amber-400 transition-all"><span class="text-3xl">${o.icon}</span><span class="text-xs md:text-sm">${o.t}</span></button>`).join('');
+            const opts = [...tEvents].sort(() => 0.5 - Math.random());
+            document.getElementById('timeline-options').innerHTML = opts.map(o => `
+                <button id="topt-${o.id}" onclick="selectTimeline(${o.id})" class="bg-gradient-to-b from-slate-700 to-slate-800 text-white font-bold py-3 px-2 rounded-xl border-2 border-slate-500 shadow-lg flex flex-col items-center gap-1 hover:border-amber-400 hover:scale-105 transition-all">
+                    <span class="text-3xl">${o.icon}</span>
+                    <span class="text-sm md:text-base font-extrabold text-amber-300">${o.t}</span>
+                    <span class="text-[10px] text-slate-300">${o.desc}</span>
+                </button>
+            `).join('');
         }
 
         window.selectTimeline = (id) => {
             SoundEngine.playClick();
-            document.querySelectorAll('[id^="topt-"]').forEach(el => el.classList.remove('border-amber-500', 'scale-105', 'shadow-[0_0_15px_rgba(245,158,11,0.5)]'));
+            document.querySelectorAll('[id^="topt-"]').forEach(el => el.classList.remove('border-amber-400', 'scale-105', 'shadow-[0_0_15px_rgba(245,158,11,0.6)]', 'bg-amber-950/60'));
             const btn = document.getElementById(`topt-${id}`);
             if(btn) {
-                btn.classList.add('border-amber-500', 'scale-105', 'shadow-[0_0_15px_rgba(245,158,11,0.5)]');
+                btn.classList.add('border-amber-400', 'scale-105', 'shadow-[0_0_15px_rgba(245,158,11,0.6)]', 'bg-amber-950/60');
                 tSelected = tEvents.find(e => e.id === id);
             }
         };
 
         window.placeTimeline = (slotNum) => {
-            if(!tSelected) { SoundEngine.playError(); showModal("ยังไม่ได้เลือก", "คลิกเลือกวัตถุโบราณจากด้านล่างก่อนครับ"); return; }
-            if(slotNum !== tExpected) { SoundEngine.playError(); showModal("ผิดลำดับ!", `ต้องใส่เหตุการณ์ที่เก่าแก่ที่สุดที่เหลืออยู่ ในช่องที่ ${tExpected} ก่อนครับ`); return; }
+            if(!tSelected) { 
+                SoundEngine.playError(); 
+                showModal("ยังไม่ได้เลือกวัตถุ!", "กรุณาคลิกเลือกวัตถุโบราณ/ยุคสมัย จากกล่องด้านล่างก่อน แล้วค่อยนำมาใส่ในช่องครับ"); 
+                return; 
+            }
             
             if(tSelected.era === slotNum) {
                 SoundEngine.playSuccess();
-                document.getElementById(`topt-${tSelected.id}`).classList.add('hidden');
-                const slotContent = document.getElementById(`tslot-content-${slotNum}`);
-                slotContent.innerHTML = `<div class="bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold px-3 py-1.5 rounded-lg shadow-md border border-amber-300 w-full animate-fadeInScale flex items-center gap-2"><span class="text-xl">${tSelected.icon}</span> ${tSelected.t}</div>`;
-                document.getElementById(`tslot-${slotNum}`).classList.replace('border-dashed', 'border-solid');
-                document.getElementById(`tslot-${slotNum}`).classList.replace('border-slate-600', 'border-amber-500');
+                const optBtn = document.getElementById(`topt-${tSelected.id}`);
+                if(optBtn) optBtn.classList.add('hidden');
                 
-                tScore += 200; tExpected++; tSelected = null;
+                const slotContent = document.getElementById(`tslot-content-${slotNum}`);
+                slotContent.innerHTML = `<div class="bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold px-3 py-1.5 rounded-lg shadow-md border border-amber-300 w-full animate-fadeInScale flex items-center justify-between"><div class="flex items-center gap-2"><span class="text-xl">${tSelected.icon}</span> <span>${tSelected.t}</span></div><span class="text-xs text-amber-200">✅ ถูกต้อง</span></div>`;
+                
+                const slotEl = document.getElementById(`tslot-${slotNum}`);
+                slotEl.classList.replace('border-dashed', 'border-solid');
+                slotEl.classList.replace('border-slate-600', 'border-amber-500');
+                slotEl.classList.add('bg-amber-950/30');
+                slotEl.onclick = null; // Installed
+                
+                tScore += 200; 
+                tPlacedCount++; 
+                tSelected = null;
                 document.getElementById('time-score-disp').innerText = tScore;
                 
-                if(tExpected > tEvents.length) {
+                if(tPlacedCount >= tEvents.length) {
                     AppState.playedGames.timeline = true; 
                     AppState.scores.timeline = tScore + (tLives * 200);
                     SoundEngine.playSuccess();
-                    showModal('🎉 ติดตั้งสำเร็จ! ⏳', `เครื่องไทม์แมชชีนทำงานแล้ว!\n\nคะแนนด่าน 1: ${tScore}\nโบนัสหัวใจ (+${tLives*200})\n= รวมรอบนี้: ${AppState.scores.timeline} แต้ม!\n\n🚀 กด 'รับทราบ' เพื่อไปด่านที่ 2 (วิ่งตะลุยสถานการณ์)`, () => navTo('screen-mission-hub'));
+                    showModal('🎉 ติดตั้งวงจรสำเร็จ! ⏳', `เครื่องไทม์แมชชีนทำงานสมบูรณ์แล้ว!\n\nคะแนนด่าน 1: ${tScore}\nโบนัสหัวใจ (+${tLives*200})\n= รวมรอบนี้: ${AppState.scores.timeline} แต้ม!\n\n🚀 ด่านที่ 2 (วิ่งตะลุยป่า) ปลดล็อกแล้ว!`, () => navTo('screen-mission-hub'));
                 }
             } else {
-                SoundEngine.playError(); tLives--; document.getElementById('time-lives').innerText = tLives;
-                document.getElementById(`tslot-${slotNum}`).classList.add('border-red-500', 'bg-red-900/30', 'animate-shake-ui');
-                setTimeout(() => document.getElementById(`tslot-${slotNum}`)?.classList.remove('border-red-500', 'bg-red-900/30', 'animate-shake-ui'), 500);
+                SoundEngine.playError(); 
+                tLives--; 
+                document.getElementById('time-lives').innerText = tLives;
+                const slotEl = document.getElementById(`tslot-${slotNum}`);
+                slotEl.classList.add('border-red-500', 'bg-red-900/30', 'animate-shake-ui');
+                setTimeout(() => slotEl?.classList.remove('border-red-500', 'bg-red-900/30', 'animate-shake-ui'), 500);
                 if(tLives <= 0) { 
                     AppState.playedGames.timeline = true; 
                     AppState.scores.timeline = tScore; 
                     SoundEngine.playError();
-                    showModal('💔 เครื่องพัง!', `พลังชีวิตหมดแล้ว\nได้คะแนนไป ${tScore} แต้ม\n\nกด 'รับทราบ' เพื่อไปต่อที่ศูนย์ภารกิจ`, () => navTo('screen-mission-hub')); 
+                    showModal('💔 เครื่องพัง!', `พลังชีวิตหมดแล้ว\nได้คะแนนด่านนี้: ${tScore} แต้ม`, () => navTo('screen-mission-hub')); 
                 }
             }
         };
@@ -1956,7 +2010,8 @@
         // --- GAME 2: RUNNER (SCENARIO SURVIVAL) ---
         const canvas = document.getElementById('gameCanvas'); const ctx = canvas.getContext('2d');
         let rGameId, rActive = false, rState = {}, rObstacles = [], rItems = [], rPlatforms = [];
-        let rSpawnedQ = 0, rQCount = 0, finishLineSpawned = false, finishLineX = 0, rFrameCounter = 0, isAnsweringRunner = false;
+        let rQCount = 0, finishLineSpawned = false, finishLineX = 0, rFrameCounter = 0, isAnsweringRunner = false;
+        let spawnedObstacleInSegment = false, spawnedBoxInSegment = false;
         
         const qBankRunnerFull = [
             { q: "สัตว์ร้ายบุก! มีเครื่องมือหินกะเทาะในยุคเก่า จะเอาตัวรอดอย่างไร?", a: "กะเทาะทำคมอาวุธและใช้ไฟไล่", b: "นำมาขัดฝนจนเงางาม", ans: 0 },
@@ -1968,92 +2023,151 @@
         let rQuestions = [], currentGQ = null;
 
         function initRunnerGame() {
-            SoundEngine.playClick(); navTo('screen-game');
+            SoundEngine.playClick(); 
+            navTo('screen-game');
             document.getElementById('game-quiz-overlay').classList.replace('flex', 'hidden');
             rQuestions = [...qBankRunnerFull].sort(() => 0.5 - Math.random()).slice(0, 5); 
-            rState = { x: 50, y: 200, dy: 0, w: 40, h: 40, grounded: true, score: 0, lives: 3, speed: 5.5 };
-            rObstacles = []; rItems = []; rPlatforms = []; rActive = true; rSpawnedQ = 0; rQCount = 0; finishLineSpawned = false; rFrameCounter = 0; isAnsweringRunner = false;
-            updateRUI(); if(rGameId) cancelAnimationFrame(rGameId); rLoop();
+            rState = { x: 60, y: 195, dy: 0, w: 45, h: 45, grounded: true, score: 0, lives: 3, speed: 5.5 };
+            rObstacles = []; rItems = []; rPlatforms = []; rActive = true; 
+            rQCount = 0; finishLineSpawned = false; finishLineX = 0;
+            rFrameCounter = 0; isAnsweringRunner = false;
+            spawnedObstacleInSegment = false; spawnedBoxInSegment = false;
+            updateRUI(); 
+            if(rGameId) cancelAnimationFrame(rGameId); 
+            rLoop();
         }
 
-        function rJump() { if (rState.grounded && rActive) { SoundEngine.playClick(); rState.dy = -14; rState.grounded = false; } }
+        function rJump() { 
+            if (rState.grounded && rActive && !isAnsweringRunner) { 
+                SoundEngine.playClick(); 
+                rState.dy = -14.5; 
+                rState.grounded = false; 
+            } 
+        }
         window.addEventListener('keydown', (e) => { if (e.code === 'Space' && rActive && document.getElementById('screen-game').classList.contains('active')) { e.preventDefault(); rJump(); } });
-        canvas.addEventListener('touchstart', (e) => { if(rActive){ e.preventDefault(); rJump(); } }, {passive: false});
-        canvas.addEventListener('mousedown', () => { if(rActive) rJump(); });
+        canvas.addEventListener('touchstart', (e) => { if(rActive && !isAnsweringRunner){ e.preventDefault(); rJump(); } }, {passive: false});
+        canvas.addEventListener('mousedown', () => { if(rActive && !isAnsweringRunner) rJump(); });
 
         function rLoop() {
             if(!rActive) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height); const gy = 240;
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            const gy = 240;
+            
+            // Background & Ground
             ctx.fillStyle = '#064e3b'; ctx.fillRect(0, 0, canvas.width, gy);
             ctx.fillStyle = '#451a03'; ctx.fillRect(0, gy, canvas.width, canvas.height - gy);
             ctx.fillStyle = '#166534'; ctx.fillRect(0, gy, canvas.width, 10);
             
+            // Progress Bar
             document.getElementById('runner-progress').style.width = `${(rQCount/5)*100}%`;
-            rState.dy += 0.8; rState.y += rState.dy; rState.grounded = false;
+            
+            // Physics
+            rState.dy += 0.8; 
+            rState.y += rState.dy; 
+            rState.grounded = false;
 
-            if (rState.y + rState.h >= gy) { rState.y = gy - rState.h; rState.dy = 0; rState.grounded = true; } 
-            else {
+            if (rState.y + rState.h >= gy) { 
+                rState.y = gy - rState.h; 
+                rState.dy = 0; 
+                rState.grounded = true; 
+            } else {
                 for (let p of rPlatforms) {
-                    if (rState.x < p.x + p.w && rState.x + rState.w > p.x && rState.dy > 0 && rState.y + rState.h - rState.dy <= p.y + 10 && rState.y + rState.h >= p.y) {
-                        rState.y = p.y - rState.h; rState.dy = 0; rState.grounded = true;
+                    if (rState.x < p.x + p.w && rState.x + rState.w > p.x && rState.dy > 0 && rState.y + rState.h - rState.dy <= p.y + 12 && rState.y + rState.h >= p.y) {
+                        rState.y = p.y - rState.h; 
+                        rState.dy = 0; 
+                        rState.grounded = true;
                     }
                 }
             }
-            ctx.font = "40px Arial"; ctx.fillText(AppState.avatar, rState.x, rState.y + 35);
+            
+            // Draw Player Avatar
+            ctx.font = "40px Arial"; 
+            ctx.fillText(AppState.avatar, rState.x, rState.y + 36);
 
             rFrameCounter++;
 
-            // Finish line after 5 questions
-            if (rQCount >= 5 && !finishLineSpawned) { finishLineX = canvas.width + 100; finishLineSpawned = true; }
-            if (finishLineSpawned) {
-                finishLineX -= rState.speed; ctx.fillText("🏁", finishLineX, gy - 10);
-                if (finishLineX < 50) { endRunner(true); return; }
+            // Segment Spawning (Controlled sequence)
+            if (rQCount < 5) {
+                // At frame 50: spawn obstacle
+                if (rFrameCounter >= 50 && !spawnedObstacleInSegment) {
+                    rObstacles.push({ x: canvas.width, y: gy - 32, w: 32, h: 32 });
+                    spawnedObstacleInSegment = true;
+                }
+                // At frame 130: spawn platform & Question box
+                if (rFrameCounter >= 130 && !spawnedBoxInSegment) {
+                    let py = gy - 70;
+                    rPlatforms.push({ x: canvas.width, y: py, w: 140, h: 20 });
+                    rItems.push({ type: 'box', x: canvas.width + 48, y: py - 48, w: 45, h: 45 });
+                    spawnedBoxInSegment = true;
+                }
+            } else if (!finishLineSpawned) {
+                finishLineX = canvas.width + 80;
+                finishLineSpawned = true;
             }
 
-            // Spawning Box items & Obstacles sequentially
-            if (!finishLineSpawned && rSpawnedQ < 5) {
-                if (rFrameCounter > 120 && rPlatforms.length === 0 && rItems.length === 0 && rObstacles.length === 0) {
-                    let py = gy - 70;
-                    rPlatforms.push({x: canvas.width, y: py, w: 130, h: 20});
-                    rItems.push({type: 'box', x: canvas.width + 45, y: py - 45, w: 40, h: 40});
-                    rSpawnedQ++;
-                    rFrameCounter = 0;
-                } else if (rFrameCounter % 90 === 0 && rPlatforms.length === 0 && rItems.length === 0) {
-                    rObstacles.push({ x: canvas.width, y: gy - 30, w: 30, h: 30 });
+            if (finishLineSpawned) {
+                finishLineX -= rState.speed; 
+                ctx.font = "50px Arial";
+                ctx.fillText("🏁", finishLineX, gy - 8);
+                if (finishLineX < 60) { 
+                    endRunner(true); 
+                    return; 
                 }
             }
 
+            // Platforms
             for (let i = rPlatforms.length - 1; i >= 0; i--) {
-                let p = rPlatforms[i]; p.x -= rState.speed;
-                ctx.fillStyle = '#b45309'; ctx.fillRect(p.x, p.y, p.w, p.h); ctx.fillStyle = '#f59e0b'; ctx.fillRect(p.x, p.y, p.w, 3);
-                if (p.x + p.w < 0) rPlatforms.splice(i, 1);
+                let p = rPlatforms[i]; 
+                p.x -= rState.speed;
+                ctx.fillStyle = '#b45309'; ctx.fillRect(p.x, p.y, p.w, p.h); 
+                ctx.fillStyle = '#f59e0b'; ctx.fillRect(p.x, p.y, p.w, 4);
+                if (p.x + p.w < -50) rPlatforms.splice(i, 1);
             }
 
+            // Obstacles
             for (let i = rObstacles.length - 1; i >= 0; i--) {
-                let o = rObstacles[i]; o.x -= rState.speed; ctx.fillText("🌵", o.x, o.y + 25);
-                if (rState.x < o.x + o.w - 10 && rState.x + rState.w - 10 > o.x && rState.y < o.y + o.h && rState.y + rState.h > o.y) {
-                    SoundEngine.playError(); rState.lives--; rObstacles.splice(i, 1); updateRUI();
-                    ctx.fillStyle = 'rgba(239,68,68,0.5)'; ctx.fillRect(0,0,canvas.width, canvas.height);
+                let o = rObstacles[i]; 
+                o.x -= rState.speed; 
+                ctx.font = "32px Arial";
+                ctx.fillText("🌵", o.x, o.y + 26);
+                if (rState.x < o.x + o.w - 8 && rState.x + rState.w - 8 > o.x && rState.y < o.y + o.h && rState.y + rState.h > o.y) {
+                    SoundEngine.playError(); 
+                    rState.lives--; 
+                    rObstacles.splice(i, 1); 
+                    updateRUI();
+                    ctx.fillStyle = 'rgba(239,68,68,0.5)'; 
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
                     if (rState.lives <= 0) { endRunner(false); return; }
                 }
-                if (o.x + o.w < 0) rObstacles.splice(i, 1);
+                if (o.x + o.w < -50) rObstacles.splice(i, 1);
             }
 
+            // Question Items
             for (let i = rItems.length - 1; i >= 0; i--) {
-                let it = rItems[i]; it.x -= rState.speed; ctx.fillText("❔", it.x, it.y + 35);
+                let it = rItems[i]; 
+                it.x -= rState.speed; 
+                ctx.font = "40px Arial";
+                ctx.fillText("❔", it.x, it.y + 38);
+                
+                // Hit question box
                 if (rState.x < it.x + it.w && rState.x + rState.w > it.x && rState.y < it.y + it.h && rState.y + rState.h > it.y) {
-                    rItems.splice(i, 1); rActive = false; currentGQ = rQuestions[rQCount];
+                    rItems.splice(i, 1); 
+                    rActive = false; 
+                    currentGQ = rQuestions[rQCount];
                     document.getElementById('game-quiz-text').innerText = currentGQ.q;
                     const b0 = document.getElementById('gq-btn-0'), b1 = document.getElementById('gq-btn-1');
-                    b0.innerText = currentGQ.a; b0.disabled = false; b0.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105";
-                    b1.innerText = currentGQ.b; b1.disabled = false; b1.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105";
+                    b0.innerText = currentGQ.a; b0.disabled = false; 
+                    b0.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105";
+                    b1.innerText = currentGQ.b; b1.disabled = false; 
+                    b1.className = "flex-1 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-green-600 hover:to-emerald-600 text-white py-5 px-4 rounded-xl font-bold transition-all border-2 border-slate-500 hover:border-green-300 text-lg shadow-lg hover:scale-105";
                     isAnsweringRunner = false;
                     document.getElementById('game-quiz-overlay').classList.replace('hidden', 'flex'); 
                     SoundEngine.playWarp(); 
                     return;
                 }
-                if (it.x + it.w < 0) { rItems.splice(i, 1); }
+                if (it.x + it.w < -50) { rItems.splice(i, 1); }
             }
+            
             rGameId = requestAnimationFrame(rLoop);
         }
 
@@ -2092,23 +2206,32 @@
 
         function resumeRunner() { 
             rObstacles = []; rPlatforms = []; rItems = []; 
-            rState.y = 200; rState.dy = 0; rState.grounded = true;
+            rState.y = 195; rState.dy = 0; rState.grounded = true;
             rFrameCounter = 0;
+            spawnedObstacleInSegment = false;
+            spawnedBoxInSegment = false;
+            isAnsweringRunner = false;
             rActive = true; 
-            if(rGameId) cancelAnimationFrame(rGameId);
+            if(rGameId) cancelAnimationFrame(rGameId); 
             rLoop(); 
         }
-        function updateRUI() { document.getElementById('runner-score').innerText = rState.score; document.getElementById('runner-lives').innerText = rState.lives; }
+        function updateRUI() { 
+            document.getElementById('runner-score').innerText = rState.score; 
+            document.getElementById('runner-lives').innerText = rState.lives; 
+        }
         
         function endRunner(isWin) {
-            rActive = false; cancelAnimationFrame(rGameId); AppState.playedGames.runner = true;
-            let finalScore = rState.score + (isWin ? (rState.lives * 100) : 0); AppState.scores.runner = finalScore;
+            rActive = false; 
+            cancelAnimationFrame(rGameId); 
+            AppState.playedGames.runner = true;
+            let finalScore = rState.score + (isWin ? (rState.lives * 100) : 0); 
+            AppState.scores.runner = finalScore;
             if(isWin) { 
                 SoundEngine.playSuccess(); 
-                showModal('🎉 รอดชีวิตออกจากป่า! 🏆', `แต้มด่าน 2: ${rState.score}\nโบนัสหัวใจ (+${rState.lives*100})\n= รวมรอบนี้: ${finalScore} แต้ม!\n\n🚀 กด 'รับทราบ' เพื่อไปด่านที่ 3 (เปิดการ์ดจับคู่พาณิชย์นาวี)`, () => navTo('screen-mission-hub')); 
+                showModal('🎉 รอดชีวิตออกจากป่า! 🏆', `แต้มด่าน 2: ${rState.score}\nโบนัสหัวใจ (+${rState.lives*100})\n= รวมรอบนี้: ${finalScore} แต้ม!\n\n🚀 ด่านที่ 3 (การ์ดพาณิชย์นาวี) ปลดล็อกแล้ว!`, () => navTo('screen-mission-hub')); 
             } else { 
                 SoundEngine.playError(); 
-                showModal('💔 เกมโอเวอร์!', `พลังชีวิตหมด ได้ไป ${rState.score} แต้ม\n\nกด 'รับทราบ' เพื่อไปต่อที่ศูนย์ภารกิจ`, () => navTo('screen-mission-hub')); 
+                showModal('💔 เกมโอเวอร์!', `พลังชีวิตหมด ได้ไป ${rState.score} แต้ม`, () => navTo('screen-mission-hub')); 
             }
         }
 
@@ -2123,9 +2246,11 @@
         let isFlipping = false, currentMatchTotal = 4, comboCount = 0;
 
         function initMemoryGame() {
-            SoundEngine.playClick(); navTo('screen-match-game');
+            SoundEngine.playClick(); 
+            navTo('screen-match-game');
             memLives = 8; memScore = 0; memMatched = 0; comboCount = 0; flippedCards = []; isFlipping = true;
-            document.getElementById('mem-lives').innerText = memLives; document.getElementById('mem-score-disp').innerText = memScore;
+            document.getElementById('mem-lives').innerText = memLives; 
+            document.getElementById('mem-score-disp').innerText = memScore;
             
             let deck = [];
             memoryDataFull.forEach(item => {
@@ -2144,7 +2269,8 @@
 
             setTimeout(() => {
                 document.querySelectorAll('.memory-card').forEach(card => card.classList.remove('flipped'));
-                isFlipping = false; SoundEngine.playClick();
+                isFlipping = false; 
+                SoundEngine.playClick();
             }, 3500);
         }
 
@@ -2192,7 +2318,7 @@
                         if(memLives <= 0) {
                             AppState.playedGames.match = true; AppState.scores.match = memScore;
                             SoundEngine.playError();
-                            showModal('💔 เกมโอเวอร์', `พลาดเกินกำหนดแล้ว!\nได้คะแนนไป ${memScore} แต้ม\n\nกด 'รับทราบ' เพื่อไปต่อที่ศูนย์ภารกิจ`, () => navTo('screen-mission-hub'));
+                            showModal('💔 เกมโอเวอร์', `พลาดเกินกำหนดแล้ว!\nได้คะแนนไป ${memScore} แต้ม`, () => navTo('screen-mission-hub'));
                         }
                     }, 1000);
                 }
@@ -2206,7 +2332,7 @@
                 let finalMemScore = memScore + (memLives * 100); 
                 AppState.scores.match = finalMemScore; 
                 SoundEngine.playSuccess();
-                showModal('🎉 ยอดเยี่ยมมาก! 🧠', `จับคู่พาณิชย์นาวีครบทั้ง 4 คู่แล้ว!\n\nคะแนน: ${memScore}\nโบนัสหัวใจเหลือ (${memLives}x100): +${memLives*100}\n= สรุปรอบนี้: ${finalMemScore} แต้ม!\n\n🚀 กด 'รับทราบ' เพื่อไปด่านที่ 4 (โต๊ะตรวจเอกสารราชการ)`, () => navTo('screen-mission-hub'));
+                showModal('🎉 ยอดเยี่ยมมาก! 🧠', `จับคู่พาณิชย์นาวีครบทั้ง 4 คู่แล้ว!\n\nคะแนน: ${memScore}\nโบนัสหัวใจเหลือ (${memLives}x100): +${memLives*100}\n= สรุปรอบนี้: ${finalMemScore} แต้ม!\n\n🚀 ด่านที่ 4 (โต๊ะตรวจเอกสารราชการ) ปลดล็อกแล้ว!`, () => navTo('screen-mission-hub'));
             }
         }
 
@@ -2234,7 +2360,7 @@
                 AppState.playedGames.rattanakosin = true; 
                 AppState.scores.rattanakosin = ratScore;
                 SoundEngine.playSuccess();
-                showModal('🎉 ตรวจฎีกาเสร็จสิ้น! 📜', `สายตาเฉียบขาดมาก!\nทำคะแนนด่าน 4 ได้: ${ratScore} แต้ม\n\n🚀 กด 'รับทราบ' เพื่อเข้าสู่ ด่านสุดท้าย (ศึกประลองบอส Quiz)!`, () => navTo('screen-mission-hub')); 
+                showModal('🎉 ตรวจฎีกาเสร็จสิ้น! 📜', `สายตาเฉียบขาดมาก!\nทำคะแนนด่าน 4 ได้: ${ratScore} แต้ม\n\n🚀 ด่านที่ 5 (ศึกประลองบอส Quiz) ปลดล็อกแล้ว!`, () => navTo('screen-mission-hub')); 
                 return;
             }
             document.getElementById('rat-q-num').innerText = ratQIdx + 1;
@@ -2247,12 +2373,22 @@
 
             document.getElementById('stamp-true').classList.remove('stamp-anim');
             document.getElementById('stamp-false').classList.remove('stamp-anim');
+            
+            const bTrue = document.getElementById('btn-stamp-true');
+            const bFalse = document.getElementById('btn-stamp-false');
+            if (bTrue) bTrue.disabled = false;
+            if (bFalse) bFalse.disabled = false;
             isStamping = false;
         }
 
         window.handleStamp = (userAns) => {
             if(isStamping) return;
             isStamping = true;
+
+            const bTrue = document.getElementById('btn-stamp-true');
+            const bFalse = document.getElementById('btn-stamp-false');
+            if (bTrue) bTrue.disabled = true;
+            if (bFalse) bFalse.disabled = true;
 
             const currentQ = ratQuestions[ratQIdx];
             const stampEl = userAns ? document.getElementById('stamp-true') : document.getElementById('stamp-false');
@@ -2270,19 +2406,17 @@
                 SoundEngine.playError();
             }
 
+            // Slide out and load next question
             setTimeout(() => {
                 const docContainer = document.getElementById('document-container');
                 docContainer.style.transform = 'translateY(-120%) rotate(15deg) scale(0.85)';
                 docContainer.style.opacity = '0';
                 
                 setTimeout(() => {
-                    if (isCorrect) {
-                        showModal("✅ วิเคราะห์ถูกต้อง! (+300 แต้ม)", currentQ.exp, () => { ratQIdx++; loadRatQuestion(); });
-                    } else {
-                        showModal("❌ ตรวจผิดพลาด!", currentQ.exp, () => { ratQIdx++; loadRatQuestion(); });
-                    }
+                    ratQIdx++;
+                    loadRatQuestion();
                 }, 400);
-            }, 700);
+            }, 1200);
         };
 
         // --- GAME 5: RPG BOSS BATTLE QUIZ ---
@@ -2307,7 +2441,9 @@
             qCurrentIdx = 0; qScore = 0; playerHP = 100; bossHP = 100; isSubmittingQuiz = false;
             document.getElementById('rpg-avatar').innerText = AppState.avatar;
             document.getElementById('rpg-name').innerText = AppState.playerName || "Hero";
-            updateHPUIs(); navTo('screen-quiz'); loadQuestion();
+            updateHPUIs(); 
+            navTo('screen-quiz'); 
+            loadQuestion();
         }
 
         function updateHPUIs() {
