@@ -1438,18 +1438,10 @@
             if (wc) wc.innerText = currentCount.toLocaleString('th-TH');
             if (hc) hc.innerText = currentCount.toLocaleString('th-TH');
 
-            // Try fetching from online count API for real sync
-            fetch('https://api.counterapi.dev/v1/watbangpun-history-ks004/visits/up')
-                .then(r => r.json())
-                .then(data => {
-                    if (data && data.count) {
-                        const onlineTotal = Math.max(currentCount, data.count);
-                        localStorage.setItem(VISITOR_KEY, onlineTotal.toString());
-                        if (wc) wc.innerText = onlineTotal.toLocaleString('th-TH');
-                        if (hc) hc.innerText = onlineTotal.toLocaleString('th-TH');
-                    }
-                })
-                .catch(() => {});
+            // Try fetching from public counter API if available
+            try {
+                fetch('https://api.counterapi.dev/v1/watbangpun-history-ks004/visits/up', { mode: 'no-cors' }).catch(() => {});
+            } catch(e) {}
         }
 
         function renderLeaderboard() {
@@ -1597,23 +1589,6 @@
             }
             if (screenId === 'screen-main-categories') updateHubProgress();
             if (screenId === 'screen-mission-hub') updateMissionHubStatus();
-
-            // ป้องกันการค้างหลังรีเฟรช: สตาร์ทเกมอัตโนมัติเมื่อเข้ามาหน้าเกม
-            if (screenId === 'screen-game' && !rActive) {
-                initRunnerGame();
-            } else if (screenId === 'screen-timeline-game') {
-                const slots = document.getElementById('timeline-slots');
-                if (!slots || slots.children.length === 0) initTimelineGame();
-            } else if (screenId === 'screen-match-game') {
-                const board = document.getElementById('memory-board');
-                if (!board || board.children.length === 0) initMemoryGame();
-            } else if (screenId === 'screen-rat-game') {
-                const docBody = document.getElementById('doc-body');
-                if (!docBody || docBody.innerText === '') initRatGame();
-            } else if (screenId === 'screen-quiz') {
-                const quizText = document.getElementById('quiz-question');
-                if (!quizText || quizText.innerText === 'คำถามจะปรากฏที่นี่...' || quizText.innerText === '') startQuiz();
-            }
 
             window.scrollTo(0, 0);
             saveAppState(screenId);
@@ -3313,6 +3288,13 @@
         window.checkExitLesson = checkExitLesson; 
         window.markLessonComplete = markLessonComplete; 
         window.openHallOfFame = () => { SoundEngine.playClick(); renderLeaderboard(); navTo('screen-hall-of-fame'); };
+        window.renderLeaderboard = renderLeaderboard;
+        window.attemptEnterMissionHub = attemptEnterMissionHub;
+        window.showModal = showModal;
+        window.updateTotal = updateTotal;
+        window.updateTopBar = updateTopBar;
+        window.updateHubProgress = updateHubProgress;
+        window.updateMissionHubStatus = updateMissionHubStatus;
         window.initTimelineGame = initTimelineGame;
         window.selectTimeline = selectTimeline;
         window.placeTimeline = placeTimeline;
@@ -3324,6 +3306,7 @@
         window.handleStamp = handleStamp;
         window.startQuiz = startQuiz;
         window.submitQuiz = submitQuiz;
+        window.finishQuiz = finishQuiz;
         window.generateCertificate = generateCertificate;
         window.downloadCertificateImage = downloadCertificateImage;
         window.openWorksheet = openWorksheet;
