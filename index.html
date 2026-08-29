@@ -140,7 +140,7 @@
                 <i class="fa-solid fa-music text-emerald-400"></i> <span class="hidden lg:inline text-emerald-300">เพลงคลอ</span>
             </button>
 
-            <button id="btn-nav-mission" onclick="navTo('screen-mission-hub')" class="flex bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game items-center gap-1.5">
+            <button id="btn-nav-mission" onclick="navTo('screen-mission-hub')" class="hidden bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game items-center gap-1.5">
                 <span>🎯</span> <span class="hidden sm:inline">ศูนย์ภารกิจ 5 ด่าน</span>
             </button>
             
@@ -315,21 +315,21 @@
             </div>
         </div>
 
-        <!-- โซนศูนย์บัญชาการภารกิจ 5 ด่าน (ต้องศึกษาบทเรียนครบ 6 ยุคก่อน) -->
+        <!-- โซนศูนย์บัญชาการภารกิจ 5 ด่าน (ปลดล็อกเมื่อศึกษาครบ 6 ยุค) -->
         <div class="w-full max-w-4xl mt-2 mb-4 z-10 relative">
             <div id="card-mission-hub" class="bg-slate-900/90 border-2 border-slate-700 p-6 md:p-8 rounded-[2rem] shadow-xl backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-500">
-                <div class="flex items-center gap-6">
-                    <div id="mission-hub-icon" class="text-6xl bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-inner">🔒</div>
+                <div class="flex items-center gap-5 md:gap-6 w-full md:w-auto">
+                    <div id="mission-hub-icon" class="text-5xl md:text-6xl bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-inner shrink-0">🔒</div>
                     <div>
-                        <div id="mission-hub-badge" class="inline-flex items-center gap-2 bg-slate-800 text-amber-400 px-3 py-0.5 rounded-full text-xs font-bold border border-slate-700 mb-1">
-                            <span>🔒 ต้องศึกษาบทเรียนให้ครบ 6 ยุคก่อน</span>
+                        <div id="mission-hub-badge" class="inline-flex items-center gap-1.5 bg-slate-800 text-amber-400 px-3 py-0.5 rounded-full text-xs font-bold border border-slate-700 mb-1.5">
+                            <span>🔒 ปลดล็อกเมื่อเรียนจบ 6 ยุค</span>
                         </div>
                         <h3 class="text-2xl md:text-3xl font-black text-white mb-1">ศูนย์ภารกิจข้ามเวลา (5 มินิเกม)</h3>
-                        <p id="mission-hub-desc" class="text-slate-400 text-sm md:text-base font-medium">ศึกษาเนื้อหาประวัติศาสตร์ให้ครบทั้ง 6 ยุค เพื่อปลดล็อกศูนย์ภารกิจ 5 ด่าน</p>
+                        <p id="mission-hub-desc" class="text-slate-400 text-sm md:text-base font-medium">ท้าทายความรู้ด้วยมินิเกม 5 ด่าน สะสมเหรียญทองเพื่อรับเกียรติบัตร</p>
                     </div>
                 </div>
-                <button id="btn-enter-mission-hub" onclick="attemptEnterMissionHub()" class="w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-4 px-8 rounded-xl border border-slate-700 btn-game whitespace-nowrap text-sm md:text-base hover:bg-slate-700 transition-all">
-                    🔒 ยังไม่ปลดล็อก (ศึกษา 0/6 ยุค)
+                <button id="btn-enter-mission-hub" onclick="attemptEnterMissionHub()" class="w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-3.5 px-6 rounded-xl border border-slate-700 btn-game whitespace-nowrap text-sm md:text-base hover:bg-slate-700 transition-all shrink-0">
+                    🔒 ล็อกอยู่ (0/6 ยุค)
                 </button>
             </div>
         </div>
@@ -1630,13 +1630,15 @@
             const missionBtn = document.getElementById('btn-nav-mission');
             if(missionBtn) {
                 if(isMissionsUnlocked) {
+                    missionBtn.classList.remove('hidden');
+                    missionBtn.classList.add('flex');
                     missionBtn.className = "flex bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold shadow-[0_0_15px_rgba(192,38,211,0.6)] border border-fuchsia-300 animate-pulse text-xs md:text-sm btn-game items-center gap-1.5";
                     missionBtn.innerHTML = `<span>🎯</span> <span class="hidden sm:inline">ศูนย์ภารกิจ 5 ด่าน</span>`;
                     missionBtn.onclick = () => navTo('screen-mission-hub');
                 } else {
-                    missionBtn.className = "flex bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 px-3 md:px-4 py-1.5 md:py-2 rounded-xl font-bold border border-slate-700 text-xs md:text-sm btn-game items-center gap-1.5";
-                    missionBtn.innerHTML = `<span>🔒</span> <span class="hidden sm:inline">ศูนย์ภารกิจ (${completedCount}/6)</span>`;
-                    missionBtn.onclick = () => attemptEnterMissionHub();
+                    // ซ่อนปุ่มบน Top Bar ระหว่างล็อก เพื่อไม่ให้ขึ้นซ้ำซ้อนกับปุ่มในหน้าจอหลัก
+                    missionBtn.classList.add('hidden');
+                    missionBtn.classList.remove('flex');
                 }
             }
         }
@@ -1672,7 +1674,7 @@
                     iconHub.className = "text-6xl bg-purple-950 p-4 rounded-2xl border border-fuchsia-500 shadow-inner floating";
                 }
                 if (badgeHub) {
-                    badgeHub.className = "inline-flex items-center gap-2 bg-fuchsia-500/30 text-fuchsia-300 px-3 py-0.5 rounded-full text-xs font-bold border border-fuchsia-400 mb-1 animate-pulse";
+                    badgeHub.className = "inline-flex items-center gap-1.5 bg-fuchsia-500/30 text-fuchsia-300 px-3 py-0.5 rounded-full text-xs font-bold border border-fuchsia-400 mb-1.5 animate-pulse";
                     badgeHub.innerHTML = "<span>✨ ปลดล็อกสมบูรณ์แล้ว! (6/6 ยุค)</span>";
                 }
                 if (descHub) {
@@ -1680,7 +1682,7 @@
                     descHub.className = "text-purple-100/90 text-sm md:text-base font-medium";
                 }
                 if (btnHub) {
-                    btnHub.className = "w-full md:w-auto bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white font-black py-4 px-8 rounded-xl shadow-[0_0_25px_rgba(192,38,211,0.6)] border border-fuchsia-300 btn-game whitespace-nowrap text-lg animate-pulse";
+                    btnHub.className = "w-full md:w-auto bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white font-black py-4 px-8 rounded-xl shadow-[0_0_25px_rgba(192,38,211,0.6)] border border-fuchsia-300 btn-game whitespace-nowrap text-lg animate-pulse shrink-0";
                     btnHub.innerText = "เข้าสู่ศูนย์ภารกิจ 5 ด่าน ➔";
                 }
             } else {
@@ -1689,19 +1691,19 @@
                 }
                 if (iconHub) {
                     iconHub.innerText = "🔒";
-                    iconHub.className = "text-6xl bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-inner";
+                    iconHub.className = "text-5xl md:text-6xl bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-inner shrink-0";
                 }
                 if (badgeHub) {
-                    badgeHub.className = "inline-flex items-center gap-2 bg-slate-800 text-amber-400 px-3 py-0.5 rounded-full text-xs font-bold border border-slate-700 mb-1";
-                    badgeHub.innerHTML = `<span>🔒 ต้องศึกษาบทเรียนครบ 6 ยุคก่อน (ตอนนี้: ${completedCount}/6 ยุค)</span>`;
+                    badgeHub.className = "inline-flex items-center gap-1.5 bg-slate-800 text-amber-400 px-3 py-0.5 rounded-full text-xs font-bold border border-slate-700 mb-1.5";
+                    badgeHub.innerHTML = `<span>🔒 ปลดล็อกเมื่อเรียนจบ 6 ยุค</span>`;
                 }
                 if (descHub) {
-                    descHub.innerText = `ศึกษาเนื้อหาประวัติศาสตร์ให้ครบทั้ง 6 ยุคก่อน จึงจะปลดล็อกศูนย์ภารกิจ 5 ด่าน (ศึกษาแล้ว ${completedCount}/6 ยุค)`;
+                    descHub.innerText = `ท้าทายความรู้ด้วยมินิเกม 5 ด่าน สะสมเหรียญทองเพื่อรับเกียรติบัตร`;
                     descHub.className = "text-slate-400 text-sm md:text-base font-medium";
                 }
                 if (btnHub) {
-                    btnHub.className = "w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-4 px-8 rounded-xl border border-slate-700 btn-game whitespace-nowrap text-sm md:text-base hover:bg-slate-700 hover:text-slate-300 transition-all";
-                    btnHub.innerText = `🔒 ยังไม่ปลดล็อก (ศึกษาแล้ว ${completedCount}/6 ยุค)`;
+                    btnHub.className = "w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-3.5 px-6 rounded-xl border border-slate-700 btn-game whitespace-nowrap text-sm md:text-base hover:bg-slate-700 transition-all shrink-0";
+                    btnHub.innerText = `🔒 ล็อกอยู่ (${completedCount}/6 ยุค)`;
                 }
             }
         }
