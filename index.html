@@ -202,132 +202,179 @@
         </div>
     </div>
 
-    <!-- หน้าแรก: ธีมประวัติศาสตร์ (จบใน 1 หน้าจอ ไม่ต้องเลื่อน) -->
-    <main id="screen-welcome" class="screen active flex-col items-center justify-between p-3 sm:p-4 md:p-5 lg:p-6 min-h-screen lg:h-screen lg:max-h-screen flex-grow relative overflow-hidden bg-gradient-to-br from-stone-950 via-slate-900 to-amber-950 box-border">
+    <!-- หน้าแรก: ธีมประวัติศาสตร์ (ดีไซน์กระชับ สวยงาม สมดุล ไร้พื้นที่ว่างส่วนเกิน) -->
+    <main id="screen-welcome" class="screen active flex-col items-center justify-center p-3 sm:p-4 md:p-6 min-h-screen flex-grow relative overflow-y-auto bg-gradient-to-br from-stone-950 via-slate-900 to-amber-950 box-border">
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/old-map.png')] opacity-20 pointer-events-none"></div>
 
-        <div class="max-w-6xl xl:max-w-7xl w-full flex-1 flex flex-col md:flex-row gap-4 lg:gap-6 z-10 relative items-stretch justify-center my-auto min-h-0">
-            <!-- ฝั่งซ้าย: ภาพรวมการเดินทางข้ามเวลา -->
-            <div class="flex-1 bg-gradient-to-b from-amber-950/90 via-stone-900/90 to-slate-950/90 backdrop-blur-xl p-4 sm:p-5 md:p-6 lg:p-7 rounded-3xl shadow-[0_0_40px_rgba(217,119,6,0.2)] border-2 border-amber-600/40 flex flex-col justify-between relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 text-8xl md:text-9xl opacity-10 pointer-events-none">🗺️</div>
-                <div>
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="bg-amber-500/20 text-amber-300 px-3 py-0.5 rounded-full text-[11px] font-extrabold border border-amber-500/40 uppercase tracking-wider flex items-center gap-1.5 shadow-inner">
-                            <i class="fa-solid fa-sparkles text-amber-400"></i> สื่อการสอนประวัติศาสตร์เชิงปฏิสัมพันธ์
-                        </span>
-                    </div>
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-orange-400 mb-1 drop-shadow-md leading-tight">
-                        ไทม์แมชชีนกาลเวลา
-                    </h1>
-                    <p class="text-amber-200/90 font-bold mb-3 text-xs sm:text-sm tracking-wide border-b border-amber-700/40 pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-hourglass-start text-amber-400"></i> ย้อนรอยประวัติศาสตร์ไทย (Pre-historic & Historical Eras)
-                    </p>
+        <div class="max-w-6xl w-full z-10 relative flex flex-col items-center my-auto py-2 sm:py-4">
+            
+            <!-- ส่วนกล่องเนื้อหาหลัก (2 คอลัมน์สมดุล ซ้าย-ขวา) -->
+            <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 md:gap-6 items-stretch justify-center">
+                
+                <!-- ฝั่งซ้าย: ภาพรวมการเดินทางข้ามเวลา & แผนผัง 6 ยุค (7 คอลัมน์) -->
+                <div class="lg:col-span-7 bg-gradient-to-b from-amber-950/90 via-stone-900/90 to-slate-950/90 backdrop-blur-xl p-4 sm:p-6 md:p-7 rounded-3xl shadow-[0_0_40px_rgba(217,119,6,0.25)] border-2 border-amber-600/40 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 text-8xl md:text-9xl opacity-10 pointer-events-none">🗺️</div>
                     
-                    <div class="bg-black/40 p-3 sm:p-4 rounded-2xl border border-amber-500/30 shadow-inner">
-                        <h2 class="text-xs sm:text-sm font-extrabold text-amber-300 mb-2.5 flex items-center gap-2">
-                            <i class="fa-solid fa-scroll text-amber-400"></i> แผนที่การเดินทางสู่ความเป็นเลิศ
-                        </h2>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-slate-200 text-xs sm:text-sm font-medium">
-                            <div class="flex items-start gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
-                                <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">1</span> 
-                                <div><b class="text-amber-300">สำรวจ 6 ยุค:</b> ยุคหิน โลหะ สุโขทัย อยุธยา ธนบุรี และรัตนโกสินทร์</div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-amber-500/20 text-amber-300 px-3 py-0.5 rounded-full text-[11px] font-extrabold border border-amber-500/40 uppercase tracking-wider flex items-center gap-1.5 shadow-inner">
+                                <i class="fa-solid fa-sparkles text-amber-400"></i> สื่อการสอนประวัติศาสตร์เชิงปฏิสัมพันธ์ (Active Learning)
+                            </span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-orange-400 mb-1 drop-shadow-md leading-tight" style="font-family: 'Chonburi', serif;">
+                            ไทม์แมชชีนกาลเวลา
+                        </h1>
+                        <p class="text-amber-200/90 font-bold mb-3.5 text-xs sm:text-sm tracking-wide border-b border-amber-700/40 pb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-hourglass-start text-amber-400"></i> ย้อนรอยประวัติศาสตร์ไทย (Pre-historic & Historical Eras)
+                        </p>
+
+                        <!-- แถบพรีวิว 6 ยุคสมัย -->
+                        <div class="mb-3.5 bg-black/40 p-2.5 sm:p-3 rounded-2xl border border-amber-500/30 shadow-inner">
+                            <div class="text-[11px] sm:text-xs font-bold text-amber-300 mb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-layer-group text-amber-400"></i> 6 มิติเวลาที่ต้องออกสำรวจ:</span>
+                                <span class="text-slate-400 text-[10px]">ครบทุกยุคประวัติศาสตร์</span>
                             </div>
-                            <div class="flex items-start gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
-                                <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">2</span> 
-                                <div><b class="text-amber-300">ศึกษาข้อมูล:</b> เรียนรู้ 15 วินาที/หน้าเพื่อปลดล็อกมิติถัดไป</div>
+                            <div class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-center">
+                                <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-1.5 hover:border-amber-400 transition-colors">
+                                    <div class="text-lg">🪨</div>
+                                    <div class="text-[11px] font-bold text-amber-200">1. ยุคหิน</div>
+                                </div>
+                                <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-1.5 hover:border-amber-400 transition-colors">
+                                    <div class="text-lg">⛏️</div>
+                                    <div class="text-[11px] font-bold text-amber-200">2. ยุคโลหะ</div>
+                                </div>
+                                <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-1.5 hover:border-amber-400 transition-colors">
+                                    <div class="text-lg">🔔</div>
+                                    <div class="text-[11px] font-bold text-amber-200">3. สุโขทัย</div>
+                                </div>
+                                <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-1.5 hover:border-amber-400 transition-colors">
+                                    <div class="text-lg">⛵</div>
+                                    <div class="text-[11px] font-bold text-amber-200">4. อยุธยา</div>
+                                </div>
+                                <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-1.5 hover:border-amber-400 transition-colors">
+                                    <div class="text-lg">🏇</div>
+                                    <div class="text-[11px] font-bold text-amber-200">5. ธนบุรี</div>
+                                </div>
+                                <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-1.5 hover:border-amber-400 transition-colors">
+                                    <div class="text-lg">🏙️</div>
+                                    <div class="text-[11px] font-bold text-amber-200">6. รัตนโกสินทร์</div>
+                                </div>
                             </div>
-                            <div class="flex items-start gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
-                                <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">3</span> 
-                                <div><b class="text-amber-300">ตะลุย 5 ด่าน:</b> ไทม์ไลน์, วิ่งตะลุยป่า, การ์ดการค้า, ตรวจฎีกา, ศึกบอส</div>
-                            </div>
-                            <div class="flex items-start gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/50">
-                                <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">4</span> 
-                                <div><b class="text-amber-300">เกียรติบัตร & ใบงาน:</b> สะสมแต้มรับเกียรติบัตรและทำใบงานส่งครู</div>
+                        </div>
+                        
+                        <!-- แผนที่การเดินทางสู่ความเป็นเลิศ 4 ขั้น -->
+                        <div class="bg-black/40 p-3 sm:p-4 rounded-2xl border border-amber-500/30 shadow-inner">
+                            <h2 class="text-xs sm:text-sm font-extrabold text-amber-300 mb-2.5 flex items-center gap-2">
+                                <i class="fa-solid fa-scroll text-amber-400"></i> แผนที่การเดินทางสู่ความเป็นเลิศ
+                            </h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-200 text-xs font-medium">
+                                <div class="flex items-start gap-2 bg-slate-900/70 p-2.5 rounded-xl border border-slate-700/60">
+                                    <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">1</span> 
+                                    <div><b class="text-amber-300">สำรวจ 6 ยุค:</b> ยุคหิน โลหะ สุโขทัย อยุธยา ธนบุรี และรัตนโกสินทร์</div>
+                                </div>
+                                <div class="flex items-start gap-2 bg-slate-900/70 p-2.5 rounded-xl border border-slate-700/60">
+                                    <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">2</span> 
+                                    <div><b class="text-amber-300">ศึกษาข้อมูล:</b> เรียนรู้ 15 วินาที/หน้าเพื่อปลดล็อกมิติถัดไป</div>
+                                </div>
+                                <div class="flex items-start gap-2 bg-slate-900/70 p-2.5 rounded-xl border border-slate-700/60">
+                                    <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">3</span> 
+                                    <div><b class="text-amber-300">ตะลุย 5 ด่าน:</b> ไทม์ไลน์, วิ่งเอาตัวรอด, การ์ดการค้า, ตรวจฎีกา, ศึกบอส</div>
+                                </div>
+                                <div class="flex items-start gap-2 bg-slate-900/70 p-2.5 rounded-xl border border-slate-700/60">
+                                    <span class="bg-amber-900 text-amber-300 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold shadow">4</span> 
+                                    <div><b class="text-amber-300">เกียรติบัตร & ใบงาน:</b> สะสมแต้มรับเกียรติบัตรและทำใบงานส่งครู</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="mt-3 text-center text-xs text-amber-400/90 font-medium">
-                    <i class="fa-solid fa-graduation-cap mr-1.5 text-amber-300"></i> ออกแบบการเรียนรู้มีประสิทธิภาพภายใน 10-15 นาที • สำหรับนักเรียนทุกระดับชั้น
-                </div>
-            </div>
 
-            <!-- ฝั่งขวา: ลงทะเบียนเข้าใช้งาน -->
-            <div class="w-full md:w-[350px] lg:w-[390px] bg-slate-900/95 backdrop-blur-xl p-4 sm:p-5 md:p-6 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.8)] border-2 border-slate-700 flex flex-col justify-between relative z-10">
-                <div>
-                    <div class="flex items-center justify-center gap-2 mb-3 pb-2 border-b border-slate-800">
-                        <span class="text-2xl floating">⏳</span>
-                        <h3 class="text-base sm:text-lg font-black text-white">ลงทะเบียนนักสำรวจ</h3>
+                    <!-- จุดเด่นด้านล่างของการ์ดซ้าย -->
+                    <div class="mt-3.5 pt-2.5 border-t border-amber-700/30 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs text-amber-300/90 font-medium">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-graduation-cap text-amber-400"></i> เรียนรู้มีประสิทธิภาพ 10-15 นาที</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-floppy-disk text-emerald-400"></i> บันทึกความคืบหน้าอัตโนมัติ</span>
                     </div>
-                    
-                    <!-- กล่องแจ้งเตือนข้อมูลผจญภัยเดิม (แสดงเมื่อมี Save ในเครื่อง) -->
-                    <div id="resume-container" class="hidden mb-3 bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 border-2 border-emerald-500/60 p-3 rounded-2xl text-left shadow-[0_0_20px_rgba(16,185,129,0.25)] animate-pulse">
-                        <div class="flex items-center justify-between mb-1 border-b border-emerald-800/50 pb-1">
-                            <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
-                                <i class="fa-solid fa-floppy-disk text-emerald-400"></i> พบข้อมูลเดิม
-                            </span>
-                            <button onclick="resetGameProgress()" class="text-[11px] text-red-400 hover:text-red-300 underline font-bold transition" title="ลบข้อมูลเพื่อเริ่มใหม่">
-                                <i class="fa-solid fa-trash-can"></i> ลบเริ่มใหม่
+                </div>
+
+                <!-- ฝั่งขวา: ลงทะเบียนนักสำรวจ (5 คอลัมน์) -->
+                <div class="lg:col-span-5 bg-slate-900/95 backdrop-blur-xl p-4 sm:p-6 md:p-7 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.8)] border-2 border-slate-700 flex flex-col justify-between relative z-10">
+                    <div>
+                        <div class="flex items-center justify-center gap-2 mb-3.5 pb-2.5 border-b border-slate-800">
+                            <span class="text-2xl floating">⏳</span>
+                            <h3 class="text-base sm:text-lg font-black text-white">ลงทะเบียนนักสำรวจ</h3>
+                        </div>
+                        
+                        <!-- กล่องแจ้งเตือนข้อมูลผจญภัยเดิม (แสดงเมื่อมี Save ในเครื่อง) -->
+                        <div id="resume-container" class="hidden mb-3.5 bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 border-2 border-emerald-500/60 p-3 rounded-2xl text-left shadow-[0_0_20px_rgba(16,185,129,0.25)] animate-pulse">
+                            <div class="flex items-center justify-between mb-1 border-b border-emerald-800/50 pb-1">
+                                <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-floppy-disk text-emerald-400"></i> พบข้อมูลเดิม
+                                </span>
+                                <button onclick="resetGameProgress()" class="text-[11px] text-red-400 hover:text-red-300 underline font-bold transition" title="ลบข้อมูลเพื่อเริ่มใหม่">
+                                    <i class="fa-solid fa-trash-can"></i> ลบเริ่มใหม่
+                                </button>
+                            </div>
+                            <div class="text-xs text-slate-200 mb-2 flex items-center justify-between font-medium">
+                                <span>ผู้เล่น: <b id="resume-name" class="text-amber-300">...</b></span>
+                                <span>คะแนน: <b id="resume-score" class="text-amber-400">0</b></span>
+                            </div>
+                            <button onclick="resumeSavedGame()" class="w-full bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:to-green-500 text-white font-black py-2 px-3 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg btn-game border border-emerald-300">
+                                <i class="fa-solid fa-play"></i> ผจญภัยต่อจากจุดเดิม ➔
                             </button>
                         </div>
-                        <div class="text-xs text-slate-200 mb-2 flex items-center justify-between font-medium">
-                            <span>ผู้เล่น: <b id="resume-name" class="text-amber-300">...</b></span>
-                            <span>คะแนน: <b id="resume-score" class="text-amber-400">0</b></span>
-                        </div>
-                        <button onclick="resumeSavedGame()" class="w-full bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:to-green-500 text-white font-black py-2 px-3 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg btn-game border border-emerald-300">
-                            <i class="fa-solid fa-play"></i> ผจญภัยต่อจากจุดเดิม ➔
-                        </button>
-                    </div>
 
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
-                                <i class="fa-solid fa-feather-pointed text-amber-400"></i> จารึกนามของคุณ
-                            </label>
-                            <input type="text" id="input-name" placeholder="ระบุชื่อรหัสของคุณ..." class="w-full bg-slate-950 text-amber-100 rounded-xl px-3.5 py-2.5 border-2 border-slate-700 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all text-sm font-bold placeholder-slate-600 shadow-inner">
-                        </div>
-                        <div>
-                            <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
-                                <i class="fa-solid fa-masks-theater text-amber-400"></i> เลือกอวาตาร์
-                            </label>
-                            <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
-                                <button class="avatar-btn bg-amber-900/40 border-2 border-amber-400 rounded-xl p-1.5 sm:p-2 text-2xl transition-all transform scale-105 shadow-[0_0_12px_rgba(245,158,11,0.4)] glow-effect flex items-center justify-center" data-avatar="👦">👦</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="👧">👧</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🤖">🤖</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🐘">🐘</button>
-                                <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🦉">🦉</button>
+                        <div class="space-y-3.5">
+                            <div>
+                                <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
+                                    <i class="fa-solid fa-feather-pointed text-amber-400"></i> จารึกนามของคุณ
+                                </label>
+                                <input type="text" id="input-name" placeholder="ระบุชื่อรหัสของคุณ..." class="w-full bg-slate-950 text-amber-100 rounded-xl px-3.5 py-2.5 border-2 border-slate-700 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all text-sm font-bold placeholder-slate-600 shadow-inner">
+                            </div>
+                            <div>
+                                <label class="block text-amber-400 mb-1 text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
+                                    <i class="fa-solid fa-masks-theater text-amber-400"></i> เลือกอวาตาร์
+                                </label>
+                                <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
+                                    <button class="avatar-btn bg-amber-900/40 border-2 border-amber-400 rounded-xl p-1.5 sm:p-2 text-2xl transition-all transform scale-105 shadow-[0_0_12px_rgba(245,158,11,0.4)] glow-effect flex items-center justify-center" data-avatar="👦">👦</button>
+                                    <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="👧">👧</button>
+                                    <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🤖">🤖</button>
+                                    <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🐘">🐘</button>
+                                    <button class="avatar-btn bg-slate-800/80 border-2 border-slate-700 rounded-xl p-1.5 sm:p-2 text-2xl transition-all hover:scale-105 flex items-center justify-center" data-avatar="🦉">🦉</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="space-y-2 mt-3">
-                    <button onclick="startGame()" class="w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-black py-3 rounded-xl btn-game text-sm sm:text-base shadow-[0_0_20px_rgba(245,158,11,0.4)] border border-amber-300 uppercase tracking-widest flex items-center justify-center gap-2 group overflow-hidden relative">
-                        <span class="relative z-10">หมุนเข็มนาฬิกา! <i class="fa-solid fa-clock-rotate-left ml-1 group-hover:rotate-180 transition-transform duration-500"></i></span>
-                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
-                    </button>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="openHallOfFame()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2 px-2 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-1.5 transition btn-game shadow-inner">
-                            <i class="fa-solid fa-trophy text-amber-400"></i> กระดานผู้นำ
-                        </button>
-                        <button onclick="toggleBGM()" class="btn-toggle-bgm bg-slate-950/80 hover:bg-slate-800 text-slate-300 font-bold py-2 px-2 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-1.5 transition btn-game shadow-inner" title="เปิด/ปิด เสียงดนตรีคลอ">
-                            <i class="fa-solid fa-music text-emerald-400"></i> <span class="btn-toggle-bgm-text">เพลง: เปิด</span>
-                        </button>
-                    </div>
-                    <!-- ป้ายแสดงสถิติผู้เข้าชมในหน้าแรก -->
-                    <div class="text-center pt-1">
-                        <span class="inline-flex items-center gap-1.5 bg-slate-950/80 text-amber-400/90 px-3 py-0.5 rounded-full text-[11px] font-medium border border-slate-700/60 shadow-inner">
-                            <i class="fa-solid fa-users text-amber-400"></i> นักสำรวจที่เข้าร่วม: <span id="visitor-count-welcome" class="font-bold text-amber-300">1</span> คน
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- แถบข้อความลิขสิทธิ์และคณะผู้พัฒนา (กะทัดรัด จบในหน้าเดียว) -->
-        <div class="w-full text-center mt-2 z-10 text-[11px] sm:text-xs text-amber-300/80 font-medium tracking-wide flex flex-wrap items-center justify-center gap-2 py-1 bg-slate-950/70 rounded-full border border-amber-500/20 backdrop-blur-sm shadow max-w-4xl mx-auto">
-            <span>© 2026 พัฒนาโดย <b>กลุ่ม นอ หนู</b> (นรากรณ์ นิธินันท์ นันทญา นันทิกานต์)</span>
-            <span class="hidden sm:inline text-amber-500">•</span>
-            <span class="text-amber-200">นิสิต ป.โท 69</span>
+                    <div class="space-y-2.5 mt-4">
+                        <button onclick="startGame()" class="w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-black py-3.5 rounded-xl btn-game text-sm sm:text-base shadow-[0_0_20px_rgba(245,158,11,0.4)] border border-amber-300 uppercase tracking-widest flex items-center justify-center gap-2 group overflow-hidden relative">
+                            <span class="relative z-10">หมุนเข็มนาฬิกา! <i class="fa-solid fa-clock-rotate-left ml-1 group-hover:rotate-180 transition-transform duration-500"></i></span>
+                            <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                        </button>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="openHallOfFame()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2.5 px-2 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-1.5 transition btn-game shadow-inner">
+                                <i class="fa-solid fa-trophy text-amber-400"></i> กระดานผู้นำ
+                            </button>
+                            <button onclick="toggleBGM()" class="btn-toggle-bgm bg-slate-950/80 hover:bg-slate-800 text-slate-300 font-bold py-2.5 px-2 rounded-xl border border-slate-700 text-xs flex items-center justify-center gap-1.5 transition btn-game shadow-inner" title="เปิด/ปิด เสียงดนตรีคลอ">
+                                <i class="fa-solid fa-music text-emerald-400"></i> <span class="btn-toggle-bgm-text">เพลง: เปิด</span>
+                            </button>
+                        </div>
+                        <!-- ป้ายแสดงสถิติผู้เข้าชมในหน้าแรก -->
+                        <div class="text-center pt-1">
+                            <span class="inline-flex items-center gap-1.5 bg-slate-950/80 text-amber-400/90 px-3 py-1 rounded-full text-[11px] font-medium border border-slate-700/60 shadow-inner">
+                                <i class="fa-solid fa-users text-amber-400"></i> นักสำรวจที่เข้าร่วม: <span id="visitor-count-welcome" class="font-bold text-amber-300">1</span> คน
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- แถบข้อความลิขสิทธิ์และคณะผู้พัฒนา (กะทัดรัด จบในหน้าเดียว) -->
+            <div class="w-full text-center mt-3 sm:mt-4 z-10 text-[11px] sm:text-xs text-amber-300/80 font-medium tracking-wide flex flex-wrap items-center justify-center gap-2 py-1.5 px-4 bg-slate-950/80 rounded-full border border-amber-500/20 backdrop-blur-sm shadow max-w-4xl mx-auto">
+                <span>© 2026 พัฒนาโดย <b>กลุ่ม นอ หนู</b> (นรากรณ์ นิธินันท์ นันทญา นันทิกานต์)</span>
+                <span class="hidden sm:inline text-amber-500">•</span>
+                <span class="text-amber-200">นิสิต ป.โท 69</span>
+            </div>
+
         </div>
     </main>
 
