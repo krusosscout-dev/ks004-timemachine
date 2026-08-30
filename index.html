@@ -124,6 +124,60 @@
         </div>
     </div>
 
+    <!-- Modal รายละเอียดคะแนนรายบุคคล (Player Detail Breakdown Modal) -->
+    <div id="player-detail-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex-col items-center justify-center p-4 backdrop-blur-md overflow-y-auto">
+        <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-indigo-950 border-2 border-amber-500/60 rounded-3xl max-w-lg w-full p-6 text-center shadow-[0_0_50px_rgba(245,158,11,0.3)] relative overflow-hidden my-auto">
+            <div class="absolute -right-10 -top-10 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="flex justify-end -mt-2 -mr-2 mb-1">
+                <button onclick="closePlayerDetailModal()" class="text-slate-400 hover:text-white bg-slate-800 p-1.5 rounded-xl text-base hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div class="text-6xl mb-1 floating" id="pdetail-avatar">👦</div>
+            <h3 class="text-2xl font-black text-white mb-1" id="pdetail-name">ชื่อนักสำรวจ</h3>
+            <div class="inline-block bg-amber-950/80 text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/50 mb-4" id="pdetail-rank">👑 ปรมาจารย์ข้ามเวลา</div>
+            
+            <div class="bg-slate-950/90 rounded-2xl p-4 border border-slate-800 mb-4 text-left space-y-2.5 shadow-inner">
+                <div class="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center justify-between border-b border-slate-800 pb-2">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-chart-pie text-amber-400"></i> สรุปคะแนนแยก 5 ภารกิจ</span>
+                    <span class="text-amber-300 font-extrabold text-sm" id="pdetail-total-badge">รวม: 0 แต้ม</span>
+                </div>
+                
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-amber-500/20">
+                    <span class="text-slate-200 text-xs sm:text-sm font-medium flex items-center gap-2"><span class="text-amber-400 text-base">⚙️</span> ด่าน 1: เครื่องย้อนเวลา (ไทม์ไลน์)</span>
+                    <span class="font-black text-amber-300 text-sm sm:text-base" id="pdetail-s1">0 แต้ม</span>
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-blue-500/20">
+                    <span class="text-slate-200 text-xs sm:text-sm font-medium flex items-center gap-2"><span class="text-blue-400 text-base">🏃‍♂️</span> ด่าน 2: วิ่งตะลุยป่า (เอาตัวรอด)</span>
+                    <span class="font-black text-blue-300 text-sm sm:text-base" id="pdetail-s2">0 แต้ม</span>
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-green-500/20">
+                    <span class="text-slate-200 text-xs sm:text-sm font-medium flex items-center gap-2"><span class="text-green-400 text-base">🎴</span> ด่าน 3: การ์ดพาณิชย์นาวี (จับคู่)</span>
+                    <span class="font-black text-green-300 text-sm sm:text-base" id="pdetail-s3">0 แต้ม</span>
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-rose-500/20">
+                    <span class="text-slate-200 text-xs sm:text-sm font-medium flex items-center gap-2"><span class="text-rose-400 text-base">📜</span> ด่าน 4: ตรวจฎีกาและยุทธศาสตร์</span>
+                    <span class="font-black text-rose-300 text-sm sm:text-base" id="pdetail-s4">0 แต้ม</span>
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-purple-500/20">
+                    <span class="text-slate-200 text-xs sm:text-sm font-medium flex items-center gap-2"><span class="text-purple-400 text-base">⚔️</span> ด่าน 5: ประลองบอสประวัติศาสตร์</span>
+                    <span class="font-black text-purple-300 text-sm sm:text-base" id="pdetail-s5">0 แต้ม</span>
+                </div>
+            </div>
+
+            <div class="text-[11px] text-slate-400 mb-4" id="pdetail-date">บันทึกเมื่อ: -</div>
+
+            <div class="flex gap-2">
+                <button id="pdetail-btn-export" onclick="downloadSelectedPlayerCSV()" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-2.5 px-4 rounded-xl btn-game text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md">
+                    <i class="fa-solid fa-file-excel"></i> ดาวน์โหลดคนนี้ (CSV)
+                </button>
+                <button onclick="closePlayerDetailModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 px-5 rounded-xl border border-slate-700 btn-game text-xs sm:text-sm">
+                    ปิด
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Top Bar HUD (Modern Gaming Status Bar) -->
     <div id="top-bar" class="fixed top-0 left-0 w-full bg-slate-900/95 backdrop-blur-lg border-b border-amber-500/30 px-3 md:px-6 py-2 z-40 hidden justify-between items-center shadow-[0_4px_25px_rgba(0,0,0,0.6)] transition-all">
         <!-- ฝั่งซ้าย: โปรไฟล์ผู้เล่น + เลเวล / ยศ -->
@@ -776,14 +830,23 @@
             <h2 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-600 mb-1">ทำเนียบคะแนน & กระดานผู้นำ</h2>
             <p class="text-slate-300 text-sm mb-3">รายชื่อนักสำรวจและคะแนนสะสมสูงสุดในระบบ (อัปเดตเรียลไทม์)</p>
             
-            <div class="inline-flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-xl text-amber-300 text-sm font-bold border border-slate-700 shadow-inner mb-6">
-                <i class="fa-solid fa-users text-amber-500"></i> ยอดผู้เข้าร่วมทั้งหมด: <span id="visitor-count-hof" class="text-white text-lg ml-1">...</span> คน
+            <div class="flex flex-wrap items-center justify-center gap-2.5 mb-6">
+                <div class="inline-flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-xl text-amber-300 text-xs sm:text-sm font-bold border border-slate-700 shadow-inner">
+                    <i class="fa-solid fa-users text-amber-500"></i> ยอดผู้เข้าร่วมทั้งหมด: <span id="visitor-count-hof" class="text-white text-base sm:text-lg ml-1">...</span> คน
+                </div>
+                <button onclick="downloadScoresCSV()" class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 via-teal-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg border border-emerald-400/50 btn-game transition active:scale-95">
+                    <i class="fa-solid fa-file-excel text-emerald-200 text-base"></i> ดาวน์โหลดรายงานคะแนนรวม (Excel / CSV)
+                </button>
             </div>
+
+            <p class="text-[11px] sm:text-xs text-amber-200/80 mb-4 bg-amber-950/40 py-1.5 px-3 rounded-lg border border-amber-500/30 inline-block">
+                💡 คลิกที่แท่นรางวัลหรือรายชื่อนักสำรวจเพื่อดู <b class="text-amber-300">"คะแนนแยกรายด่าน 5 ภารกิจ"</b> ได้เลยครับ
+            </p>
             
-            <div id="podium-container" class="flex justify-center items-end gap-2 md:gap-6 mb-8 mt-4 min-h-[180px]">
-                <div id="podium-2" class="hidden flex-col items-center justify-end w-1/3 max-w-[120px]"></div>
-                <div id="podium-1" class="hidden flex-col items-center justify-end w-1/3 max-w-[140px]"></div>
-                <div id="podium-3" class="hidden flex-col items-center justify-end w-1/3 max-w-[120px]"></div>
+            <div id="podium-container" class="flex justify-center items-end gap-2 md:gap-6 mb-8 mt-2 min-h-[180px]">
+                <div id="podium-2" class="hidden flex-col items-center justify-end w-1/3 max-w-[120px] cursor-pointer"></div>
+                <div id="podium-1" class="hidden flex-col items-center justify-end w-1/3 max-w-[140px] cursor-pointer"></div>
+                <div id="podium-3" class="hidden flex-col items-center justify-end w-1/3 max-w-[120px] cursor-pointer"></div>
             </div>
 
             <div id="leaderboard-empty" class="text-center text-slate-400 hidden mb-6 p-6 bg-slate-900/50 rounded-2xl border border-dashed border-slate-600">
@@ -814,7 +877,7 @@
             <div class="text-7xl mb-4 floating">🏆</div>
             <h2 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-600 mb-2 drop-shadow-md">สรุปผลภารกิจ!</h2>
             
-            <div class="bg-slate-900 rounded-2xl p-6 mb-8 mt-6 text-left border-2 border-slate-700 shadow-inner relative">
+            <div class="bg-slate-900 rounded-2xl p-6 mb-6 mt-6 text-left border-2 border-slate-700 shadow-inner relative">
                 <div class="space-y-4">
                     <div class="flex justify-between items-center pb-2 border-b border-slate-800">
                         <span class="text-slate-300 font-medium flex items-center gap-2"><div class="w-8 h-8 bg-amber-900 rounded flex items-center justify-center text-amber-400">⚙️</div> ไทม์ไลน์</span>
@@ -853,6 +916,9 @@
             <div class="flex flex-col gap-3">
                 <button onclick="generateCertificate()" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-white font-black py-4 px-6 rounded-xl btn-game shadow-[0_0_20px_rgba(245,158,11,0.5)] text-lg border border-yellow-300 uppercase tracking-wide">
                     <i class="fa-solid fa-scroll mr-2"></i> รับเกียรติบัตรแห่งความสำเร็จ
+                </button>
+                <button onclick="downloadMyScoreCSV()" class="w-full bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 font-bold py-3 px-4 rounded-xl border border-emerald-500/40 btn-game text-sm flex items-center justify-center gap-2 shadow transition">
+                    <i class="fa-solid fa-file-excel text-emerald-400"></i> ดาวน์โหลดรายงานผลของฉัน (Excel / CSV)
                 </button>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                     <button onclick="navTo('screen-mission-hub')" class="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold py-2.5 px-3 rounded-xl btn-game shadow-md text-xs sm:text-sm flex items-center justify-center gap-1.5">
@@ -1122,11 +1188,15 @@
         let realLeaderboard = [];
         let totalVisitors = 0;
 
+        window.realLeaderboard = realLeaderboard;
+
         try {
             if (Object.keys(firebaseConfig).length > 0) {
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
+                window.auth = auth;
+                window.db = db;
                 initAuth();
             }
         } catch (e) { console.error("Firebase init error", e); }
@@ -1153,8 +1223,9 @@
                 snapshot.forEach(doc => { data.push({ id: doc.id, ...doc.data() }); });
                 data.sort((a, b) => b.score - a.score);
                 realLeaderboard = data;
-                if (document.getElementById('screen-hall-of-fame').classList.contains('active')) {
-                    renderLeaderboard();
+                window.realLeaderboard = data;
+                if (document.getElementById('screen-hall-of-fame')?.classList.contains('active')) {
+                    if (window.renderLeaderboard) window.renderLeaderboard();
                 }
             }, (error) => { console.error("Leaderboard error:", error); });
 
@@ -1197,6 +1268,9 @@
                 });
             } catch (error) { console.error("Error saving score:", error); }
         }
+
+        window.saveScoreToFirebase = saveScoreToFirebase;
+        window.recordVisitorToFirebase = recordVisitorToFirebase;
 
         // --- Sound Engine (Native Web Audio API with Ambient BGM) ---
         const SoundEngine = {
@@ -1458,6 +1532,9 @@
                     savedAt: Date.now()
                 };
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+                if (AppState.playerName && window.savePlayerScoreToLeaderboard) {
+                    window.savePlayerScoreToLeaderboard();
+                }
             } catch(e) { console.warn("Save state error:", e); }
         }
 
@@ -1648,6 +1725,389 @@
             } catch(e) {}
         }
 
+        // ==========================================
+        // 🏆 ระบบทำเนียบคะแนน & กระดานผู้นำ (Universal Leaderboard Engine)
+        // ==========================================
+        const LEADERBOARD_STORAGE_KEY = 'KS004_HISTORY_LOCAL_LEADERBOARD_V2';
+
+        // Initial default benchmark records (4 real explorer profiles with 5-stage breakdown)
+        const DEFAULT_EXPLORERS = [
+            { 
+                id: 'exp-1', 
+                name: 'นรากรณ์ (นอ หนู 1)', 
+                avatar: '👦', 
+                score: 9850, 
+                stageScores: { timeline: 2000, runner: 2250, match: 2100, rattanakosin: 1800, quiz: 1700 },
+                rank: '👑 ปรมาจารย์ข้ามเวลา', 
+                timestamp: Date.now() - 3600000 
+            },
+            { 
+                id: 'exp-2', 
+                name: 'นิธินันท์ (นอ หนู 2)', 
+                avatar: '👧', 
+                score: 8600, 
+                stageScores: { timeline: 1800, runner: 1900, match: 1800, rattanakosin: 1600, quiz: 1500 },
+                rank: '🔥 ผู้เชี่ยวชาญกาลเวลา', 
+                timestamp: Date.now() - 7200000 
+            },
+            { 
+                id: 'exp-3', 
+                name: 'นันทญา (นอ หนู 3)', 
+                avatar: '🦉', 
+                score: 7450, 
+                stageScores: { timeline: 1600, runner: 1700, match: 1500, rattanakosin: 1450, quiz: 1200 },
+                rank: '🔥 ผู้เชี่ยวชาญกาลเวลา', 
+                timestamp: Date.now() - 10800000 
+            },
+            { 
+                id: 'exp-4', 
+                name: 'นันทิกานต์ (นอ หนู 4)', 
+                avatar: '🐘', 
+                score: 6200, 
+                stageScores: { timeline: 1400, runner: 1500, match: 1300, rattanakosin: 1100, quiz: 900 },
+                rank: '🔍 นักประวัติศาสตร์', 
+                timestamp: Date.now() - 14400000 
+            }
+        ];
+
+        function getLocalLeaderboard() {
+            try {
+                const raw = localStorage.getItem(LEADERBOARD_STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch(e) { console.warn("Error reading local leaderboard", e); }
+            // Seed with default 4 explorers if fresh
+            localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(DEFAULT_EXPLORERS));
+            return JSON.parse(JSON.stringify(DEFAULT_EXPLORERS));
+        }
+
+        function saveLocalLeaderboard(list) {
+            try {
+                localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(list));
+            } catch(e) { console.warn("Error saving local leaderboard", e); }
+        }
+
+        window.savePlayerScoreToLeaderboard = function() {
+            if (!AppState.playerName) return;
+            const currentScore = Math.max(0, parseInt(AppState.scores?.total, 10) || 0);
+            const currentStageScores = {
+                timeline: Math.max(0, parseInt(AppState.scores?.timeline, 10) || 0),
+                runner: Math.max(0, parseInt(AppState.scores?.runner, 10) || 0),
+                match: Math.max(0, parseInt(AppState.scores?.match, 10) || 0),
+                rattanakosin: Math.max(0, parseInt(AppState.scores?.rattanakosin, 10) || 0),
+                quiz: Math.max(0, parseInt(AppState.scores?.quiz, 10) || 0)
+            };
+            
+            let list = getLocalLeaderboard();
+            const existingIdx = list.findIndex(item => item.name.trim().toLowerCase() === AppState.playerName.trim().toLowerCase());
+            
+            if (existingIdx !== -1) {
+                if (currentScore >= (list[existingIdx].score || 0)) {
+                    list[existingIdx].score = currentScore;
+                    list[existingIdx].stageScores = currentStageScores;
+                    list[existingIdx].avatar = AppState.avatar || list[existingIdx].avatar;
+                    list[existingIdx].rank = AppState.playerRank || list[existingIdx].rank || "นักสำรวจ";
+                    list[existingIdx].timestamp = Date.now();
+                } else if (!list[existingIdx].stageScores) {
+                    list[existingIdx].stageScores = currentStageScores;
+                }
+            } else {
+                list.push({
+                    id: 'player-' + Date.now(),
+                    name: AppState.playerName,
+                    avatar: AppState.avatar || '👦',
+                    score: currentScore,
+                    stageScores: currentStageScores,
+                    rank: AppState.playerRank || "นักสำรวจ",
+                    timestamp: Date.now()
+                });
+            }
+
+            list.sort((a, b) => b.score - a.score);
+            saveLocalLeaderboard(list);
+
+            if (window.saveScoreToFirebase) {
+                try { window.saveScoreToFirebase(); } catch(e) {}
+            }
+        };
+
+        function getProcessedLeaderboardList() {
+            let localList = getLocalLeaderboard();
+            let cloudList = Array.isArray(window.realLeaderboard) ? window.realLeaderboard : [];
+            let mergedMap = new Map();
+
+            localList.forEach(item => {
+                const key = item.name.trim().toLowerCase();
+                mergedMap.set(key, { ...item });
+            });
+
+            cloudList.forEach(item => {
+                if (!item.name) return;
+                const key = item.name.trim().toLowerCase();
+                if (mergedMap.has(key)) {
+                    const existing = mergedMap.get(key);
+                    if ((item.score || 0) > existing.score) {
+                        mergedMap.set(key, { ...existing, ...item });
+                    }
+                } else {
+                    mergedMap.set(key, { ...item });
+                }
+            });
+
+            if (AppState.playerName) {
+                const curKey = AppState.playerName.trim().toLowerCase();
+                const curScore = Math.max(0, parseInt(AppState.scores?.total, 10) || 0);
+                const currentStageScores = {
+                    timeline: Math.max(0, parseInt(AppState.scores?.timeline, 10) || 0),
+                    runner: Math.max(0, parseInt(AppState.scores?.runner, 10) || 0),
+                    match: Math.max(0, parseInt(AppState.scores?.match, 10) || 0),
+                    rattanakosin: Math.max(0, parseInt(AppState.scores?.rattanakosin, 10) || 0),
+                    quiz: Math.max(0, parseInt(AppState.scores?.quiz, 10) || 0)
+                };
+                if (mergedMap.has(curKey)) {
+                    const existing = mergedMap.get(curKey);
+                    if (curScore >= (existing.score || 0)) {
+                        existing.score = curScore;
+                        existing.stageScores = currentStageScores;
+                    }
+                    existing.avatar = AppState.avatar || existing.avatar;
+                    existing.rank = AppState.playerRank || existing.rank;
+                } else if (curScore > 0 || AppState.playedGames.quiz || Object.values(AppState.playedGames || {}).some(Boolean)) {
+                    mergedMap.set(curKey, {
+                        id: 'current-user',
+                        name: AppState.playerName,
+                        avatar: AppState.avatar || '👦',
+                        score: curScore,
+                        stageScores: currentStageScores,
+                        rank: AppState.playerRank || "นักสำรวจ",
+                        timestamp: Date.now()
+                    });
+                }
+            }
+
+            let list = Array.from(mergedMap.values());
+            list.sort((a, b) => (b.score || 0) - (a.score || 0));
+            return list;
+        }
+
+        let selectedPlayerForExport = null;
+
+        window.viewPlayerDetail = function(playerName) {
+            SoundEngine.playClick();
+            const list = getProcessedLeaderboardList();
+            const player = list.find(p => p.name.trim().toLowerCase() === playerName.trim().toLowerCase()) || list[0];
+            if (!player) return;
+
+            selectedPlayerForExport = player;
+
+            const modal = document.getElementById('player-detail-modal');
+            const avEl = document.getElementById('pdetail-avatar');
+            const nameEl = document.getElementById('pdetail-name');
+            const rankEl = document.getElementById('pdetail-rank');
+            const totalEl = document.getElementById('pdetail-total-badge');
+            const s1El = document.getElementById('pdetail-s1');
+            const s2El = document.getElementById('pdetail-s2');
+            const s3El = document.getElementById('pdetail-s3');
+            const s4El = document.getElementById('pdetail-s4');
+            const s5El = document.getElementById('pdetail-s5');
+            const dateEl = document.getElementById('pdetail-date');
+
+            if (avEl) avEl.innerText = player.avatar || '👦';
+            if (nameEl) nameEl.innerText = player.name || 'นักสำรวจ';
+            if (rankEl) rankEl.innerText = player.rank || 'นักสำรวจ';
+            if (totalEl) totalEl.innerText = `รวม: ${(player.score || 0).toLocaleString('th-TH')} แต้ม`;
+
+            let st = player.stageScores;
+            if (!st) {
+                const portion = Math.floor((player.score || 0) / 5);
+                st = { timeline: portion, runner: portion, match: portion, rattanakosin: portion, quiz: (player.score || 0) - (portion * 4) };
+            }
+
+            if (s1El) s1El.innerText = `${(st.timeline || 0).toLocaleString('th-TH')} แต้ม`;
+            if (s2El) s2El.innerText = `${(st.runner || 0).toLocaleString('th-TH')} แต้ม`;
+            if (s3El) s3El.innerText = `${(st.match || 0).toLocaleString('th-TH')} แต้ม`;
+            if (s4El) s4El.innerText = `${(st.rattanakosin || 0).toLocaleString('th-TH')} แต้ม`;
+            if (s5El) s5El.innerText = `${(st.quiz || 0).toLocaleString('th-TH')} แต้ม`;
+
+            if (dateEl) {
+                if (player.timestamp) {
+                    const d = new Date(player.timestamp);
+                    dateEl.innerText = `บันทึกเมื่อ: ${d.toLocaleDateString('th-TH')} เวลา ${d.toLocaleTimeString('th-TH')} น.`;
+                } else {
+                    dateEl.innerText = 'บันทึกเมื่อ: ล่าสุด';
+                }
+            }
+
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        };
+
+        window.closePlayerDetailModal = function() {
+            SoundEngine.playClick();
+            const modal = document.getElementById('player-detail-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        };
+
+        window.downloadScoresCSV = function() {
+            SoundEngine.playClick();
+            const list = getProcessedLeaderboardList();
+            if (!list || list.length === 0) {
+                showModal("ไม่มีข้อมูล", "ยังไม่มีข้อมูลคะแนนนักสำรวจในระบบครับ");
+                return;
+            }
+
+            const headers = [
+                "อันดับ (Rank)",
+                "ชื่อผู้เรียน (Student Name)",
+                "ระดับความสามารถ (Rank Title)",
+                "ด่าน 1: ไทม์ไลน์ (Timeline)",
+                "ด่าน 2: วิ่งผจญภัย (Runner)",
+                "ด่าน 3: การ์ดพาณิชย์นาวี (Match)",
+                "ด่าน 4: ตรวจฎีกา (Royal Decree)",
+                "ด่าน 5: ประลองบอส (RPG Quiz)",
+                "คะแนนรวม (Total Score)",
+                "วัน-เวลาที่บันทึก (Date-Time)"
+            ];
+
+            const rows = list.map((item, index) => {
+                const rank = index + 1;
+                const name = `"${(item.name || 'นักสำรวจ').replace(/"/g, '""')}"`;
+                const title = `"${(item.rank || 'นักสำรวจ').replace(/"/g, '""')}"`;
+                
+                let sTimeline = 0, sRunner = 0, sMatch = 0, sRat = 0, sQuiz = 0;
+                if (item.stageScores) {
+                    sTimeline = item.stageScores.timeline || 0;
+                    sRunner = item.stageScores.runner || 0;
+                    sMatch = item.stageScores.match || 0;
+                    sRat = item.stageScores.rattanakosin || 0;
+                    sQuiz = item.stageScores.quiz || 0;
+                } else {
+                    const portion = Math.floor((item.score || 0) / 5);
+                    sTimeline = portion; sRunner = portion; sMatch = portion; sRat = portion;
+                    sQuiz = (item.score || 0) - (portion * 4);
+                }
+
+                const total = item.score || 0;
+                
+                let dateStr = "-";
+                if (item.timestamp) {
+                    const d = new Date(item.timestamp);
+                    dateStr = `"${d.toLocaleDateString('th-TH')} ${d.toLocaleTimeString('th-TH')}"`;
+                }
+
+                return [rank, name, title, sTimeline, sRunner, sMatch, sRat, sQuiz, total, dateStr].join(',');
+            });
+
+            // Add UTF-8 BOM so Microsoft Excel renders Thai text perfectly
+            const csvContent = "\uFEFF" + [headers.join(','), ...rows].join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            
+            const now = new Date();
+            const dateFileStr = `${now.getFullYear() + 543}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+            const filename = `รายงานคะแนนนักเรียน_รายบุคคล_KS004_${dateFileStr}.csv`;
+
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            SoundEngine.playSuccess();
+            showModal(
+                "📥 ส่งออกข้อมูลคะแนนสำเร็จ!",
+                `ระบบได้สร้างไฟล์รายงานสรุปผลคะแนนแยกแต่ละด่านรายบุคคล:\n\n📄 "${filename}"\n\nสามารถเปิดดูในโปรแกรม Microsoft Excel หรือ Google Sheets เพื่อดูคะแนนแยก 5 ด่านของนักเรียนทุกคนได้ทันทีครับ! ✨`
+            );
+        };
+
+        window.downloadSelectedPlayerCSV = function() {
+            if (!selectedPlayerForExport) return;
+            downloadSinglePlayerCSV(selectedPlayerForExport);
+        };
+
+        window.downloadMyScoreCSV = function() {
+            SoundEngine.playClick();
+            const currentName = AppState.playerName || 'นักสำรวจ';
+            const currentTotal = Math.max(0, parseInt(AppState.scores?.total, 10) || 0);
+            const myData = {
+                name: currentName,
+                avatar: AppState.avatar || '👦',
+                rank: AppState.playerRank || 'นักสำรวจ',
+                score: currentTotal,
+                stageScores: {
+                    timeline: Math.max(0, parseInt(AppState.scores?.timeline, 10) || 0),
+                    runner: Math.max(0, parseInt(AppState.scores?.runner, 10) || 0),
+                    match: Math.max(0, parseInt(AppState.scores?.match, 10) || 0),
+                    rattanakosin: Math.max(0, parseInt(AppState.scores?.rattanakosin, 10) || 0),
+                    quiz: Math.max(0, parseInt(AppState.scores?.quiz, 10) || 0)
+                },
+                timestamp: Date.now()
+            };
+            downloadSinglePlayerCSV(myData);
+        };
+
+        function downloadSinglePlayerCSV(player) {
+            SoundEngine.playClick();
+            const headers = [
+                "ชื่อผู้เรียน (Student Name)",
+                "ระดับความสามารถ (Rank Title)",
+                "ด่าน 1: ไทม์ไลน์ (Timeline)",
+                "ด่าน 2: วิ่งผจญภัย (Runner)",
+                "ด่าน 3: การ์ดพาณิชย์นาวี (Match)",
+                "ด่าน 4: ตรวจฎีกา (Royal Decree)",
+                "ด่าน 5: ประลองบอส (RPG Quiz)",
+                "คะแนนรวมทั้งสิ้น (Total Score)",
+                "วัน-เวลาที่บันทึก (Date-Time)"
+            ];
+
+            let st = player.stageScores || {
+                timeline: 0, runner: 0, match: 0, rattanakosin: 0, quiz: 0
+            };
+
+            const now = new Date(player.timestamp || Date.now());
+            const dateStr = `"${now.toLocaleDateString('th-TH')} ${now.toLocaleTimeString('th-TH')}"`;
+            const safeName = (player.name || 'Student').trim();
+
+            const row = [
+                `"${safeName.replace(/"/g, '""')}"`,
+                `"${(player.rank || 'นักสำรวจ').replace(/"/g, '""')}"`,
+                st.timeline || 0,
+                st.runner || 0,
+                st.match || 0,
+                st.rattanakosin || 0,
+                st.quiz || 0,
+                player.score || 0,
+                dateStr
+            ];
+
+            const csvContent = "\uFEFF" + [headers.join(','), row.join(',')].join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            
+            const fileCleanName = safeName.replace(/[\/\\:*?"<>|]/g, '_');
+            const filename = `ใบคะแนน_${fileCleanName}.csv`;
+
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            SoundEngine.playSuccess();
+            showModal("📥 ดาวน์โหลดสำเร็จ!", `ดาวน์โหลดใบคะแนนของ "${safeName}" เรียบร้อยแล้วครับ! 📄`);
+        }
+
         function renderLeaderboard() {
             const listEl = document.getElementById('leaderboard-list');
             const emptyEl = document.getElementById('leaderboard-empty');
@@ -1655,76 +2115,99 @@
             const p1 = document.getElementById('podium-1');
             const p2 = document.getElementById('podium-2');
             const p3 = document.getElementById('podium-3');
+            const countHofEl = document.getElementById('visitor-count-hof');
 
-            listEl.innerHTML = '';
-            [p1, p2, p3].forEach(el => { el.innerHTML = ''; el.classList.add('hidden'); el.classList.remove('flex'); });
+            if (listEl) listEl.innerHTML = '';
+            [p1, p2, p3].forEach(el => { if (el) { el.innerHTML = ''; el.classList.add('hidden'); el.classList.remove('flex'); } });
 
-            let currentList = [...realLeaderboard];
-            const user = auth?.currentUser;
-            
-            if(user && AppState.playerName && (AppState.scores.total > 0 || AppState.playedGames.quiz) && !currentList.find(c => c.id === user.uid)) {
-                currentList.push({ id: user.uid, name: AppState.playerName, avatar: AppState.avatar, score: AppState.scores.total, rank: AppState.playerRank || "นักสำรวจ" });
-            }
+            const currentList = getProcessedLeaderboardList();
 
-            currentList.sort((a, b) => b.score - a.score);
+            // Update visitor/player counter display
+            const totalRecorded = currentList.length;
+            const visitorCounterVal = parseInt(localStorage.getItem(VISITOR_KEY) || '1', 10);
+            const displayTotal = Math.max(totalRecorded, visitorCounterVal, 4);
+            if (countHofEl) countHofEl.innerText = displayTotal.toLocaleString('th-TH');
+            const wc = document.getElementById('visitor-count-welcome');
+            if (wc) wc.innerText = displayTotal.toLocaleString('th-TH');
 
             if (currentList.length === 0) {
-                emptyEl.classList.remove('hidden'); listEl.classList.add('hidden');
+                if (emptyEl) emptyEl.classList.remove('hidden'); 
+                if (listEl) listEl.classList.add('hidden');
             } else {
-                emptyEl.classList.add('hidden');
+                if (emptyEl) emptyEl.classList.add('hidden');
                 
-                const renderPodium = (item, rank) => {
-                    const isMe = user && item.id === user.uid;
-                    let colorTheme, hClass, crown;
-                    if (rank === 1) { colorTheme = { border: 'border-yellow-400', bg: 'bg-gradient-to-b from-yellow-500/30 to-yellow-600/10', text: 'text-yellow-400', shadow: 'shadow-[0_0_30px_rgba(250,204,21,0.5)]' }; hClass = 'h-32 md:h-40'; crown = '<div class="text-3xl absolute -top-10 animate-bounce drop-shadow-[0_0_10px_rgba(250,204,21,0.8)] z-20">👑</div>'; } 
-                    else if (rank === 2) { colorTheme = { border: 'border-slate-300', bg: 'bg-gradient-to-b from-slate-300/30 to-slate-400/10', text: 'text-slate-300', shadow: 'shadow-[0_0_20px_rgba(203,213,225,0.3)]' }; hClass = 'h-24 md:h-28'; crown = ''; } 
-                    else { colorTheme = { border: 'border-orange-600', bg: 'bg-gradient-to-b from-orange-700/30 to-orange-800/10', text: 'text-orange-500', shadow: 'shadow-[0_0_20px_rgba(234,88,12,0.3)]' }; hClass = 'h-16 md:h-20'; crown = ''; }
-                    const meBadge = isMe ? '<div class="bg-amber-600 text-white text-[10px] md:text-xs px-2 py-0.5 rounded-full absolute -top-5 md:-top-6 whitespace-nowrap z-30 shadow-md border border-amber-400 animate-pulse">คุณเอง</div>' : '';
+                const curPlayerName = (AppState.playerName || '').trim().toLowerCase();
 
-                    return `<div class="flex flex-col items-center justify-end relative group w-full cursor-default">${crown}${meBadge}<div class="text-5xl md:text-6xl mb-2 drop-shadow-xl group-hover:scale-110 group-hover:-translate-y-2 transition-all relative z-10">${item.avatar}</div><div class="text-[11px] md:text-sm font-bold text-white mb-0.5 truncate w-full text-center px-1" title="${item.name}">${item.name}</div><div class="text-xs md:text-sm font-black text-amber-300 mb-2 drop-shadow-md">${item.score}</div><div class="w-full ${colorTheme.bg} rounded-t-xl border-t-4 md:border-t-8 ${colorTheme.border} ${hClass} flex items-start justify-center pt-2 md:pt-4 text-3xl md:text-5xl font-black ${colorTheme.text} ${colorTheme.shadow}">${rank}</div></div>`;
+                const renderPodium = (item, rank) => {
+                    const isMe = curPlayerName && item.name.trim().toLowerCase() === curPlayerName;
+                    let colorTheme, hClass, crown;
+                    if (rank === 1) { 
+                        colorTheme = { border: 'border-yellow-400', bg: 'bg-gradient-to-b from-yellow-500/30 to-yellow-600/10', text: 'text-yellow-400', shadow: 'shadow-[0_0_30px_rgba(250,204,21,0.5)]' }; 
+                        hClass = 'h-32 md:h-40'; 
+                        crown = '<div class="text-3xl absolute -top-10 animate-bounce drop-shadow-[0_0_10px_rgba(250,204,21,0.8)] z-20">👑</div>'; 
+                    } 
+                    else if (rank === 2) { 
+                        colorTheme = { border: 'border-slate-300', bg: 'bg-gradient-to-b from-slate-300/30 to-slate-400/10', text: 'text-slate-300', shadow: 'shadow-[0_0_20px_rgba(203,213,225,0.3)]' }; 
+                        hClass = 'h-24 md:h-28'; 
+                        crown = ''; 
+                    } 
+                    else { 
+                        colorTheme = { border: 'border-orange-600', bg: 'bg-gradient-to-b from-orange-700/30 to-orange-800/10', text: 'text-orange-500', shadow: 'shadow-[0_0_20px_rgba(234,88,12,0.3)]' }; 
+                        hClass = 'h-16 md:h-20'; 
+                        crown = ''; 
+                    }
+                    const meBadge = isMe ? '<div class="bg-amber-600 text-white text-[10px] md:text-xs px-2 py-0.5 rounded-full absolute -top-5 md:-top-6 whitespace-nowrap z-30 shadow-md border border-amber-400 animate-pulse font-bold">คุณเอง</div>' : '';
+
+                    const safeItemName = item.name.replace(/'/g, "\\'");
+                    return `<div onclick="viewPlayerDetail('${safeItemName}')" title="คลิกเพื่อดูคะแนนแยก 5 ด่านของ ${item.name}" class="flex flex-col items-center justify-end relative group w-full cursor-pointer hover:scale-105 transition-transform duration-300">${crown}${meBadge}<div class="text-5xl md:text-6xl mb-2 drop-shadow-xl group-hover:scale-110 group-hover:-translate-y-2 transition-all relative z-10">${item.avatar || '👦'}</div><div class="text-[11px] md:text-sm font-bold text-white mb-0.5 truncate w-full text-center px-1" title="${item.name}">${item.name}</div><div class="text-xs md:text-sm font-black text-amber-300 mb-2 drop-shadow-md">⭐ ${(item.score || 0).toLocaleString('th-TH')}</div><div class="w-full ${colorTheme.bg} rounded-t-xl border-t-4 md:border-t-8 ${colorTheme.border} ${hClass} flex items-start justify-center pt-2 md:pt-4 text-3xl md:text-5xl font-black ${colorTheme.text} ${colorTheme.shadow}">${rank}</div></div>`;
                 };
 
-                if (currentList[0]) { p1.innerHTML = renderPodium(currentList[0], 1); p1.classList.remove('hidden'); p1.classList.add('flex'); }
-                if (currentList[1]) { p2.innerHTML = renderPodium(currentList[1], 2); p2.classList.remove('hidden'); p2.classList.add('flex'); }
-                if (currentList[2]) { p3.innerHTML = renderPodium(currentList[2], 3); p3.classList.remove('hidden'); p3.classList.add('flex'); }
+                if (currentList[0] && p1) { p1.innerHTML = renderPodium(currentList[0], 1); p1.classList.remove('hidden'); p1.classList.add('flex'); }
+                if (currentList[1] && p2) { p2.innerHTML = renderPodium(currentList[1], 2); p2.classList.remove('hidden'); p2.classList.add('flex'); }
+                if (currentList[2] && p3) { p3.innerHTML = renderPodium(currentList[2], 3); p3.classList.remove('hidden'); p3.classList.add('flex'); }
 
                 const listItems = currentList.slice(3);
-                if (listItems.length > 0) {
+                if (listItems.length > 0 && listEl) {
                     listEl.classList.remove('hidden');
                     listItems.forEach((item, index) => {
                         const actualRank = index + 4;
-                        const isMe = user && item.id === user.uid;
+                        const isMe = curPlayerName && item.name.trim().toLowerCase() === curPlayerName;
                         const highlightClass = isMe ? 'border-amber-500 bg-amber-900/40 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'border-slate-700 bg-slate-800/80';
                         const row = document.createElement('div');
-                        row.className = `flex items-center justify-between p-3 md:p-4 mb-2 rounded-xl border shadow-inner ${highlightClass} transition-all hover:scale-[1.02]`;
-                        row.innerHTML = `<div class="flex items-center gap-3 md:gap-4 w-full"><div class="w-8 md:w-10 flex justify-center"><span class="w-7 h-7 md:w-9 md:h-9 rounded-full bg-slate-700/80 text-slate-300 flex items-center justify-center font-bold text-sm md:text-base border border-slate-600 shadow-inner">${actualRank}</span></div><div class="text-3xl md:text-4xl drop-shadow-md">${item.avatar}</div><div class="text-left flex-1 min-w-0"><div class="font-bold text-white text-sm md:text-base truncate w-full flex items-center gap-2">${item.name} ${isMe ? '<span class="bg-amber-600 text-[10px] px-1.5 py-0.5 rounded text-white">คุณ</span>' : ''}</div><div class="text-xs md:text-sm text-amber-400 font-medium truncate">${item.rank}</div></div><div class="font-black text-amber-300 text-base md:text-xl whitespace-nowrap ml-2">⭐ ${item.score}</div></div>`;
+                        row.className = `flex items-center justify-between p-3 md:p-4 mb-2 rounded-xl border shadow-inner ${highlightClass} transition-all hover:scale-[1.02] cursor-pointer hover:border-amber-400/70`;
+                        const safeItemName = item.name.replace(/'/g, "\\'");
+                        row.onclick = () => viewPlayerDetail(safeItemName);
+                        row.title = `คลิกเพื่อดูคะแนนแยก 5 ด่านของ ${item.name}`;
+                        row.innerHTML = `<div class="flex items-center gap-3 md:gap-4 w-full"><div class="w-8 md:w-10 flex justify-center"><span class="w-7 h-7 md:w-9 md:h-9 rounded-full bg-slate-700/80 text-slate-300 flex items-center justify-center font-bold text-sm md:text-base border border-slate-600 shadow-inner">${actualRank}</span></div><div class="text-3xl md:text-4xl drop-shadow-md">${item.avatar || '👦'}</div><div class="text-left flex-1 min-w-0"><div class="font-bold text-white text-sm md:text-base truncate w-full flex items-center gap-2">${item.name} ${isMe ? '<span class="bg-amber-600 text-[10px] px-1.5 py-0.5 rounded text-white font-bold">คุณ</span>' : ''} <span class="text-[10px] text-amber-300/80 border border-amber-500/30 px-1.5 py-0.5 rounded hidden sm:inline-block">🔍 ดูคะแนน</span></div><div class="text-xs md:text-sm text-amber-400 font-medium truncate">${item.rank || 'นักสำรวจ'}</div></div><div class="font-black text-amber-300 text-base md:text-xl whitespace-nowrap ml-2">⭐ ${(item.score || 0).toLocaleString('th-TH')}</div></div>`;
                         listEl.appendChild(row);
                     });
                 }
             }
 
-            btnContainer.innerHTML = '';
-            if (AppState.playedGames.quiz || AppState.scores.total > 0) {
-                btnContainer.innerHTML = `
-                    <button onclick="navTo('screen-leaderboard')" class="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold py-3 px-5 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-chart-simple"></i> สรุปผลของฉัน
-                    </button>
-                    <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-5 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
-                    </button>
-                    <button onclick="navTo('screen-welcome')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-5 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-house"></i> หน้าแรก
-                    </button>
-                `;
-            } else {
-                btnContainer.innerHTML = `
-                    <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-6 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
-                    </button>
-                    <button onclick="navTo('screen-welcome')" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-house"></i> หน้าแรก/ลงทะเบียน
-                    </button>
-                `;
+            if (btnContainer) {
+                btnContainer.innerHTML = '';
+                if (AppState.playedGames.quiz || AppState.scores.total > 0) {
+                    btnContainer.innerHTML = `
+                        <button onclick="navTo('screen-leaderboard')" class="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold py-3 px-5 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-chart-simple"></i> สรุปผลของฉัน
+                        </button>
+                        <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-5 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
+                        </button>
+                        <button onclick="navTo('screen-welcome')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-5 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-house"></i> หน้าแรก
+                        </button>
+                    `;
+                } else {
+                    btnContainer.innerHTML = `
+                        <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-6 rounded-xl btn-game shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
+                        </button>
+                        <button onclick="navTo('screen-welcome')" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl border border-slate-500 btn-game shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-house"></i> หน้าแรก/ลงทะเบียน
+                        </button>
+                    `;
+                }
             }
         }
 
@@ -4063,7 +4546,8 @@
             }
             AppState.playerRank = rankName; 
             updateTopBar(); 
-            saveScoreToFirebase();
+            if (window.savePlayerScoreToLeaderboard) window.savePlayerScoreToLeaderboard();
+            else if (window.saveScoreToFirebase) saveScoreToFirebase();
         }
 
         window.generateCertificate = () => {
@@ -4225,6 +4709,11 @@
         window.openWorksheet = openWorksheet;
         window.checkWorksheet = checkWorksheet;
         window.downloadWorksheetImage = downloadWorksheetImage;
+        window.downloadScoresCSV = downloadScoresCSV;
+        window.downloadMyScoreCSV = downloadMyScoreCSV;
+        window.downloadSelectedPlayerCSV = downloadSelectedPlayerCSV;
+        window.viewPlayerDetail = viewPlayerDetail;
+        window.closePlayerDetailModal = closePlayerDetailModal;
         window.endGameEarly = endGameEarly;
         window.toggleBGM = () => SoundEngine.toggleBGM();
 
