@@ -91,6 +91,39 @@
         </div>
     </div>
 
+    <!-- Knowledge Review Modal (ทบทวนความรู้ & เฉลยแต่ละด่าน) -->
+    <div id="review-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex-col items-center justify-center p-3 sm:p-4 backdrop-blur-md overflow-y-auto">
+        <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-indigo-950 border-2 border-indigo-500/60 rounded-3xl p-5 sm:p-7 max-w-2xl w-full shadow-[0_0_50px_rgba(79,70,229,0.4)] transform transition-all relative my-auto max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-700 shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <span id="review-modal-icon" class="text-3xl sm:text-4xl">📖</span>
+                    <div class="text-left">
+                        <h3 id="review-modal-title" class="text-lg sm:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-400">ทบทวนความรู้ & เฉลย</h3>
+                        <p id="review-modal-subtitle" class="text-xs text-slate-400 font-medium">สรุปสาระสำคัญและข้อคิดทางประวัติศาสตร์</p>
+                    </div>
+                </div>
+                <button onclick="closeReviewModal()" class="text-slate-400 hover:text-white bg-slate-800 p-2 rounded-xl text-lg hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Content Area -->
+            <div id="review-modal-body" class="overflow-y-auto py-4 space-y-4 flex-grow pr-1 custom-scroll text-sm text-slate-200 text-left">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Bottom Action Buttons -->
+            <div class="pt-3 border-t border-slate-700 flex flex-col sm:flex-row gap-2.5 justify-end shrink-0">
+                <button id="review-play-again-btn" onclick="" class="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold py-2.5 px-4 rounded-xl btn-game text-sm shadow-md flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> เล่นด่านนี้ใหม่อีกครั้ง
+                </button>
+                <button onclick="closeReviewModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold py-2.5 px-5 rounded-xl border border-slate-600 text-sm transition">
+                    ปิดหน้าต่าง
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Top Bar HUD (Modern Gaming Status Bar) -->
     <div id="top-bar" class="fixed top-0 left-0 w-full bg-slate-900/95 backdrop-blur-lg border-b border-amber-500/30 px-3 md:px-6 py-2 z-40 hidden justify-between items-center shadow-[0_4px_25px_rgba(0,0,0,0.6)] transition-all">
         <!-- ฝั่งซ้าย: โปรไฟล์ผู้เล่น + เลเวล / ยศ -->
@@ -446,7 +479,7 @@
                 <h3 class="text-2xl font-bold text-amber-400 mb-2">ด่าน 1: เครื่องย้อนเวลา</h3>
                 <p class="text-slate-300 mb-4 text-sm font-medium">ติดตั้งชิ้นส่วนวัตถุโบราณให้ตรงยุค เพื่อเดินเครื่องไทม์แมชชีน!</p>
                 <div id="status-timeline" class="mb-4 text-sm font-bold text-amber-400 bg-slate-900 px-4 py-2 rounded-xl border border-amber-700">ด่านที่ 1 (เริ่มได้เลย)</div>
-                <button id="btn-timeline" onclick="initTimelineGame()" class="mt-auto w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white py-3 rounded-xl font-bold btn-game shadow-lg">เข้าเล่นด่านนี้ ➔</button>
+                <div id="action-timeline" class="mt-auto w-full"></div>
             </div>
 
             <!-- ด่าน 2: Runner -->
@@ -455,7 +488,7 @@
                 <h3 class="text-2xl font-bold text-green-400 mb-2">ด่าน 2: วิ่งตะลุยป่า</h3>
                 <p class="text-slate-300 mb-4 text-sm font-medium">กระโดดขึ้นแท่น ชนกล่อง ❔ เลือกวิธีเอาตัวรอดในยุคก่อน ปวศ. และสุโขทัย</p>
                 <div id="status-runner" class="mb-4 text-sm font-bold text-slate-500 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700">🔒 ล็อคอยู่</div>
-                <button id="btn-runner" onclick="initRunnerGame()" disabled class="mt-auto w-full bg-slate-800 text-slate-500 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700">ต้องผ่านด่าน 1 ก่อน</button>
+                <div id="action-runner" class="mt-auto w-full"></div>
             </div>
 
             <!-- ด่าน 3: Match -->
@@ -464,7 +497,7 @@
                 <h3 class="text-2xl font-bold text-blue-400 mb-2">ด่าน 3: พาณิชย์นาวี</h3>
                 <p class="text-slate-300 mb-4 text-sm font-medium">จับคู่เหตุการณ์และระบบการค้าในสมัยอยุธยา-ธนบุรี (มีระบบคอมโบ!)</p>
                 <div id="status-match" class="mb-4 text-sm font-bold text-slate-500 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700">🔒 ล็อคอยู่</div>
-                <button id="btn-match" onclick="initMemoryGame()" disabled class="mt-auto w-full bg-slate-800 text-slate-500 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700">ต้องผ่านด่าน 2 ก่อน</button>
+                <div id="action-match" class="mt-auto w-full"></div>
             </div>
 
             <!-- ด่าน 4: Rattanakosin Stamp -->
@@ -473,7 +506,7 @@
                 <h3 class="text-2xl font-bold text-rose-400 mb-2">ด่าน 4: ตราประทับอนุมัติ</h3>
                 <p class="text-slate-300 mb-4 text-sm font-medium">สวมบทขุนนาง ประทับตรา "จริง" หรือ "เท็จ" ให้กับเอกสารยุครัตนโกสินทร์!</p>
                 <div id="status-rat" class="mb-4 text-sm font-bold text-slate-500 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700">🔒 ล็อคอยู่</div>
-                <button id="btn-rat" onclick="initRatGame()" disabled class="mt-auto w-full bg-slate-800 text-slate-500 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700">ต้องผ่านด่าน 3 ก่อน</button>
+                <div id="action-rat" class="mt-auto w-full"></div>
             </div>
             
             <!-- ด่าน 5: Boss Quiz -->
@@ -483,7 +516,7 @@
                 <h3 class="text-2xl font-bold text-purple-400 mb-2 relative z-10">ด่าน 5: ศึกประลองประวัติศาสตร์</h3>
                 <p class="text-slate-300 mb-4 text-sm font-medium relative z-10">ตอบคำถาม 10 ข้อเพื่อโจมตีมอนสเตอร์กลืนกินเวลา วัดผลรวบยอด!</p>
                 <div id="status-quiz" class="mb-4 text-sm font-bold text-slate-500 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 relative z-10">🔒 ล็อคอยู่</div>
-                <button id="btn-quiz" onclick="startQuiz()" disabled class="mt-auto w-full max-w-sm bg-slate-800 text-slate-500 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700 relative z-10">ต้องผ่านด่าน 4 ก่อน</button>
+                <div id="action-quiz" class="mt-auto w-full max-w-md relative z-10"></div>
             </div>
         </div>
         
@@ -774,12 +807,15 @@
                 <button onclick="generateCertificate()" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-white font-black py-4 px-6 rounded-xl btn-game shadow-[0_0_20px_rgba(245,158,11,0.5)] text-lg border border-yellow-300 uppercase tracking-wide">
                     <i class="fa-solid fa-scroll mr-2"></i> รับเกียรติบัตรแห่งความสำเร็จ
                 </button>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <button onclick="openHallOfFame()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-3 px-4 rounded-xl transition border border-slate-600 btn-game text-base flex items-center justify-center gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <button onclick="navTo('screen-mission-hub')" class="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold py-2.5 px-3 rounded-xl btn-game shadow-md text-xs sm:text-sm flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-book-open"></i> ศูนย์ภารกิจ / ทบทวน
+                    </button>
+                    <button onclick="openHallOfFame()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2.5 px-3 rounded-xl transition border border-slate-600 btn-game text-xs sm:text-sm flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-trophy text-amber-400"></i> ทำเนียบคะแนน
                     </button>
-                    <button onclick="navTo('screen-main-categories')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-4 rounded-xl btn-game shadow-md text-base flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-map-location-dot"></i> กลับแผนที่บทเรียน
+                    <button onclick="navTo('screen-main-categories')" class="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-2.5 px-3 rounded-xl btn-game shadow-md text-xs sm:text-sm flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-map-location-dot"></i> แผนที่บทเรียน
                     </button>
                 </div>
             </div>
@@ -1390,14 +1426,45 @@
                 AppState.progress = saved.progress || AppState.progress;
                 AppState.tabProgress = saved.tabProgress || {};
                 AppState.playedGames = saved.playedGames || AppState.playedGames;
+                
+                const allStages = ['stone', 'metal', 'sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'];
+                allStages.forEach(stg => {
+                    if (!AppState.tabProgress[stg]) {
+                        AppState.tabProgress[stg] = AppState.progress[stg] ? [true, true, true] : [false, false, false];
+                    } else if (AppState.progress[stg]) {
+                        AppState.tabProgress[stg] = [true, true, true];
+                    }
+                });
+
+                let sTimeline = parseInt(saved.scores?.timeline, 10) || 0;
+                let sRunner = parseInt(saved.scores?.runner, 10) || 0;
+                let sMatch = parseInt(saved.scores?.match, 10) || 0;
+                let sRat = parseInt(saved.scores?.rattanakosin, 10) || 0;
+                let sQuiz = parseInt(saved.scores?.quiz, 10) || 0;
+                let sTotal = parseInt(saved.scores?.total, 10) || 0;
+
+                const sumOfScores = sTimeline + sRunner + sMatch + sRat + sQuiz;
+                if (sTotal > 0 && sumOfScores === 0) {
+                    const playedCount = Object.values(AppState.playedGames).filter(Boolean).length || 5;
+                    const portion = Math.floor(sTotal / playedCount);
+                    sTimeline = AppState.playedGames.timeline ? portion : 0;
+                    sRunner = AppState.playedGames.runner ? portion : 0;
+                    sMatch = AppState.playedGames.match ? portion : 0;
+                    sRat = AppState.playedGames.rattanakosin ? portion : 0;
+                    sQuiz = sTotal - (sTimeline + sRunner + sMatch + sRat);
+                } else if (sumOfScores > sTotal) {
+                    sTotal = sumOfScores;
+                }
+
                 AppState.scores = {
-                    timeline: parseInt(saved.scores?.timeline, 10) || 0,
-                    runner: parseInt(saved.scores?.runner, 10) || 0,
-                    match: parseInt(saved.scores?.match, 10) || 0,
-                    rattanakosin: parseInt(saved.scores?.rattanakosin, 10) || 0,
-                    quiz: parseInt(saved.scores?.quiz, 10) || 0,
-                    total: parseInt(saved.scores?.total, 10) || 0
+                    timeline: sTimeline,
+                    runner: sRunner,
+                    match: sMatch,
+                    rattanakosin: sRat,
+                    quiz: sQuiz,
+                    total: sTotal
                 };
+
                 AppState.unlockedMission = saved.unlockedMission || false;
                 AppState.playerRank = saved.playerRank || '';
                 AppState.currentLessonId = saved.currentLessonId || null;
@@ -1417,9 +1484,11 @@
                     }
                 });
 
-                // Update HUD Top Bar & Hub
+                // Update HUD Top Bar, Hub, Scores & Ranks
                 updateTopBar();
                 updateHubProgress();
+                updateTotal();
+                updateMissionHubStatus();
 
                 // Update resume container on welcome screen
                 const resumeBox = document.getElementById('resume-container');
@@ -2215,29 +2284,46 @@
             document.getElementById('lesson-icon-large').innerText = data.icon;
             const tabsContainer = document.getElementById('lesson-tabs'); tabsContainer.innerHTML = '';
             
+            if (!AppState.tabProgress[lessonKey]) {
+                AppState.tabProgress[lessonKey] = AppState.progress[lessonKey] ? data.tabs.map(() => true) : data.tabs.map(() => false);
+            } else if (AppState.progress[lessonKey]) {
+                AppState.tabProgress[lessonKey] = data.tabs.map(() => true);
+            }
+
             data.tabs.forEach((tab, index) => {
                 const btn = document.createElement('button'); btn.id = `tab-btn-${index}`;
-                const isUnlocked = index === 0 || AppState.tabProgress[lessonKey][index - 1] || AppState.tabProgress[lessonKey][index];
-                btn.innerHTML = `<span>${tab.icon} ${tab.name}</span><span id="tab-mark-${index}" class="absolute top-1 right-2 text-green-400 hidden"><i class="fa-solid fa-circle-check"></i></span><span id="tab-lock-${index}" class="absolute top-1 right-2 text-slate-500 ${isUnlocked ? 'hidden' : ''}"><i class="fa-solid fa-lock text-xs"></i></span>`;
+                const isUnlocked = AppState.progress[lessonKey] || index === 0 || AppState.tabProgress[lessonKey][index - 1] || AppState.tabProgress[lessonKey][index];
+                const isDone = AppState.progress[lessonKey] || AppState.tabProgress[lessonKey][index];
+                btn.innerHTML = `<span>${tab.icon} ${tab.name}</span><span id="tab-mark-${index}" class="absolute top-1 right-2 text-green-400 ${isDone ? '' : 'hidden'}"><i class="fa-solid fa-circle-check"></i></span><span id="tab-lock-${index}" class="absolute top-1 right-2 text-slate-500 ${isUnlocked ? 'hidden' : ''}"><i class="fa-solid fa-lock text-xs"></i></span>`;
                 btn.onclick = () => {
-                    if (index === 0 || AppState.tabProgress[lessonKey][index - 1] || AppState.tabProgress[lessonKey][index]) { SoundEngine.playClick(); renderLessonTab(lessonKey, index); } 
-                    else { SoundEngine.playError(); showModal("ล็อคอยู่ 🔒", "ต้องศึกษาหัวข้อก่อนหน้าให้ครบเวลาก่อนครับ"); }
+                    if (AppState.progress[lessonKey] || index === 0 || AppState.tabProgress[lessonKey][index - 1] || AppState.tabProgress[lessonKey][index]) { 
+                        SoundEngine.playClick(); 
+                        renderLessonTab(lessonKey, index); 
+                    } else { 
+                        SoundEngine.playError(); 
+                        showModal("ล็อคอยู่ 🔒", "ต้องศึกษาหัวข้อก่อนหน้าให้ครบเวลาก่อนครับ"); 
+                    }
                 };
                 tabsContainer.appendChild(btn);
             });
-            renderLessonTab(lessonKey, 0); navTo('screen-lesson');
+            renderLessonTab(lessonKey, 0); 
+            navTo('screen-lesson');
         }
 
         function renderLessonTab(lessonKey, tabIndex) {
-            activeTabIndex = tabIndex; const data = LessonData[lessonKey]; const tabData = data.tabs[tabIndex];
+            activeTabIndex = tabIndex; 
+            const data = LessonData[lessonKey]; 
+            const tabData = data.tabs[tabIndex];
             data.tabs.forEach((_, idx) => {
                 const btn = document.getElementById(`tab-btn-${idx}`);
                 if (btn) {
-                    const isUnlocked = idx === 0 || AppState.tabProgress[lessonKey][idx - 1] || AppState.tabProgress[lessonKey][idx];
+                    const isUnlocked = AppState.progress[lessonKey] || idx === 0 || AppState.tabProgress[lessonKey][idx - 1] || AppState.tabProgress[lessonKey][idx];
                     if(idx === tabIndex) btn.className = 'px-4 py-4 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative bg-slate-700 text-white shadow-inner';
                     else if (isUnlocked) btn.className = 'px-4 py-4 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white cursor-pointer';
                     else btn.className = 'px-4 py-4 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative bg-slate-900 text-slate-600 cursor-not-allowed opacity-50';
-                    if(AppState.tabProgress[lessonKey][idx] && document.getElementById(`tab-mark-${idx}`)) document.getElementById(`tab-mark-${idx}`).classList.remove('hidden');
+                    if((AppState.progress[lessonKey] || AppState.tabProgress[lessonKey][idx]) && document.getElementById(`tab-mark-${idx}`)) {
+                        document.getElementById(`tab-mark-${idx}`).classList.remove('hidden');
+                    }
                 }
             });
             document.getElementById('lesson-graphic').className = `h-48 md:h-56 w-full relative flex items-center justify-center overflow-hidden transition-all duration-500 bg-gradient-to-br ${tabData.theme}`;
@@ -2250,23 +2336,30 @@
 
         function startTabTimer(lessonKey, tabIndex) {
             clearInterval(studyInterval);
-            const bar = document.getElementById('study-progress'); const text = document.getElementById('study-timer-text');
+            const bar = document.getElementById('study-progress'); 
+            const text = document.getElementById('study-timer-text');
             checkAllTabsCompleted(lessonKey); 
             
-            if(AppState.tabProgress[lessonKey][tabIndex]) {
-                bar.style.width = '100%'; text.innerHTML = "<span class='text-green-400'>ศึกษาหัวข้อนี้ครบถ้วนแล้ว ✔️</span>"; return;
+            if(AppState.progress[lessonKey] || AppState.tabProgress[lessonKey][tabIndex]) {
+                bar.style.width = '100%'; 
+                text.innerHTML = "<span class='text-green-400 font-bold'>✔️ ศึกษาหัวข้อนี้ครบถ้วนแล้ว (คลิกทบทวนได้ทันที)</span>"; 
+                return;
             }
-            currentTabTime = 0; bar.style.width = '0%'; text.innerText = `เหลือ ${AppState.studyTimeRequired} วินาที`;
+            currentTabTime = 0; 
+            bar.style.width = '0%'; 
+            text.innerText = `เหลือ ${AppState.studyTimeRequired} วินาที`;
 
             studyInterval = setInterval(() => {
-                currentTabTime++; bar.style.width = `${(currentTabTime / AppState.studyTimeRequired) * 100}%`;
+                currentTabTime++; 
+                bar.style.width = `${(currentTabTime / AppState.studyTimeRequired) * 100}%`;
                 text.innerText = `เหลือ ${AppState.studyTimeRequired - currentTabTime} วินาที`;
                 if(currentTabTime >= AppState.studyTimeRequired) {
-                    clearInterval(studyInterval); SoundEngine.playSuccess();
+                    clearInterval(studyInterval); 
+                    SoundEngine.playSuccess();
                     AppState.tabProgress[lessonKey][tabIndex] = true;
                     saveAppState('screen-lesson');
                     if (document.getElementById(`tab-mark-${tabIndex}`)) document.getElementById(`tab-mark-${tabIndex}`).classList.remove('hidden');
-                    text.innerHTML = "<span class='text-green-400'>ศึกษาหัวข้อนี้ครบถ้วนแล้ว ✔️</span>";
+                    text.innerHTML = "<span class='text-green-400 font-bold'>✔️ ศึกษาหัวข้อนี้ครบถ้วนแล้ว</span>";
                     const nextIdx = tabIndex + 1;
                     if(nextIdx < LessonData[lessonKey].tabs.length) {
                         if (document.getElementById(`tab-btn-${nextIdx}`)) document.getElementById(`tab-btn-${nextIdx}`).className = 'px-4 py-4 font-bold transition whitespace-nowrap text-sm md:text-base flex-1 border-r border-slate-800 last:border-0 relative bg-slate-900 text-amber-400 hover:bg-slate-800 hover:text-white cursor-pointer animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.3)_inset]';
@@ -2278,12 +2371,17 @@
         }
 
         function checkAllTabsCompleted(lessonKey) {
-            const allDone = AppState.tabProgress[lessonKey].every(s => s);
-            const currentDone = AppState.tabProgress[lessonKey][activeTabIndex];
+            const allDone = AppState.progress[lessonKey] || (AppState.tabProgress[lessonKey] && AppState.tabProgress[lessonKey].every(s => s));
+            const currentDone = AppState.progress[lessonKey] || (AppState.tabProgress[lessonKey] && AppState.tabProgress[lessonKey][activeTabIndex]);
             const btn = document.getElementById('btn-complete-lesson');
             if(!btn) return;
             
-            if(allDone) {
+            if(AppState.progress[lessonKey]) {
+                btn.disabled = false;
+                btn.className = "w-full max-w-md bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-black py-4 px-8 rounded-xl text-xl shadow-[0_0_20px_rgba(16,185,129,0.5)] transition btn-game uppercase tracking-widest";
+                btn.innerHTML = `✔️ ผ่านบทเรียนนี้แล้ว (กลับแผนที่บทเรียน) <i class="fa-solid fa-map-location-dot ml-2"></i>`;
+                btn.onclick = () => navTo('screen-main-categories');
+            } else if(allDone) {
                 btn.disabled = false;
                 btn.className = "w-full max-w-md bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-black py-4 px-8 rounded-xl text-xl shadow-[0_0_20px_rgba(245,158,11,0.5)] transition btn-game uppercase tracking-widest";
                 btn.innerHTML = `ผ่านด่านยุคนี้! <i class="fa-solid fa-forward-step ml-2"></i>`;
@@ -2293,13 +2391,11 @@
                 btn.className = "w-full max-w-md bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-black py-4 px-8 rounded-xl text-xl shadow-[0_0_20px_rgba(59,130,246,0.5)] transition btn-game uppercase tracking-widest animate-pulse";
                 btn.innerHTML = `ไปหัวข้อถัดไป <i class="fa-solid fa-arrow-right ml-2"></i>`;
                 let nextIdx = activeTabIndex + 1;
-                if (nextIdx >= AppState.tabProgress[lessonKey].length) nextIdx = AppState.tabProgress[lessonKey].findIndex(s => !s);
                 btn.onclick = () => { SoundEngine.playClick(); renderLessonTab(lessonKey, nextIdx); };
             } else {
                 btn.disabled = true;
-                btn.className = "w-full max-w-md bg-slate-800 text-slate-500 font-bold py-4 px-8 rounded-xl text-lg border border-slate-700 opacity-80 cursor-not-allowed transition";
-                btn.innerHTML = `กำลังดูดซับความรู้ (รอเวลาหลอดเต็ม) <i class="fa-solid fa-hourglass-half ml-2 animate-spin"></i>`;
-                btn.onclick = null;
+                btn.className = "w-full max-w-md bg-slate-800 text-slate-500 py-4 px-8 rounded-xl text-xl font-bold cursor-not-allowed border border-slate-700 uppercase tracking-widest";
+                btn.innerHTML = `ศึกษาให้ครบเวลาก่อน <i class="fa-solid fa-lock ml-2"></i>`;
             }
         }
 
@@ -2312,30 +2408,279 @@
             else openSubCategory(['sukhothai', 'ayutthaya', 'thonburi', 'rattanakosin'].includes(current) ? 'historic' : 'prehistoric');
         }
 
+        const missionReviewData = {
+            timeline: {
+                icon: "⚙️",
+                title: "ด่าน 1: เครื่องย้อนเวลา (Interactive Timeline)",
+                subtitle: "สรุปลำดับเหตุการณ์และหลักฐานสำคัญ 6 ยุคประวัติศาสตร์",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-amber-500/40">
+                            <b class="text-amber-300 text-base flex items-center gap-2">🪨 1. ยุคหิน (เก่า/กลาง/ใหม่)</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">มนุษย์อาศัยตามถ้ำ/เพิงผา ดำรงชีวิตด้วยการล่าสัตว์และเก็บของป่า พัฒนาจาก <b>เครื่องมือหินกะเทาะหยาบ</b> สู่ <b>ขวานหินขัด (ขวานฟ้า)</b> เครื่องปั้นดินเผา และเริ่มทำการเกษตรตั้งถิ่นฐาน</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-orange-500/40">
+                            <b class="text-orange-300 text-base flex items-center gap-2">⛏️ 2. ยุคโลหะ (สำริด & เหล็ก)</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">เริ่มรู้จักการหลอมแร่ <b>สำริด (ทองแดง + ดีบุก)</b> สร้าง <b>กลองมโหระทึก</b> เครื่องประดับ และโลหะ <b>เหล็ก</b> ที่มีความแกร่งและทนทานสูง ทำให้อุปกรณ์การเกษตรและอาวุธมีประสิทธิภาพสูงขึ้น</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-yellow-500/40">
+                            <b class="text-yellow-300 text-base flex items-center gap-2">🔔 3. สมัยสุโขทัย (พ.ศ. 1792 - 1981)</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">ปกครองแบบ <b>"พ่อปกครองลูก"</b> มีการแขวนกระดิ่งร้องทุกข์หน้าประตูวัง พ่อขุนรามคำแหงมหาราชทรงประดิษฐ์ <b>"ลายสือไทย" (พ.ศ. 1826)</b> และส่งเสริมการค้าเสรีโดยไม่เก็บภาษีจกอบ</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-emerald-500/40">
+                            <b class="text-emerald-300 text-base flex items-center gap-2">🏰 4. สมัยอยุธยา (พ.ศ. 1893 - 2310)</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">ราชธานียาวนาน 417 ปี ปกครองระเบียบ <b>จตุสดมภ์ (เวียง วัง คลัง นา)</b> มี <b>"พระคลังสินค้า"</b> ผูกขาดการค้ากับเรือสำเภาต่างชาติ และเจริญสัมพันธไมตรีกับชาติตะวันตก (เช่น ฝรั่งเศสในสมัยสมเด็จพระนารายณ์)</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-cyan-500/40">
+                            <b class="text-cyan-300 text-base flex items-center gap-2">⛵ 5. สมัยธนบุรี (พ.ศ. 2310 - 2325)</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">สมเด็จพระเจ้าตากสินมหาราชทรงกอบกู้เอกราชและตั้งราชธานีริมฝั่งแม่น้ำเจ้าพระยาใกล้ทะเล มีชัยภูมิสะดวกต่อการเดินเรือค้าขายสำเภากับจีน เพื่อนำรายได้มาฟื้นฟูบ้านเมืองและซื้อข้าวสารแจกจ่ายราษฎร</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-purple-500/40">
+                            <b class="text-purple-300 text-base flex items-center gap-2">🏙️ 6. สมัยรัตนโกสินทร์ (พ.ศ. 2325 - ปัจจุบัน)</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">ร.1 ทรงย้ายราชธานีข้ามมาฝั่งพระนครและชำระ <b>กฎหมายตราสามดวง</b>, ร.4 ทำสนธิสัญญาเบาว์ริง, ร.5 ทรง <b>เลิกทาส</b> และปฏิรูประบบบริหารราชการแผ่นดิน สู่การเปลี่ยนแปลงการปกครอง พ.ศ. 2475</p>
+                        </div>
+                    </div>
+                `
+            },
+            runner: {
+                icon: "🏃‍♂️",
+                title: "ด่าน 2: วิ่งตะลุยสถานการณ์ (Runner Scenarios)",
+                subtitle: "สรุปคำถามสถานการณ์และการวิเคราะห์ทางเลือกเอาตัวรอด",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-green-500/40">
+                            <b class="text-green-300 text-sm sm:text-base">❓ สถานการณ์ที่ 1: สัตว์ร้ายบุกในยุคหินเก่า</b>
+                            <p class="text-slate-200 text-xs sm:text-sm mt-1 font-bold">✅ ทางเลือกที่ถูกต้อง: <span class="text-amber-300">กะเทาะทำคมอาวุธและใช้ไฟไล่</span></p>
+                            <p class="text-slate-400 text-xs mt-1">💡 เหตุผล: มนุษย์ยุคหินเก่าค้นพบการใช้ไฟในการป้องกันตัว ให้ความอบอุ่น และปรุงอาหาร</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-green-500/40">
+                            <b class="text-green-300 text-sm sm:text-base">❓ สถานการณ์ที่ 2: ต้องการหลอมแร่สำริด</b>
+                            <p class="text-slate-200 text-xs sm:text-sm mt-1 font-bold">✅ ทางเลือกที่ถูกต้อง: <span class="text-amber-300">ทองแดง + ดีบุก</span></p>
+                            <p class="text-slate-400 text-xs mt-1">💡 เหตุผล: สำริดเป็นโลหะผสมระหว่างทองแดงกับดีบุก มีความแข็งแกร่งกว่าทองแดงบริสุทธิ์</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-green-500/40">
+                            <b class="text-green-300 text-sm sm:text-base">❓ สถานการณ์ที่ 3: สร้างบ้านในยุคหินใหม่ ต้องการตัดแต่งไม้</b>
+                            <p class="text-slate-200 text-xs sm:text-sm mt-1 font-bold">✅ ทางเลือกที่ถูกต้อง: <span class="text-amber-300">ใช้ขวานหินขัด (ขวานฟ้า)</span></p>
+                            <p class="text-slate-400 text-xs mt-1">💡 เหตุผล: หินขัดมีการฝนจนคมกริบและเรียบเนียน เหมาะแก่การถากไม้และสร้างที่อยู่อาศัย</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-green-500/40">
+                            <b class="text-green-300 text-sm sm:text-base">❓ สถานการณ์ที่ 4: ค้าขายสินค้าในอาณาจักรสุโขทัย</b>
+                            <p class="text-slate-200 text-xs sm:text-sm mt-1 font-bold">✅ ทางเลือกที่ถูกต้อง: <span class="text-amber-300">ไม่ต้องจ่ายภาษีผ่านด่าน (จกอบ)</span></p>
+                            <p class="text-slate-400 text-xs mt-1">💡 เหตุผล: สุโขทัยส่งเสริมการค้าเสรี ดั่งศิลาจารึก "เจ้าเมืองบ่เอาจกอบในไพร่ลูทาง"</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-green-500/40">
+                            <b class="text-green-300 text-sm sm:text-base">❓ สถานการณ์ที่ 5: ประชาชนเดือดร้อนในสมัยสุโขทัย</b>
+                            <p class="text-slate-200 text-xs sm:text-sm mt-1 font-bold">✅ ทางเลือกที่ถูกต้อง: <span class="text-amber-300">สั่นกระดิ่งหน้าวังเพื่อร้องทุกข์</span></p>
+                            <p class="text-slate-400 text-xs mt-1">💡 เหตุผล: สะท้อนลักษณะการปกครองแบบพ่อปกครองลูกที่ใกล้ชิดและดูแลราษฎร</p>
+                        </div>
+                    </div>
+                `
+            },
+            match: {
+                icon: "🎴",
+                title: "ด่าน 3: พาณิชย์นาวี (Card Matching Review)",
+                subtitle: "สรุปสาระสำคัญพาณิชย์นาวีและการค้าต่างประเทศอยุธยา-ธนบุรี",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-blue-500/40">
+                            <b class="text-blue-300 text-base flex items-center gap-2">📦 พระคลังสินค้า (โกษาธิบดี)</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">หน่วยงานสำคัญในสมัยอยุธยาที่ทำหน้าที่ผูกขาดสินค้าต้องห้าม เช่น <i>ไม้กฤษณา งาช้าง ดีบุก อาวุธปืน ดินประสิว</i> เพื่อสร้างรายได้เข้าสู่ท้องพระคลังหลวง</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-blue-500/40">
+                            <b class="text-blue-300 text-base flex items-center gap-2">⛵ เรือสำเภาจีน & ระบบบรรณาการ (จิ้มก้อง)</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">อยุธยาและธนบุรีใช้เรือสำเภาค้าขายนำเข้า <i>ผ้าไหม ใบชา เครื่องกระเบื้องเคลือบ</i> และส่งออก <i>ข้าว พริกไทย ไม้ฝาง หนังสัตว์</i> ไปยังตลาดจีนและเอเชีย</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-blue-500/40">
+                            <b class="text-blue-300 text-base flex items-center gap-2">🇫🇷 การทูตสมัยสมเด็จพระนารายณ์ & โกษาปาน</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">การส่งคณะราชทูตสยามนำโดย <i>เจ้าพระยาโกษาธิบดี (ปาน)</i> เดินทางไปเจริญสัมพันธไมตรีกับพระเจ้าหลุยส์ที่ 14 แห่งฝรั่งเศส ณ พระราชวังแวร์ซายส์</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-blue-500/40">
+                            <b class="text-blue-300 text-base flex items-center gap-2">🌾 การฟื้นฟูเศรษฐกิจสมัยกรุงธนบุรี</b>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">สมเด็จพระเจ้าตากสินมหาราชทรงใช้พระปรีชาสามารถในการเดินเรือค้าขายสำเภา นำเงินกำไรมาซื้อข้าวสารและเสื้อผ้าแจกจ่ายให้แก่ราษฎรเพื่อสร้างความมั่นคง</p>
+                        </div>
+                    </div>
+                `
+            },
+            rat: {
+                icon: "📜",
+                title: "ด่าน 4: โต๊ะวิเคราะห์ฎีกาและยุทธศาสตร์ประวัติศาสตร์",
+                subtitle: "สรุปการวิเคราะห์เชิงยุทธศาสตร์และนโยบายสำคัญ 5 ประการ",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-rose-500/40">
+                            <div class="flex items-center justify-between">
+                                <b class="text-rose-300 text-sm sm:text-base">1. ยุทธศาสตร์ชัยภูมิเมืองหลวง (ร.1)</b>
+                                <span class="bg-green-500/20 text-green-400 text-xs px-2.5 py-0.5 rounded-full font-bold border border-green-500/40">อนุมัติ ✅</span>
+                            </div>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">💡 <b>วิเคราะห์:</b> การย้ายจากธนบุรีมาฝั่งพระนคร ทำให้ใช้แม่น้ำเจ้าพระยาและคูเมืองป้องกันข้าศึกทางทิศตะวันตก และมีพื้นที่ฝั่งตะวันออกรองรับการขยายตัวของราชธานีได้อย่างมั่นคง</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-rose-500/40">
+                            <div class="flex items-center justify-between">
+                                <b class="text-rose-300 text-sm sm:text-base">2. การทูตและสนธิสัญญาเบาว์ริง (ร.4)</b>
+                                <span class="bg-green-500/20 text-green-400 text-xs px-2.5 py-0.5 rounded-full font-bold border border-green-500/40">อนุมัติ ✅</span>
+                            </div>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">💡 <b>วิเคราะห์:</b> การยอมยกเลิกระบบผูกขาดทางการค้าและเปิดสัมพันธไมตรีกับอังกฤษ เป็นยุทธศาสตร์ทางการทูตเพื่อป้องกันการถูกใช้กำลังทหารยึดครองในยุคล่าอาณานิคม</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-rose-500/40">
+                            <div class="flex items-center justify-between">
+                                <b class="text-rose-300 text-sm sm:text-base">3. การเลิกทาสแบบค่อยเป็นค่อยไป (ร.5)</b>
+                                <span class="bg-green-500/20 text-green-400 text-xs px-2.5 py-0.5 rounded-full font-bold border border-green-500/40">อนุมัติ ✅</span>
+                            </div>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">💡 <b>วิเคราะห์:</b> การเลิกทาสโดยสันติวิธีโดยการลดค่าตัวทาสทีละขั้น ป้องกันไม่ให้เกิดสงครามกลางเมืองระหว่างนายเงินกับทาส และป้องกันปัญหาทางเศรษฐกิจจากการขาดแคลนแรงงาน</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-rose-500/40">
+                            <div class="flex items-center justify-between">
+                                <b class="text-rose-300 text-sm sm:text-base">4. การรวมศูนย์อำนาจและมณฑลเทศาภิบาล (ร.5)</b>
+                                <span class="bg-red-500/20 text-red-400 text-xs px-2.5 py-0.5 rounded-full font-bold border border-red-500/40">ตีตก ❌</span>
+                            </div>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">💡 <b>วิเคราะห์:</b> การปฏิรูป 12 กระทรวงและระบบเทศาภิบาลไม่ใช่เพื่อเก็บภาษีอย่างเดียว แต่เพื่อรวบอำนาจสู่ส่วนกลาง ยกเลิกประเทศราช และกำหนดเส้นพรมแดนรัฐชาติเพื่อสกัดการแทรกแซงของมหาอำนาจตะวันตก</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-rose-500/40">
+                            <div class="flex items-center justify-between">
+                                <b class="text-rose-300 text-sm sm:text-base">5. ยุทธศาสตร์คมนาคมทางรถไฟ (ร.5)</b>
+                                <span class="bg-green-500/20 text-green-400 text-xs px-2.5 py-0.5 rounded-full font-bold border border-green-500/40">อนุมัติ ✅</span>
+                            </div>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-1">💡 <b>วิเคราะห์:</b> ทางรถไฟสายกรุงเทพฯ-นครราชสีมา เป็นยุทธศาสตร์ความมั่นคงที่ทำให้สยามส่งกำลังพลและบริหารจัดการหัวเมืองภาคอีสานได้อย่างทันท่วงทีในยามวิกฤต</p>
+                        </div>
+                    </div>
+                `
+            },
+            quiz: {
+                icon: "⚔️",
+                title: "ด่าน 5: ศึกประลองประวัติศาสตร์ (Boss Battle Review)",
+                subtitle: "สรุปคลังความรู้แบบทดสอบวัดผลสัมฤทธิ์ 10 ข้อหลัก",
+                content: `
+                    <div class="space-y-3">
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">1. การปฏิวัติวิถีชีวิตในยุคหินใหม่ (Neolithic Revolution)</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ การทำเกษตรกรรม เลี้ยงสัตว์ และตั้งถิ่นฐานเป็นหลักแหล่ง</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">2. หลักฐานสำคัญในยุคสำริด</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ กลองมโหระทึก (หลอมจากทองแดงผสมดีบุก ใช้ในพิธีกรรมศักดิ์สิทธิ์)</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">3. การปกครองสุโขทัยตอนต้นที่ใกล้ชิดประชาชน</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ การปกครองแบบ "พ่อปกครองลูก"</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">4. หน่วยงานผูกขาดการค้าต่างชาติในอยุธยา</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ พระคลังสินค้า (กรมท่า / โกษาธิบดี)</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">5. เหตุผลที่พระเจ้าตากสินทรงย้ายมาตั้งกรุงธนบุรี</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ มีชัยภูมิติดแม่น้ำใกล้ทะเล ป้องกันศัตรูง่าย และสะดวกต่อการค้าขายสำเภา</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">6. การเลิกทาสและเลิกไพร่</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว (รัชกาลที่ 5)</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">7. ระเบียบราชการ "จตุสดมภ์" (เวียง วัง คลัง นา)</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ อาณาจักรอยุธยา (สมเด็จพระรามาธิบดีที่ 1 - พระเจ้าอู่ทอง)</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">8. การเปลี่ยนแปลงการปกครองสู่ระบอบประชาธิปไตย</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ วันที่ 24 มิถุนายน พ.ศ. 2475 (สมัยรัชกาลที่ 7)</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">9. ความสำคัญของศิลาจารึกหลักที่ 1</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ หลักฐานการประดิษฐ์ "ลายสือไทย" (พ.ศ. 1826) และบันทึกประวัติศาสตร์การค้าเสรี</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-purple-500/30">
+                            <b class="text-purple-300 text-xs sm:text-sm">10. ภาษีผ่านด่านในสุโขทัย</b>
+                            <p class="text-green-400 text-xs mt-0.5">✔️ ไม่ต้องจ่ายภาษีจกอบ (ใครใคร่ค้าช้างค้า ใครใคร่ค้าม้าค้า)</p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        window.openMissionReview = (stageKey) => {
+            SoundEngine.playClick();
+            const data = missionReviewData[stageKey];
+            if (!data) return;
+            
+            const modal = document.getElementById('review-modal');
+            const iconEl = document.getElementById('review-modal-icon');
+            const titleEl = document.getElementById('review-modal-title');
+            const subEl = document.getElementById('review-modal-subtitle');
+            const bodyEl = document.getElementById('review-modal-body');
+            const playBtn = document.getElementById('review-play-again-btn');
+
+            if (iconEl) iconEl.innerText = data.icon;
+            if (titleEl) titleEl.innerText = data.title;
+            if (subEl) subEl.innerText = data.subtitle;
+            if (bodyEl) bodyEl.innerHTML = data.content;
+            if (playBtn) {
+                playBtn.onclick = () => {
+                    closeReviewModal();
+                    startMissionGame(stageKey);
+                };
+            }
+
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        };
+
+        window.closeReviewModal = () => {
+            SoundEngine.playClick();
+            const modal = document.getElementById('review-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        };
+
+        window.startMissionGame = (id) => {
+            if (id === 'timeline') initTimelineGame();
+            else if (id === 'runner') initRunnerGame();
+            else if (id === 'match') initMemoryGame();
+            else if (id === 'rat') initRatGame();
+            else if (id === 'quiz') startQuiz();
+        };
+
         function updateMissionHubStatus() {
             const updateBtn = (id, played, unlockCond, score, lockedMsg, unlockMsg, btnText) => {
-                const btn = document.getElementById(`btn-${id}`); const stat = document.getElementById(`status-${id}`);
-                if (!btn || !stat) return;
+                const actionCont = document.getElementById(`action-${id}`);
+                const stat = document.getElementById(`status-${id}`);
+                if (!actionCont || !stat) return;
+                
+                const safeScore = Math.max(0, parseInt(score, 10) || 0);
+
                 if(played) { 
                     stat.className = "mb-4 text-sm font-bold text-emerald-300 bg-emerald-950/80 px-4 py-2 rounded-xl border border-emerald-500 shadow-md"; 
-                    stat.innerText = `✅ ผ่านแล้ว (คะแนน: ${score} แต้ม)`; 
-                    btn.disabled = false; 
-                    btn.className = "mt-auto w-full bg-slate-700 hover:bg-slate-600 text-amber-300 hover:text-white py-3 rounded-xl font-bold btn-game border border-slate-500 shadow-md transition-all"; 
-                    btn.innerText = `เล่นอีกครั้ง (Replay) ➔`; 
+                    stat.innerText = `✅ ผ่านแล้ว (คะแนนสูงสุด: ${safeScore.toLocaleString('th-TH')} แต้ม)`; 
+                    actionCont.innerHTML = `
+                        <div class="flex flex-col sm:flex-row gap-2 w-full">
+                            <button onclick="openMissionReview('${id}')" class="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white py-2.5 px-3 rounded-xl font-bold btn-game border border-indigo-400 shadow-md flex items-center justify-center gap-1.5 text-xs sm:text-sm">
+                                <i class="fa-solid fa-book-open"></i> ทบทวนความรู้
+                            </button>
+                            <button onclick="startMissionGame('${id}')" class="flex-1 bg-slate-700 hover:bg-slate-600 text-amber-300 hover:text-white py-2.5 px-3 rounded-xl font-bold btn-game border border-slate-500 shadow-md flex items-center justify-center gap-1.5 text-xs sm:text-sm">
+                                <i class="fa-solid fa-rotate-right"></i> เล่นใหม่ (Replay)
+                            </button>
+                        </div>
+                    `;
                 }
                 else if(unlockCond) { 
                     stat.className = `mb-4 text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-xl border-2 border-amber-400 animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]`; 
                     stat.innerText = unlockMsg; 
-                    btn.disabled = false; 
-                    btn.className = "mt-auto w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white py-3.5 rounded-xl font-black btn-game shadow-[0_0_20px_rgba(245,158,11,0.5)] border border-amber-300"; 
-                    btn.innerText = btnText; 
+                    actionCont.innerHTML = `
+                        <button onclick="startMissionGame('${id}')" class="w-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white py-3.5 rounded-xl font-black btn-game shadow-[0_0_20px_rgba(245,158,11,0.5)] border border-amber-300 text-base">
+                            ${btnText}
+                        </button>
+                    `;
                 }
                 else { 
                     stat.className = "mb-4 text-sm font-bold text-slate-500 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700"; 
                     stat.innerText = "🔒 ล็อคอยู่"; 
-                    btn.disabled = true; 
-                    btn.className = "mt-auto w-full bg-slate-800 text-slate-500 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700"; 
-                    btn.innerText = lockedMsg; 
+                    actionCont.innerHTML = `
+                        <button disabled class="w-full bg-slate-800 text-slate-500 py-3 rounded-xl font-bold cursor-not-allowed border border-slate-700 text-sm">
+                            ${lockedMsg}
+                        </button>
+                    `;
                 }
             };
             updateBtn('timeline', AppState.playedGames.timeline, true, AppState.scores.timeline, "", "ปลดล็อกแล้ว (เริ่มได้เลย!)", "เริ่มด่าน 1: ติดตั้งวงจร ➔");
@@ -3390,11 +3735,26 @@
 
         // --- SUMMARY & CERTIFICATE ---
         function updateTotal() {
-            const sTimeline = Math.max(0, parseInt(AppState.scores?.timeline, 10) || 0);
-            const sRunner = Math.max(0, parseInt(AppState.scores?.runner, 10) || 0);
-            const sMatch = Math.max(0, parseInt(AppState.scores?.match, 10) || 0);
-            const sRat = Math.max(0, parseInt(AppState.scores?.rattanakosin, 10) || 0);
-            const sQuiz = Math.max(0, parseInt(AppState.scores?.quiz, 10) || 0);
+            let sTimeline = Math.max(0, parseInt(AppState.scores?.timeline, 10) || 0);
+            let sRunner = Math.max(0, parseInt(AppState.scores?.runner, 10) || 0);
+            let sMatch = Math.max(0, parseInt(AppState.scores?.match, 10) || 0);
+            let sRat = Math.max(0, parseInt(AppState.scores?.rattanakosin, 10) || 0);
+            let sQuiz = Math.max(0, parseInt(AppState.scores?.quiz, 10) || 0);
+            let calculatedTotal = sTimeline + sRunner + sMatch + sRat + sQuiz;
+            let existingTotal = Math.max(0, parseInt(AppState.scores?.total, 10) || 0);
+
+            if (existingTotal > 0 && calculatedTotal === 0) {
+                const playedCount = Object.values(AppState.playedGames || {}).filter(Boolean).length || 5;
+                const portion = Math.floor(existingTotal / playedCount);
+                sTimeline = AppState.playedGames?.timeline ? portion : 0;
+                sRunner = AppState.playedGames?.runner ? portion : 0;
+                sMatch = AppState.playedGames?.match ? portion : 0;
+                sRat = AppState.playedGames?.rattanakosin ? portion : 0;
+                sQuiz = existingTotal - (sTimeline + sRunner + sMatch + sRat);
+                calculatedTotal = existingTotal;
+            }
+
+            const targetScore = Math.max(calculatedTotal, existingTotal);
             
             AppState.scores = {
                 timeline: sTimeline,
@@ -3402,21 +3762,21 @@
                 match: sMatch,
                 rattanakosin: sRat,
                 quiz: sQuiz,
-                total: sTimeline + sRunner + sMatch + sRat + sQuiz
+                total: targetScore
             };
 
-            if (document.getElementById('score-runner')) document.getElementById('score-runner').innerText = sRunner;
-            if (document.getElementById('score-match')) document.getElementById('score-match').innerText = sMatch;
-            if (document.getElementById('score-timeline')) document.getElementById('score-timeline').innerText = sTimeline;
-            if (document.getElementById('score-rat')) document.getElementById('score-rat').innerText = sRat;
-            if (document.getElementById('score-quiz')) document.getElementById('score-quiz').innerText = sQuiz;
+            if (document.getElementById('score-runner')) document.getElementById('score-runner').innerText = sRunner.toLocaleString('th-TH');
+            if (document.getElementById('score-match')) document.getElementById('score-match').innerText = sMatch.toLocaleString('th-TH');
+            if (document.getElementById('score-timeline')) document.getElementById('score-timeline').innerText = sTimeline.toLocaleString('th-TH');
+            if (document.getElementById('score-rat')) document.getElementById('score-rat').innerText = sRat.toLocaleString('th-TH');
+            if (document.getElementById('score-quiz')) document.getElementById('score-quiz').innerText = sQuiz.toLocaleString('th-TH');
             
-            const targetScore = AppState.scores.total;
             const scoreEl = document.getElementById('score-total');
             if (scoreEl) {
                 if (window.scoreAnimTimer) clearInterval(window.scoreAnimTimer);
                 let currentDisplayScore = 0;
                 const inc = Math.max(1, Math.ceil(targetScore / 25));
+                scoreEl.innerText = targetScore.toLocaleString('th-TH');
                 window.scoreAnimTimer = setInterval(() => {
                     currentDisplayScore += inc;
                     if (currentDisplayScore >= targetScore) {
@@ -3424,7 +3784,7 @@
                         clearInterval(window.scoreAnimTimer);
                     }
                     scoreEl.innerText = currentDisplayScore.toLocaleString('th-TH');
-                }, 30);
+                }, 20);
             }
 
             let rankName = "", rankColor = "";
